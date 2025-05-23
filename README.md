@@ -1,4 +1,4 @@
-# 🐾 PetRefugio
+## 🐾 PetRefugio
 
 **PetRefugio** é uma plataforma completa para o cuidado de animais, conectando tutores, ONGs, pet shops, veterinários e prestadores de serviços. A proposta é criar uma rede de apoio aos pets por meio de adoção, localização de animais perdidos, avaliações de serviços e muito mais.
 
@@ -17,7 +17,7 @@
 ## 🧑‍💻 Tecnologias utilizadas
 
 ### Frontend
-- HTML5, CSS3, JavaScript, banco de dados mySQL
+- HTML5, CSS3, JavaScript, banco de dados mySQL e PHP.
 - Design responsivo
 
 ### Backend
