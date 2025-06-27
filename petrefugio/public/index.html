@@ -1,61 +1,57 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>PetRefugio - Rede de Cuidados de Animais</title>
-    <meta name="description" content="Conectando pets, tutores e profissionais em uma rede de cuidados e proteção animal">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../src/stylesheet/homepage/style.css">
+    <meta name="description" content="Conectando pets, tutores e profissionais em uma rede de cuidados e proteção animal" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../src/stylesheet/homepage/style.css" />
 </head>
 <body>
-    <!-- Header -->
+    <!-- Cabeçalho -->
     <header class="header">
         <nav class="nav">
-            <div class="nav-container">
-                <div class="logo">
-                    <span class="logo-icon">🐾</span>
-                    <span class="logo-text">PetRefugio</span>
-                </div>
-                <div class="nav-menu" id="nav-menu">
-                    <a href="#inicio" class="nav-link">Início</a>
-                    <a href="#sobre" class="nav-link">Sobre</a>
-                    <a href="#recursos" class="nav-link">Recursos</a>
-                    <a href="#contato" class="nav-link">Contato</a>
-                </div>
-                <div class="nav-actions">
-                    <button class="btn btn-outline" onclick="openModal('login')">Entrar</button>
-                    <button class="btn btn-primary" onclick="openModal('signup')">Cadastrar</button>
-                </div>
-                <div class="hamburger" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+          <div class="nav-container">
+            <div class="logo">
+              <span class="logo-icone">🐾</span>
+              <span class="logo-texto"><span class="petestilo">Pet</span>Refugio</span>
             </div>
+      
+            <div class="nav-menu" id="menu-navegacao">
+              <a href="#inicio" class="nav-link">Início</a>
+              <a href="#sobre" class="nav-link">Sobre</a>
+              <a href="#recursos" class="nav-link">Recursos</a>
+              <a href="#contato" class="nav-link">Contato</a>
+            </div>
+      
+            <div class="nav-acoes">
+              <button class="btn" onclick="abrirModal('login')">Entrar</button>
+              <button class="btn" onclick="abrirModal('cadastro')">Cadastrar</button>
+            </div>
+            </div>
+          </div>
         </nav>
-    </header>
-
-    <!-- Hero Section -->
+      </header>
+    <!-- Seção Hero -->
     <section id="inicio" class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    Conectando <span class="highlight">corações</span> e <span class="highlight">patas</span>
+        <div class="conteudo-hero">
+            <div class="texto-hero">
+                <h1 class="titulo-hero">
+                    Conectando <span class="destaque">corações</span> e <span class="destaque">patas</span>
                 </h1>
-                <p class="hero-description">
+                <p class="descricao-hero">
                     Uma rede completa de cuidados para animais que conecta tutores, ONGs, veterinários, 
                     pet shops e todos que amam os pets. Encontre, cuide, adote e proteja com amor.
                 </p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary btn-large" onclick="openModal('signup')">
+                <div class="acoes-hero">
+                    <button class="btn" onclick="mostrarModal('cadastrar')">
                         Começar Agora
                     </button>
-                    <button class="btn btn-outline btn-large" onclick="scrollToSection('sobre')">
+                    <button class="btn" onclick="irParaSecao('sobre')">
                         Saiba Mais
                     </button>
                 </div>
@@ -63,28 +59,28 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="sobre" class="about">
+    <!-- Seção Sobre -->
+    <section id="sobre" class="sobre">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">O que é o PetRefugio?</h2>
-                <p class="section-subtitle">
+            <div class="cabecalho-secao">
+                <h2 class="titulo-secao">O que é o PetRefugio?</h2>
+                <p class="subtitulo-secao">
                     Uma comunidade dedicada ao bem-estar animal
                 </p>
             </div>
-            <div class="about-grid">
-                <div class="about-card">
-                    <div class="card-icon">🔍</div>
+            <div class="grade-sobre">
+                <div class="cartao-sobre">
+                    <div class="icone-cartao">🔍</div>
                     <h3>Busca e Resgate</h3>
                     <p>Encontre animais perdidos através da nossa rede colaborativa.</p>
                 </div>
-                <div class="about-card">
-                    <div class="card-icon">❤️</div>
+                <div class="cartao-sobre">
+                    <div class="icone-cartao">❤️</div>
                     <h3>Adoção</h3>
                     <p>Conecte pets que precisam de um lar com famílias que querem amar.</p>
                 </div>
-                <div class="about-card">
-                    <div class="card-icon">🏥</div>
+                <div class="cartao-sobre">
+                    <div class="icone-cartao">🏥</div>
                     <h3>Serviços</h3>
                     <p>Encontre veterinários, pet shops e cuidadores na sua região.</p>
                 </div>
@@ -92,31 +88,31 @@
         </div>
     </section>
 
-    <!-- Resources Section -->
-    <section id="recursos" class="resources">
+    <!-- Seção Recursos -->
+    <section id="recursos" class="recursos">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Principais Recursos</h2>
-                <p class="section-subtitle">Tudo que você e seu pet precisam</p>
+            <div class="cabecalho-secao">
+                <h2 class="titulo-secao">Principais Recursos</h2>
+                <p class="subtitulo-secao">Tudo que você e seu pet precisam</p>
             </div>
-            <div class="resources-grid">
-                <div class="resource-card">
-                    <div class="resource-icon">📱</div>
+            <div class="grade-recursos">
+                <div class="cartao-recurso">
+                    <div class="icone-recurso">📱</div>
                     <h3>Rede Social</h3>
                     <p>Compartilhe momentos do seu pet</p>
                 </div>
-                <div class="resource-card">
-                    <div class="resource-icon">🗺️</div>
+                <div class="cartao-recurso">
+                    <div class="icone-recurso">🗺️</div>
                     <h3>Mapa</h3>
                     <p>Encontre serviços próximos</p>
                 </div>
-                <div class="resource-card">
-                    <div class="resource-icon">🛍️</div>
+                <div class="cartao-recurso">
+                    <div class="icone-recurso">🛍️</div>
                     <h3>Pet Shop</h3>
                     <p>Compre produtos de qualidade</p>
                 </div>
-                <div class="resource-card">
-                    <div class="resource-icon">💰</div>
+                <div class="cartao-recurso">
+                    <div class="icone-recurso">💰</div>
                     <h3>Doações</h3>
                     <p>Apoie ONGs e causas importantes</p>
                 </div>
@@ -124,84 +120,84 @@
         </div>
     </section>
 
-    <!-- Account Types Section -->
-    <section id="tipos-conta" class="account-types">
+    <!-- Seção Tipos de Conta -->
+    <section id="tipos-conta" class="tipos-conta">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Tipos de Conta</h2>
-                <p class="section-subtitle">Escolha o tipo ideal para você</p>
+            <div class="cabecalho-secao">
+                <h2 class="titulo-secao">Tipos de Conta</h2>
+                <p class="subtitulo-secao">Escolha o tipo ideal para você</p>
             </div>
-            <div class="account-grid">
-                <div class="account-card user">
-                    <div class="account-icon">👥</div>
+            <div class="grade-contas">
+                <div class="cartao-conta usuario">
+                    <div class="icone-conta">👥</div>
                     <h3>Usuário</h3>
                     <p>Para tutores que querem compartilhar e buscar serviços.</p>
-                    <ul class="account-features">
+                    <ul class="lista-carac">
                         <li>Posts de fotos</li>
                         <li>Perfil para pets</li>
                         <li>Busca por serviços</li>
                         <li>Processo de adoção</li>
                     </ul>
-                    <button class="btn btn-outline" onclick="openModal('signup')">Cadastrar Grátis</button>
+                    <button class="btn" onclick="mostrarModal('cadastrar')">Cadastrar Grátis</button>
                 </div>
-                <div class="account-card ong">
-                    <div class="account-icon">🏠</div>
+                <div class="cartao-conta ong">
+                    <div class="icone-conta">🏠</div>
                     <h3>ONG</h3>
                     <p>Para organizações dedicadas ao resgate animal.</p>
-                    <ul class="account-features">
+                    <ul class="lista-carac">
                         <li>Perfil verificado</li>
                         <li>Sistema de doações</li>
                         <li>Localização no mapa</li>
                         <li>Gestão de adoções</li>
                     </ul>
-                    <button class="btn btn-outline" onclick="openModal('signup')">Cadastrar ONG</button>
+                    <button class="btn" onclick="mostrarModal('cadastrar')">Cadastrar ONG</button>
                 </div>
-                <div class="account-card professional">
-                    <div class="account-icon">💼</div>
+                <div class="cartao-conta profissional">
+                    <div class="icone-conta">💼</div>
                     <h3>Profissional</h3>
                     <p>Para veterinários, pet shops e prestadores de serviços.</p>
-                    <ul class="account-features">
+                    <ul class="lista-carac">
                         <li>Perfil profissional</li>
                         <li>Sistema de agendamento</li>
                         <li>Avaliações de clientes</li>
                         <li>Loja online</li>
                     </ul>
-                    <button class="btn btn-outline" onclick="openModal('signup')">Cadastrar Negócio</button>
+                    <button class="btn" onclick="mostrarModal('cadastrar')">Cadastrar Negócio</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta">
+    <!-- Seção Chamada -->
+    <section class="chamada">
         <div class="container">
-            <div class="cta-content">
+            <div class="conteudo-chamada">
                 <h2>Pronto para fazer parte da rede PetRefugio?</h2>
                 <p>Junte-se a pessoas que fazem a diferença na vida dos animais.</p>
-                <button class="btn btn-primary btn-large" onclick="openModal('signup')">
+                <button class="btn" onclick="mostrarModal('cadastrar')">
                     Cadastrar Agora
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer id="contato" class="footer">
+    <!-- Rodapé -->
+    <footer id="contato" class="rodape">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
+            <div class="conteudo-rodape">
+                <div class="secao-rodape">
                     <div class="logo">
-                        <span class="logo-icon">🐾</span>
-                        <span class="logo-text">PetRefugio</span>
+                        <span class="icone-logo">🐾</span>
+                        <span class="texto-logo">PetRefugio</span>
                     </div>
                     <p>Conectando corações e patas para um mundo melhor.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">📘</a>
-                        <a href="#" class="social-link">📷</a>
-                        <a href="#" class="social-link">🐦</a>
+                    <div class="redes-sociais">
+                        <a href="#" class="link-social">📘</a>
+                        <a href="#" class="link-social">📷</a>
+                        <a href="#" class="link-social">🐦</a>
                     </div>
                 </div>
-                <div class="footer-section">
+                <div class="secao-rodape">
                     <h4>Links</h4>
                     <ul>
                         <li><a href="#sobre">Sobre</a></li>
@@ -210,35 +206,34 @@
                         <li><a href="#">Termos</a></li>
                     </ul>
                 </div>
-                <div class="footer-section">
+                <div class="secao-rodape">
                     <h4>Contato</h4>
                     <ul>
-                        <li>📧 contato@petrefugio.com.br</li>
-                        <li>📞 (11) 9999-9999</li>
+                        <li>📧 petrefugio08@gmail.com</li>
                         <li>📍 São Paulo, SP</li>
                     </ul>
                 </div>
-                <div class="footer-section">
+                <div class="secao-rodape">
                     <h4>Newsletter</h4>
                     <p>Receba novidades sobre adoções</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Seu e-mail" class="newsletter-input">
-                        <button type="submit" class="btn btn-primary">Inscrever</button>
+                    <form class="form-newsletter">
+                        <input type="email" placeholder="Seu e-mail" class="entrada-newsletter" />
+                        <button type="submit" class="btn">Inscrever</button>
                     </form>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 PetRefugio. Todos os direitos reservados.</p>
+            <div class="rodape-baixo">
+                <p>&copy; 2025 PetRefugio. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
 
     <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="modal-body">
-                <!-- Modal content will be inserted here -->
+    <div id="modal" class="modal" hidden>
+        <div class="conteudo-modal">
+            <span class="fechar" onclick="fecharModal()">&times;</span>
+            <div id="conteudo-modal">
+                <!-- Conteúdo será inserido aqui -->
             </div>
         </div>
     </div>
