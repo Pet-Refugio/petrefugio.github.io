@@ -1,4 +1,4 @@
-## 🐾 PetRefugio
+## 🐾 PetRefugio 1.1
 
 **PetRefugio** é uma plataforma completa para o cuidado de animais, conectando tutores, ONGs, pet shops, veterinários e prestadores de serviços. A proposta é criar uma rede de apoio aos pets por meio de adoção, localização de animais perdidos, avaliações de serviços e muito mais.
 
