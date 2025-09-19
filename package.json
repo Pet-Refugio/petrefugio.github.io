@@ -1,0 +1,32 @@
+{
+  "name": "teste_node",
+  "version": "1.0.0",
+  "description": "teste para criação de api ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pet-Refugio/petrefugio.github.io.git#implementação-de-api-5.1.0"
+  },
+  "author": "danilo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pet-Refugio/petrefugio.github.io/issues"
+  },
+  "homepage": "https://github.com/Pet-Refugio/petrefugio.github.io/tree/implementa%C3%A7%C3%A3o-de-api-5.1.0#readme",
+  "keywords": [],
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "prisma": "^6.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
