@@ -1,0 +1,67 @@
+{
+    "pets": [
+      {
+        "id": 1,
+        "tutorId": 101,
+        "nome": "Luna",
+        "apelido": "luninha",
+        "tipo": "cachorro",
+        "raca": "Labrador",
+        "idade": 3,
+        "avatar": "/dados/cachorro3.jpg",
+        "capa": "/assets/capas/pet-luna.jpg",
+        "bio": "Alegre e brincalhona, adora correr no parque! 🎾",
+        "dataNascimento": "2021-02-14",
+        "peso": "28 kg",
+        "sexo": "fêmea",
+        "vacinado": true,
+        "castrado": true,
+        "estatisticas": {
+          "posts": 23,
+          "seguidores": 345
+        }
+      },
+      {
+        "id": 2,
+        "tutorId": 101,
+        "nome": "Thor",
+        "apelido": "thorzinho",
+        "tipo": "gato",
+        "raca": "Siamês",
+        "idade": 2,
+        "avatar": "./dados/cachorro1/webp",
+        "capa": "/assets/capas/pet-thor.jpg",
+        "bio": "Gato tranquilo que adora sonecas no sol. 😴☀️",
+        "dataNascimento": "2022-06-10",
+        "peso": "4.5 kg",
+        "sexo": "macho",
+        "vacinado": true,
+        "castrado": true,
+        "estatisticas": {
+          "posts": 15,
+          "seguidores": 218
+        }
+      },
+      {
+        "id": 3,
+        "tutorId": 101,
+        "nome": "Mel",
+        "apelido": "melzinha",
+        "tipo": "cachorro",
+        "raca": "Vira-lata",
+        "idade": 5,
+        "avatar": "./dados/cachorro2/jpg",
+        "capa": "/assets/capas/pet-mel.jpg",
+        "bio": "Resgatada da rua, hoje cheia de amor para dar! 💕",
+        "dataNascimento": "2019-08-20",
+        "peso": "12 kg",
+        "sexo": "fêmea",
+        "vacinado": true,
+        "castrado": true,
+        "estatisticas": {
+          "posts": 31,
+          "seguidores": 512
+        }
+      }
+    ]
+  }
