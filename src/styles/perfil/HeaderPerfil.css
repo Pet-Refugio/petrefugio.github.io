@@ -1,0 +1,223 @@
+.header-perfil {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-bottom: 1px solid #E0E0E0;
+  }
+  
+  .nav-container-perfil {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo-perfil {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #F26B38;
+  }
+  
+  .menu-perfil {
+    display: flex;
+    gap: 20px;
+    
+    text-decoration:none ;
+  }
+  a{
+    color: #3E3E3E;
+    text-decoration:none ;
+  }
+  .menu-item {
+    background: none;
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #7A7A7A;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    color: #3E3E3E;
+    text-decoration:none ;
+  }
+  
+  .menu-item:hover {
+    background: #F8F9FA;
+    color: #3E3E3E;
+  }
+  
+  .menu-item.active {
+    background: #F26B38;
+    color: white;
+  }
+  
+  .acoes-perfil {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .botao-editar {
+    background: #F26B38;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+  
+  .botao-editar:hover {
+    opacity: 0.9;
+  }
+  
+  .botao-config {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+  
+  .botao-config:hover {
+    background: #F8F9FA;
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .nav-container-perfil {
+      padding: 0 15px;
+    }
+    
+    .menu-perfil {
+      gap: 10px;
+    }
+    
+    .menu-item {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+    
+    .botao-editar {
+      display: none;
+    }
+  }.header-perfil {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #FFFFFF;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.nav-container-perfil {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-perfil {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #F26B38;
+}
+
+.menu-perfil {
+  display: flex;
+  gap: 20px;
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #7A7A7A;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+  background: #F8F9FA;
+  color: #3E3E3E;
+}
+
+.menu-item.active {
+  background: #F26B38;
+  color: white;
+}
+
+.acoes-perfil {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.botao-editar {
+  background: #F26B38;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.botao-editar:hover {
+  opacity: 0.9;
+}
+
+.botao-config {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.botao-config:hover {
+  background: #F8F9FA;
+}
+
+@media (max-width: 768px) {
+  .nav-container-perfil {
+    padding: 0 15px;
+  }
+  
+  .menu-perfil {
+    gap: 10px;
+  }
+  
+  .menu-item {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .botao-editar {
+    display: none;
+  }
+}

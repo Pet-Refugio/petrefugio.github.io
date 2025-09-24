@@ -1,0 +1,98 @@
+.header-cadastro {
+    position: fixed;
+    top: 15px;
+    width: 90%;
+    left: 5%;
+    border-radius: 15px;
+    background: var(--branco);
+    box-shadow: var(--sombra);
+    z-index: 1000;
+    box-shadow: 2px 2px 2px 2px rgb(109, 119, 138);
+  }
+  
+  .nav-container-cadastro {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo-cadastro {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    user-select: none;
+  }
+  
+  .petestilo-cadastro {
+    color: var(--cor-primaria);
+    font-size: 2.3rem;
+  }
+  
+  .logo-icone-cadastro {
+    font-size: 1.9rem;
+  }
+  
+  .nav-acoes-cadastro {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .btn-principal-cadastro,
+  .btn-outline-cadastro {
+    font-weight: 600;
+    border-radius: var(--borda-arredondada);
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: var(--transicao);
+    font-family: inherit;
+    font-size: 1rem;
+    text-decoration: none;
+  }
+  
+  .btn-principal-cadastro {
+    background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+    color: var(--branco);
+    border: none;
+  }
+  
+  .btn-principal-cadastro:hover {
+    opacity: 0.9;
+  }
+  
+  .btn-outline-cadastro {
+    border: 2px solid var(--cor-primaria);
+    background: transparent;
+    color: var(--cor-primaria);
+  }
+  
+  .btn-outline-cadastro:hover {
+    background: var(--cor-primaria);
+    color: var(--branco);
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .nav-container-cadastro {
+      padding: 0 15px;
+    }
+    
+    .logo-cadastro {
+      font-size: 1.3rem;
+    }
+    
+    .petestilo-cadastro {
+      font-size: 2rem;
+    }
+    
+    .btn-principal-cadastro,
+    .btn-outline-cadastro {
+      padding: 6px 15px;
+      font-size: 0.9rem;
+    }
+  }

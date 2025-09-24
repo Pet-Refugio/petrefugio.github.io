@@ -1,38 +1,8 @@
-## 🐾 PetRefugio
+# React + Vite
 
-**PetRefugio** é uma plataforma completa para o cuidado de animais, conectando tutores, ONGs, pet shops, veterinários e prestadores de serviços. A proposta é criar uma rede de apoio aos pets por meio de adoção, localização de animais perdidos, avaliações de serviços e muito mais.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🔗 Funcionalidades
+Currently, two official plugins are available:
 
-- Busca por animais perdidos
-- Adoção de animais e apadrinhamento
-- Cadastro de pet shops, hotéis, veterinários e prestadores de serviço
-- Rede social pet com posts, fotos, vídeos e hashtags
-- Mapa interativo com pontos de serviços, ONGs e locais onde pets foram vistos
-- Avaliação e feedback de serviços
-- Loja virtual de produtos pet
-- Área médica com dicas e artigos exclusivos
-- Cadastro diferenciado por tipo de usuário
-
-## 🧑‍💻 Tecnologias utilizadas
-
-### Frontend
-- HTML5, CSS3, JavaScript, banco de dados mySQL e PHP.
-- Design responsivo
-
-### Backend
-- Node.js com Express
-- JWT para autenticação
-- Bcrypt para criptografia de senhas
-
-### Banco de Dados
-- **MySQL**
-- Modelo relacional com múltiplas tabelas e chaves estrangeiras
-
-
-## 🚀 Como rodar o projeto
-
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seuusuario/petrefugio.git
-   cd petrefugio
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
