@@ -13,7 +13,10 @@ const PaginaCadastro = () => {
           <FormCadastro />
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };
+
 export default PaginaCadastro;

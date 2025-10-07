@@ -1,36 +1,71 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../api/src/context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import '../../styles/cadastro/formulario.css';
+import { authService } from '../../services/api';
 
-const FormLogin = () => {
+const FormularioCadastro = () => {
   const [dados, setDados] = useState({
+    tipoConta: 'pessoal',
+    nome: '',
+    nascimento: '',
     email: '',
-    senha: ''
+    documento: '',
+    senha: '',
+    confirmarSenha: ''
   });
-    
+  
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const tiposConta = [
+    { value: 'pessoal', label: 'Pessoal', icone: '👤' },
+    { value: 'petshop', label: 'Pet Shop', icone: '🏪' },
+    { value: 'veterinario', label: 'Veterinário', icone: '🐾' },
+    { value: 'ong', label: 'ONG', icone: '❤️' },
+    { value: 'prestador', label: 'Prestador', icone: '🔧' },
+    { value: 'hotel', label: 'Hotel', icone: '🏨' }
+  ];
+
+  const mudarDado = (e) => {
+    const { name, value } = e.target;
+    setDados(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (erro) setErro('');
+  };
+
+  const enviarForm = async (e) => {
     e.preventDefault();
     setErro('');
     setCarregando(true);
-
-    // Validação básica
-    if (!dados.email || !dados.senha) {
-      setErro('Preencha todos os campos');
+    
+    if (dados.senha !== dados.confirmarSenha) {
+      setErro('As senhas não coincidem');
+      setCarregando(false);
+      return;
+    }
+    
+    if (dados.senha.length < 6) {
+      setErro('Senha precisa ter 6+ caracteres');
       setCarregando(false);
       return;
     }
 
+    if (dados.tipoConta !== 'pessoal' && !dados.documento) {
+      setErro('Documento é obrigatório para este tipo de conta');
+      setCarregando(false);
+      return;
+    }
+    
     try {
-      const resultado = await login(dados);
+      const resultado = await authService.cadastrar(dados);
       
       if (resultado.success) {
-        console.log('Login realizado com sucesso!');
-        navigate('/perfil');
+        console.log('Cadastro realizado com sucesso!', resultado.data);
+        alert('Cadastro realizado com sucesso!');
+        navigate('/login');
       } else {
         setErro(resultado.message);
       }
@@ -41,55 +76,162 @@ const FormLogin = () => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDados({ ...dados, [name]: value });
-    
-    // Limpar erro quando usuário começar a digitar
-    if (erro) setErro('');
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="form-login">
-      <h2>Login</h2>
-      
-      {erro && (
-        <div className="erro-mensagem">
-          {erro}
+    <div className="container-cadastro-lateral">
+      <div className="card-tipos-conta">
+        <h3>Selecione o Tipo de Conta</h3>
+        <div className="opcoes-conta-lateral">
+          {tiposConta.map((tipo) => (
+            <label key={tipo.value} className="opcao-conta-lateral">
+              <input
+                type="radio"
+                name="tipoConta"
+                value={tipo.value}
+                checked={dados.tipoConta === tipo.value}
+                onChange={mudarDado}
+              />
+              <div className="card-opcao">
+                <span className="icone-opcao-lateral">{tipo.icone}</span>
+                <span className="texto-opcao-lateral">{tipo.label}</span>
+              </div>
+            </label>
+          ))}
         </div>
-      )}
-
-      <div className="campo-form">
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={dados.email}
-          onChange={handleChange}
-          required
-        />
       </div>
 
-      <div className="campo-form">
-        <label>Senha:</label>
-        <input
-          type="password"
-          name="senha"
-          value={dados.senha}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      <div className="card-formulario-lateral">
+        <h2>Criar Conta</h2>
+        
+        {erro && <div className="erro-lateral">{erro}</div>}
+        
+        <form onSubmit={enviarForm} className="form-lateral">
+          <div className="grupo-form-lateral">
+            <label htmlFor="nome">
+              {dados.tipoConta === 'pessoal' ? 'Nome Completo' : 
+               dados.tipoConta === 'veterinario' ? 'Nome do Veterinário' :
+               dados.tipoConta === 'ong' ? 'Nome da ONG' :
+               dados.tipoConta === 'petshop' ? 'Nome do Pet Shop' :
+               dados.tipoConta === 'hotel' ? 'Nome do Hotel' :
+               'Nome do Prestador'}
+            </label>
+            <input 
+              type="text" 
+              id="nome" 
+              name="nome" 
+              value={dados.nome}
+              onChange={mudarDado}
+              placeholder={
+                dados.tipoConta === 'pessoal' ? 'Seu nome completo' :
+                dados.tipoConta === 'veterinario' ? 'Nome do profissional' :
+                dados.tipoConta === 'ong' ? 'Nome da organização' :
+                dados.tipoConta === 'petshop' ? 'Nome do estabelecimento' :
+                dados.tipoConta === 'hotel' ? 'Nome do hotel' :
+                'Nome do prestador de serviço'
+              }
+              required 
+            />
+          </div>
 
-      <button 
-        type="submit" 
-        disabled={carregando}
-        className="botao-primario"
-      >
-        {carregando ? 'Entrando...' : 'Entrar'}
-      </button>
-    </form>
+          {dados.tipoConta !== 'pessoal' && (
+            <div className="grupo-form-lateral condicional">
+              <label htmlFor="documento">
+                {dados.tipoConta === 'petshop' ? 'CNPJ' :
+                 dados.tipoConta === 'veterinario' ? 'CRMV' :
+                 dados.tipoConta === 'ong' ? 'CNPJ da ONG' :
+                 dados.tipoConta === 'hotel' ? 'CNPJ' :
+                 'Documento Profissional'}
+              </label>
+              <input 
+                type="text" 
+                id="documento" 
+                name="documento" 
+                value={dados.documento}
+                onChange={mudarDado}
+                placeholder={
+                  dados.tipoConta === 'petshop' ? '00.000.000/0000-00' :
+                  dados.tipoConta === 'veterinario' ? 'Número do CRMV' :
+                  dados.tipoConta === 'ong' ? 'CNPJ da organização' :
+                  dados.tipoConta === 'hotel' ? 'CNPJ do estabelecimento' :
+                  'Documento profissional'
+                }
+                required
+              />
+            </div>
+          )}
+          
+          <div className="grupo-form-lateral">
+            <label htmlFor="nascimento">
+              {dados.tipoConta === 'pessoal' ? 'Data de Nascimento' : 'Data de Fundação'}
+            </label>
+            <input 
+              type="date" 
+              id="nascimento" 
+              name="nascimento" 
+              value={dados.nascimento}
+              onChange={mudarDado}
+              required 
+            />
+          </div>
+          
+          <div className="grupo-form-lateral">
+            <label htmlFor="email">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              value={dados.email}
+              onChange={mudarDado}
+              placeholder="seu@email.com"
+              required 
+            />
+          </div>
+          
+          <div className="campos-senha-lateral">
+            <div className="grupo-form-lateral">
+              <label htmlFor="senha">Senha</label>
+              <input 
+                type="password" 
+                id="senha" 
+                name="senha" 
+                value={dados.senha}
+                onChange={mudarDado}
+                placeholder="Mínimo 6 caracteres"
+                required 
+              />
+            </div>
+            
+            <div className="grupo-form-lateral">
+              <label htmlFor="confirmarSenha">Confirmar Senha</label>
+              <input 
+                type="password" 
+                id="confirmarSenha" 
+                name="confirmarSenha" 
+                value={dados.confirmarSenha}
+                onChange={mudarDado}
+                placeholder="Digite novamente"
+                required 
+              />
+            </div>
+          </div>
+          
+          <div className="acoes-lateral">
+            <button 
+              type="submit" 
+              className="botao-principal-lateral"
+              disabled={carregando}
+            >
+              {carregando ? 'Cadastrando...' : 'Cadastrar'}
+            </button>
+            <Link to="/" className="botao-voltar-lateral">Voltar</Link>
+          </div>
+        </form>
+        
+        <div className="links-lateral">
+          Já tem conta? <Link to="/login">Entrar</Link>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default FormLogin;
+export default FormularioCadastro;

@@ -1,166 +1,313 @@
-.card-cadastro {
-    background: #FFFFFF;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 5px 5px 5px 5px #3e3e3ea3;
-  }
-  .opcoes-conta {
+/* Layout Lateral */
+.container-cadastro-lateral {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-  margin-top: 0.5rem;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  align-items: start;
 }
 
-.opcao-conta {
+/* Card de Tipos de Conta (Lateral Esquerda) */
+.card-tipos-conta {
+  background: #FFFFFF;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 20px;
+}
+
+.card-tipos-conta h3 {
+  color: #F26B38;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.opcoes-conta-lateral {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  border: 2px solid #E0E0E0;
-  border-radius: 8px;
+  gap: 12px;
+}
+
+.opcao-conta-lateral {
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
 }
 
-.opcao-conta:hover {
-  border-color: #F26B38;
-  transform: translateY(-2px);
-}
-
-.opcao-conta input[type="radio"] {
+.opcao-conta-lateral input[type="radio"] {
   display: none;
 }
 
-.opcao-conta input[type="radio"]:checked + .icone-opcao {
-  background: #F26B38;
-  color: white;
+.card-opcao {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 2px solid #E8E8E8;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  background: #FAFAFA;
 }
 
-.icone-opcao {
-  font-size: 1.5rem;
-  width: 40px;
-  height: 40px;
+.card-opcao:hover {
+  border-color: #F26B38;
+  transform: translateX(5px);
+  background: #FFF5F2;
+}
+
+.opcao-conta-lateral input[type="radio"]:checked + .card-opcao {
+  border-color: #F26B38;
+  background: #FFF5F2;
+  box-shadow: 0 2px 8px rgba(242, 107, 56, 0.2);
+}
+
+.icone-opcao-lateral {
+  font-size: 1.4rem;
+  width: 35px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #F8F9FA;
-  margin-bottom: 0.5rem;
+  background: #F0F0F0;
+  margin-right: 12px;
   transition: all 0.3s ease;
 }
 
-.texto-opcao {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #3E3E3E;
+.opcao-conta-lateral input[type="radio"]:checked + .card-opcao .icone-opcao-lateral {
+  background: #F26B38;
+  color: white;
 }
 
-.opcao-conta input[type="radio"]:checked ~ .texto-opcao {
+.texto-opcao-lateral {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #3E3E3E;
+  transition: color 0.3s ease;
+}
+
+.opcao-conta-lateral input[type="radio"]:checked + .card-opcao .texto-opcao-lateral {
   color: #F26B38;
   font-weight: 600;
 }
 
-/* Campo condicional de documento */
-.grupo-form.condicional {
-  animation: fadeIn 0.3s ease;
+/* Card do Formulário (Lateral Direita) */
+.card-formulario-lateral {
+  background: #FFFFFF;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  min-height: 500px;
 }
 
-@keyframes fadeIn {
+.card-formulario-lateral h2 {
+  color: #F26B38;
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+/* Formulário Lateral */
+.form-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.grupo-form-lateral {
+  display: flex;
+  flex-direction: column;
+}
+
+.grupo-form-lateral label {
+  font-weight: 500;
+  color: #3E3E3E;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+.grupo-form-lateral input {
+  padding: 12px;
+  border: 1.5px solid #E8E8E8;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #FAFAFA;
+}
+
+.grupo-form-lateral input:focus {
+  outline: none;
+  border-color: #F26B38;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(242, 107, 56, 0.1);
+}
+
+/* Campos de Senha Lado a Lado */
+.campos-senha-lateral {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Estados Condicionais */
+.grupo-form-lateral.condicional {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateX(-10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
-  .card-cadastro h2 {
-    color: #F26B38;
-    margin-bottom: 20px;
+
+/* Mensagem de Erro */
+.erro-lateral {
+  color: #D32F2F;
+  background: #FFEBEE;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #FFCDD2;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+/* Ações */
+.acoes-lateral {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.botao-principal-lateral {
+  flex: 1;
+  padding: 12px 20px;
+  background: #F26B38;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botao-principal-lateral:hover:not(:disabled) {
+  background: #E55A2B;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(242, 107, 56, 0.3);
+}
+
+.botao-principal-lateral:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.botao-voltar-lateral {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #3E3E3E;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  flex: 0.5;
+}
+
+.botao-voltar-lateral:hover {
+  background: #2E2E2E;
+  transform: translateY(-1px);
+}
+
+/* Links */
+.links-lateral {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #E8E8E8;
+  color: #666;
+}
+
+.links-lateral a {
+  color: #F26B38;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.links-lateral a:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container-cadastro-lateral {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 15px;
+  }
+  
+  .card-tipos-conta {
+    position: static;
+  }
+  
+  .opcoes-conta-lateral {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .card-opcao {
+    flex-direction: column;
     text-align: center;
-  }
-  
-  .grupo-form {
-    margin-bottom: 20px;
-  }
-  
-  .grupo-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-  
-  .grupo-form input {
-    width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
+    min-width: 100px;
   }
   
-  .erro {
-    color: #ff3333;
-    margin-bottom: 20px;
-    text-align: center;
-    padding: 10px;
-    background: #ffeeee;
-    border-radius: 4px;
+  .icone-opcao-lateral {
+    margin-right: 0;
+    margin-bottom: 8px;
   }
   
-  .acoes {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-top: 30px;
+  .campos-senha-lateral {
+    grid-template-columns: 1fr;
   }
   
-  .botao {
-    display: inline-block;
-    padding: 12px 20px;
-    background: #F26B38;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
+  .acoes-lateral {
+    flex-direction: column;
+  }
+  
+  .botao-voltar-lateral {
     flex: 1;
-    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-formulario-lateral {
+    padding: 20px 15px;
   }
   
-  .botao:hover {
-    opacity: 0.9;
+  .card-tipos-conta {
+    padding: 20px 15px;
   }
   
-  .botao.secundario {
-    background: #3E3E3E;
+  .opcoes-conta-lateral {
+    grid-template-columns: repeat(2, 1fr);
   }
   
-  .links {
-    text-align: center;
-    margin-top: 20px;
+  .texto-opcao-lateral {
+    font-size: 0.8rem;
   }
-  
-  .links a {
-    color: #F26B38;
-    text-decoration: none;
-  }
-  
-  @media (max-width: 480px) {
-    .card-cadastro {
-      padding: 30px 20px;
-    }
-    
-    .acoes {
-      flex-direction: column;
-    }
-    
-    .botao {
-      width: 100%;
-    }
-  }
+}
