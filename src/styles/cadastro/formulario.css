@@ -268,6 +268,17 @@
     flex-wrap: wrap;
     justify-content: center;
   }
+  .conteudo-cadastro {
+    border: 2px solid red; /* Verifique se ocupa a tela toda */
+  }
+  
+  .container-cadastro {
+    border: 2px solid blue; /* Verifique se está centralizado */
+  }
+  
+  .card-cadastro {
+    border: 2px solid green; /* Verifique o card */
+  }
   
   .card-opcao {
     flex-direction: column;

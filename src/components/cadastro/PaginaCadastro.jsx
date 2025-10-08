@@ -9,7 +9,7 @@ const PaginaCadastro = () => {
       <HeaderCadastro />
       
       <main className="conteudo-cadastro">
-        <div className="container-cadastro">
+        <div className="container-cadastro margin-auto">
           <FormCadastro />
         </div>
       </main>
