@@ -5,8 +5,7 @@
   gap: 30px;
   max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
-  align-items: start;
+  padding-left: 8rem;
 }
 
 /* Card de Tipos de Conta (Lateral Esquerda) */
@@ -99,7 +98,8 @@
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  min-height: 500px;
+  min-height: 600px;
+
 }
 
 .card-formulario-lateral h2 {
