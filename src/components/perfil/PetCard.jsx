@@ -1,27 +1,43 @@
-
+import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/perfil/PetCard.css';
-import cachorro1 from "./img/cachorro1.webp";
-import cachorro2 from "./img/cachorro2.jpg"
+
 const PetCard = ({ pet }) => {
+  const handleImageError = (e) => {
+    e.target.src = '/images/pets/pet-default.jpg';
+  };
+
   return (
     <div className="pet-card">
       <Link to={`/pet/${pet.id}`} className="link-pet">
         
+        {/* Capa do Pet */}
         <div className="capa-pet">
-          <img src={cachorro1} alt={`Capa de ${pet.nome}`} />
+          <img 
+            src={pet.capa} 
+            alt={`Capa de ${pet.nome}`}
+            onError={handleImageError}
+          />
         </div>
 
+        {/* Informações do Pet */}
         <div className="info-pet">
           
+          {/* Avatar e Nome */}
           <div className="cabecalho-pet">
-            <img src={cachorro2} alt={pet.nome} className="avatar-pet" />
+            <img 
+              src={pet.avatar} 
+              alt={pet.nome} 
+              className="avatar-pet"
+              onError={handleImageError}
+            />
             <div className="nomes-pet">
               <h3 className="nome-pet">{pet.nome}</h3>
               <p className="apelido-pet">@{pet.apelido}</p>
             </div>
           </div>
 
+          {/* Detalhes */}
           <div className="detalhes-pet">
             <div className="caracteristica">
               <span className="rotulo">Idade:</span>
@@ -37,8 +53,10 @@ const PetCard = ({ pet }) => {
             </div>
           </div>
 
+          {/* Bio */}
           <p className="bio-pet">{pet.bio}</p>
 
+          {/* Estatísticas */}
           <div className="estatisticas-pet">
             <span className="estatistica">{pet.estatisticas.posts} posts</span>
             <span className="estatistica">{pet.estatisticas.seguidores} seguidores</span>
@@ -48,6 +66,7 @@ const PetCard = ({ pet }) => {
 
       </Link>
       
+      {/* Botão de Ação */}
       <button className="botao-gerenciar">
         ⚙️ Gerenciar
       </button>
@@ -55,4 +74,4 @@ const PetCard = ({ pet }) => {
   );
 };
 
-export default PetCard;
+export default PetCard; 

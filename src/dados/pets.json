@@ -1,0 +1,25 @@
+{
+    "pets": [
+      {
+        "id": 1,
+        "tutorId": 101,
+        "nome": "Luna",
+        "apelido": "luninha",
+        "tipo": "cachorro",
+        "raca": "Labrador",
+        "idade": 3,
+        "avatar": "/assets/pets/luna.jpg",
+        "capa": "/assets/capas/pet-luna.jpg",
+        "bio": "Alegre e brincalhona, adora correr no parque! 🎾",
+        "dataNascimento": "2021-02-14",
+        "peso": "28 kg",
+        "sexo": "fêmea",
+        "vacinado": true,
+        "castrado": true,
+        "estatisticas": {
+          "posts": 23,
+          "seguidores": 345
+        }
+      }
+    ]
+  }

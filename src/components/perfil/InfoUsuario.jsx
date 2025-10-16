@@ -1,7 +1,6 @@
-import usuarioData from '../dados/usuario.json';
+import React from 'react';
+import usuarioData from '../../dados/usuario.json';
 import '../../styles/perfil/InfoUsuario.css';
-import capa from "./img/capa1.jpg";
-import fotoperfil from "./img/mulher1.jpg";
 const InfoUsuario = () => {
   const { usuario } = usuarioData;
 

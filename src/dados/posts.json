@@ -1,0 +1,92 @@
+{
+    "posts": [
+      {
+        "id": 1,
+        "usuario": {
+          "id": 101,
+          "nome": "Ana Silva",
+          "avatar": "/images/avatars/anasilva.jpg",
+          "tipo": "usuario"
+        },
+        "conteudo": {
+          "texto": "Meu gatinho acabou de fazer 1 ano! 🎉 Comemorem com a gente!",
+          "midia": {
+            "tipo": "imagem",
+            "url": "/images/posts/gatopost1_anasilva.jpg",
+            "alt": "Gato de aniversário com chapéu"
+          }
+        },
+        "engajamento": {
+          "curtidas": 24,
+          "comentarios": 8,
+          "compartilhamentos": 3
+        },
+        "data": "2024-03-15T10:30:00Z",
+        "localizacao": "São Paulo, SP",
+        "hashtags": ["#gato", "#aniversario", "#pet"]
+      },
+      {
+        "id": 2,
+        "usuario": {
+          "id": 102,
+          "nome": "Carlos Santos",
+          "avatar": "/images/avatars/carlossantos.jpg",
+          "tipo": "usuario"
+        },
+        "conteudo": {
+          "texto": "Encontrei esse doguinho perdido no Parque Ibirapuera. Alguém conhece? 🐶 Estava com coleira azul.",
+          "midia": null
+        },
+        "engajamento": {
+          "curtidas": 42,
+          "comentarios": 15,
+          "compartilhamentos": 8
+        },
+        "data": "2024-03-15T08:15:00Z",
+        "localizacao": "Parque Ibirapuera, SP",
+        "hashtags": ["#animalperdido", "#achado", "#cachorro"]
+      },
+      {
+        "id": 3,
+        "usuario": {
+          "id": 201,
+          "nome": "PetShop Amigo Fiel",
+          "avatar": "/images/lojas/logo_loja1.png",
+          "tipo": "comercio"
+        },
+        "conteudo": {
+          "texto": "🎊 Promoção especial desta semana! Banho e tosa com 20% de desconto para clientes PetRefugio!",
+          "midia": null
+        },
+        "engajamento": {
+          "curtidas": 89,
+          "comentarios": 12,
+          "compartilhamentos": 5
+        },
+        "data": "2024-03-14T14:20:00Z",
+        "localizacao": "Av. Paulista, 1000 - São Paulo",
+        "hashtags": ["#promocao", "#petshop", "#desconto"]
+      },
+      {
+        "id": 4,
+        "usuario": {
+          "id": 202,
+          "nome": "Clínica Veterinária Saúde Animal",
+          "avatar": "/images/lojas/logo_loja2.png",
+          "tipo": "veterinario"
+        },
+        "conteudo": {
+          "texto": "Dica da semana: A importância da vacinação anual para seu pet! 🩺🐕",
+          "midia": null
+        },
+        "engajamento": {
+          "curtidas": 67,
+          "comentarios": 8,
+          "compartilhamentos": 3
+        },
+        "data": "2024-03-14T11:30:00Z",
+        "localizacao": "Rua das Flores, 123 - São Paulo",
+        "hashtags": ["#veterinario", "#saude", "#dica"]
+      }
+    ]
+  }

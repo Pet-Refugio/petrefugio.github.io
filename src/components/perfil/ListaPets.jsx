@@ -1,5 +1,7 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import PetCard from './PetCard';
-import petsData from '../dados/pets.json';
+import petsData from '../../dados/pets.json';
 import '../../styles/perfil/ListaPets.css';
 const ListaPets = () => {
   return (
