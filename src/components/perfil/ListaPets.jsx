@@ -6,9 +6,9 @@ const ListaPets = () => {
     <div className="lista-pets">
       <div className="cabecalho-lista">
         <h2>Meus Pets</h2>
-        <button className="botao-adicionar-pet">
+        <Link to="/perfil/adicionar-pet" className="botao-adicionar-pet">
           ➕ Adicionar Pet
-        </button>
+        </Link>
       </div>
       <div className="grid-pets">
         {petsData.pets.map((pet) => (

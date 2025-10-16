@@ -1,0 +1,40 @@
+{
+    "amigos": [
+      {
+        "id": 101,
+        "nome": "Ana Silva",
+        "avatar": "/src/components/dados/anasilva.jpg",
+        "online": true
+      },
+      {
+        "id": 102,
+        "nome": "Carlos Santos",
+        "avatar": "/src/components/dados/carlossantos.jpg",
+        "online": true
+      },
+      {
+        "id": 103,
+        "nome": "Maria Oliveira",
+        "avatar": "/src/components/dados/mariaoliveira.jpg",
+        "online": true
+      },
+      {
+        "id": 104,
+        "nome": "João Pereira",
+        "avatar": "/src/components/dados/joaopereira.jpg",
+        "online": false
+      },
+      {
+        "id": 105,
+        "nome": "Juliana Costa",
+        "avatar": "/src/components/dados/julianacosta.jpg",
+        "online": false
+      },
+      {
+        "id": 106,
+        "nome": "Pedro Alves",
+        "avatar": "/src/components/dados/pedroalves.jpg",
+        "online": false
+      }
+    ]
+  }

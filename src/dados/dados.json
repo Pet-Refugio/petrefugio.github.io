@@ -1,0 +1,50 @@
+{
+    "posts": [
+      {
+        "id": 1,
+        "usuario": {
+          "id": 101,
+          "nome": "Ana Silva",
+          "avatar": "/src/components/dados/anasilva.jpg",
+          "tipo": "usuario"
+        },
+        "conteudo": {
+          "texto": "Meu gatinho acabou de fazer 1 ano! 🎉 Comemorem com a gente!",
+          "midia": {
+            "tipo": "imagem",
+            "url": "/src/components/dados/gatopost1_anasilva.jpg",
+            "alt": "Gato de aniversário com chapéu"
+          }
+        },
+        "engajamento": {
+          "curtidas": 24,
+          "comentarios": 8,
+          "compartilhamentos": 3
+        },
+        "data": "2024-03-15T10:30:00Z",
+        "localizacao": "São Paulo, SP",
+        "hashtags": ["#gato", "#aniversario", "#pet"]
+      },
+      {
+        "id": 2,
+        "usuario": {
+          "id": 102,
+          "nome": "Carlos Santos",
+          "avatar": "/src/components/dados/carlossantos.jpg",
+          "tipo": "usuario"
+        },
+        "conteudo": {
+          "texto": "Encontrei esse doguinho perdido no Parque Ibirapuera. Alguém conhece? 🐶 Estava com coleira azul.",
+          "midia": null
+        },
+        "engajamento": {
+          "curtidas": 42,
+          "comentarios": 15,
+          "compartilhamentos": 8
+        },
+        "data": "2024-03-15T08:15:00Z",
+        "localizacao": "Parque Ibirapuera, SP",
+        "hashtags": ["#animalperdido", "#achado", "#cachorro"]
+      }
+    ]
+  }

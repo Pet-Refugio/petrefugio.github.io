@@ -1,0 +1,236 @@
+.pagina-adicionar-pet {
+    min-height: 100vh;
+    background: #F8F9FA;
+    padding: 100px 20px 20px 20px;
+  }
+  
+  .container-adicionar-pet {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .cabecalho-adicionar-pet {
+    background: linear-gradient(135deg, #F26B38, #FF9D71);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .cabecalho-adicionar-pet h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+  }
+  
+  .cabecalho-adicionar-pet p {
+    margin: 0;
+    opacity: 0.9;
+  }
+  
+  .formulario-adicionar-pet {
+    padding: 2rem;
+  }
+  
+  /* Upload de Imagem */
+  .secao-upload {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  .label-upload {
+    cursor: pointer;
+  }
+  
+  .area-upload {
+    width: 150px;
+    height: 150px;
+    border: 3px dashed #E0E0E0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .area-upload:hover {
+    border-color: #F26B38;
+  }
+  
+  .preview-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .placeholder-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #7A7A7A;
+    text-align: center;
+  }
+  
+  .icone-upload {
+    font-size: 2rem;
+  }
+  
+  .input-upload {
+    display: none;
+  }
+  
+  /* Grupos de Campos */
+  .grupo-campos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .grupo-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .grupo-form label {
+    font-weight: 600;
+    color: #3E3E3E;
+    margin-bottom: 0.5rem;
+  }
+  
+  .grupo-form input,
+  .grupo-form select,
+  .grupo-form textarea {
+    padding: 0.8rem;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .grupo-form input:focus,
+  .grupo-form select:focus,
+  .grupo-form textarea:focus {
+    outline: none;
+    border-color: #F26B38;
+  }
+  
+  /* Opções de Sexo */
+  .opcoes-sexo {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .opcao-sexo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .opcao-sexo input[type="radio"] {
+    margin: 0;
+  }
+  
+  /* Opções de Saúde */
+  .opcoes-saude {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .opcao-saude {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .opcao-saude input[type="checkbox"] {
+    margin: 0;
+  }
+  
+  /* Textarea */
+  .grupo-form textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+  }
+  
+  /* Ações */
+  .acoes-formulario {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #E0E0E0;
+  }
+  
+  .botao-principal {
+    flex: 2;
+    background: linear-gradient(135deg, #F26B38, #FF9D71);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .botao-principal:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+  
+  .botao-secundario {
+    flex: 1;
+    background: #F8F9FA;
+    color: #3E3E3E;
+    border: 2px solid #E0E0E0;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .botao-secundario:hover {
+    background: #E9ECEF;
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .pagina-adicionar-pet {
+      padding: 80px 15px 15px 15px;
+    }
+    
+    .cabecalho-adicionar-pet {
+      padding: 1.5rem;
+    }
+    
+    .formulario-adicionar-pet {
+      padding: 1.5rem;
+    }
+    
+    .grupo-campos {
+      grid-template-columns: 1fr;
+    }
+    
+    .acoes-formulario {
+      flex-direction: column;
+    }
+    
+    .area-upload {
+      width: 120px;
+      height: 120px;
+    }
+  }
