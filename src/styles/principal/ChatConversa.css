@@ -1,0 +1,303 @@
+/* src/styles/principal/ChatConversa.css - ATUALIZADO */
+.pagina-chat {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f8f9fa;
+}
+
+.pagina-chat.carregando,
+.pagina-chat.erro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carregando-chat,
+.erro-chat {
+  text-align: center;
+  color: #666;
+  font-size: 18px;
+}
+
+.erro-chat button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #F26B38;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.header-chat {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.botao-voltar {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px 12px;
+  margin-right: 15px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.botao-voltar:hover {
+  background: #f0f0f0;
+}
+
+.info-amigo-chat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.avatar-chat {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+}
+
+.detalhes-amigo {
+  display: flex;
+  flex-direction: column;
+}
+
+.nome-amigo-chat {
+  font-weight: 600;
+  font-size: 16px;
+  color: #3E3E3E;
+}
+
+.status-amigo-chat {
+  font-size: 12px;
+  color: #666;
+}
+
+.area-mensagens {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #f0f2f5;
+}
+
+.sem-mensagens {
+  text-align: center;
+  color: #666;
+  margin-top: 50px;
+  font-style: italic;
+}
+
+.mensagem {
+  display: flex;
+  max-width: 70%;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.minha-mensagem {
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.mensagem-amigo {
+  align-self: flex-start;
+}
+
+.conteudo-mensagem {
+  padding: 12px 16px;
+  border-radius: 18px;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.minha-mensagem .conteudo-mensagem {
+  background: #0084ff;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.mensagem-amigo .conteudo-mensagem {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-bottom-left-radius: 4px;
+}
+
+.conteudo-mensagem p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hora-mensagem {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 4px;
+  display: block;
+}
+
+.status-envio {
+  position: absolute;
+  bottom: 6px;
+  right: 12px;
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.input-chat {
+  display: flex;
+  align-items: flex-end;
+  padding: 15px 20px;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.acoes-rapidas {
+  display: flex;
+  gap: 5px;
+}
+
+.botao-acao-chat {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.botao-acao-chat:hover {
+  background: #f0f0f0;
+}
+
+.input-mensagem {
+  flex: 1;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  padding: 12px 16px;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+  max-height: 120px;
+  min-height: 40px;
+}
+
+.input-mensagem:focus {
+  outline: none;
+  border-color: #0084ff;
+}
+
+.botao-enviar {
+  background: #0084ff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.botao-enviar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.botao-enviar:not(:disabled):hover {
+  background: #0073e6;
+}
+
+@media (max-width: 768px) {
+  .mensagem {
+    max-width: 85%;
+  }
+  
+  .header-chat {
+    padding: 12px 15px;
+  }
+  
+  .input-chat {
+    padding: 12px 15px;
+  }
+}
+
+.botao-voltar-carregando {
+  background: #F26B38;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.botao-voltar-carregando:hover {
+  background: #E55A2B;
+}
+
+.botao-voltar {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #3E3E3E;
+  transition: all 0.3s ease;
+  margin-right: 15px;
+  white-space: nowrap;
+}
+
+.botao-voltar:hover {
+  background: #e9ecef;
+  border-color: #F26B38;
+  color: #F26B38;
+}
+
+/* Estilos para status offline */
+.status-amigo-chat.offline {
+  color: #999;
+}
+
+.botao-enviar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Destaque para mensagens pendentes */
+.status-envio {
+  font-size: 10px;
+  margin-left: 5px;
+}
