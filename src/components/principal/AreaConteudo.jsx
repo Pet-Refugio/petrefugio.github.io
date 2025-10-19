@@ -1,5 +1,5 @@
 import '../../styles/principal/AreaConteudo.css';
-import { useState } from 'react';
+import { useState, error } from 'react';
 
 export default function AreaConteudo() {
   const [novoPost, setNovoPost] = useState('');
@@ -205,6 +205,29 @@ export default function AreaConteudo() {
     }
   };
 
+  const handleAvatarError = (e) => {
+    console.log('❌ Avatar não carregou no card criar post');
+    // Substitui por placeholder com inicial
+    const parent = e.target.parentNode;
+    const placeholder = document.createElement('div');
+    placeholder.className = 'avatar-placeholder-criar';
+    placeholder.innerHTML = '<span>A</span>';
+    placeholder.style.cssText = `
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #F26B38, #FF9D71);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    `;
+    e.target.style.display = 'none';
+    parent.appendChild(placeholder);
+  };
+
   const handlePublicar = () => {
     if (novoPost.trim()) {
       const novoPostObj = {
@@ -284,14 +307,14 @@ export default function AreaConteudo() {
       {/* Feed Principal */}
       <div className="feed-principal">
         
-        {/* Card para Criar Postagem */}
+        {/* Card para Criar Postagem - COM MELHORIAS DO NOVO CÓDIGO */}
         <div className="card-criar-post">
           <div className="cabecalho-criar">
             <img 
               src="/images/avatars/anasilva.jpg"
               alt="Seu perfil"
               className="avatar-usuario"
-              onError={handleImageError}
+              onError={handleAvatarError}
             />
             <input 
               type="text" 
@@ -303,7 +326,7 @@ export default function AreaConteudo() {
           </div>
           <div className="info-placeholder">
             <span className="texto-placeholder">
-              💡 Você pode compartilhar fotos, vídeos, dicas de cuidados, histórias engraçadas ou pedir ajuda sobre seu pet!
+              💡 Dica: Você pode compartilhar fotos, vídeos, dicas de cuidados, histórias engraçadas ou pedir ajuda sobre seu pet!
             </span>
           </div>
           <div className="acoes-criar-post">
@@ -317,7 +340,7 @@ export default function AreaConteudo() {
           </div>
         </div>
 
-        {/* Lista de Posts */}
+        {/* Lista de Posts - MANTIDO DO CÓDIGO ANTIGO */}
         <div className="lista-postagens">
           {posts.map((post) => (
             <div key={post.id} className="card-postagem">
@@ -382,7 +405,7 @@ export default function AreaConteudo() {
 
       </div>
 
-      {/* Sidebar Direito Simplificado */}
+      {/* Sidebar Direito Simplificado - MANTIDO DO CÓDIGO ANTIGO */}
       <aside className="sidebar-direito">
         
         {/* Sugestões de Amigos */}

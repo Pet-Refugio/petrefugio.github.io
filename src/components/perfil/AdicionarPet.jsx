@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/perfil/AdicionarPet.css';
 
@@ -82,14 +82,13 @@ const AdicionarPet = () => {
     <div className="pagina-adicionar-pet">
       <div className="container-adicionar-pet">
         
-        {/* Cabeçalho */}
-        <div className="cabecalho-adicionar-pet">
-          <h1>Adicionar Novo Pet</h1>
-          <p>Preencha as informações do seu pet para criar um perfil</p>
-        </div>
+        {/* Lado Esquerdo - Upload e Info Visual */}
+        <div className="lado-esquerdo">
+          <div className="cabecalho-adicionar-pet">
+            <h1>Adicionar Novo Pet</h1>
+            <p>Preencha as informações do seu pet para criar um perfil</p>
+          </div>
 
-        <form onSubmit={enviarForm} className="formulario-adicionar-pet">
-          
           {/* Upload de Foto */}
           <div className="secao-upload">
             <label className="label-upload">
@@ -111,118 +110,122 @@ const AdicionarPet = () => {
               </div>
             </label>
           </div>
+        </div>
 
-          {/* Informações Básicas */}
-          <div className="grupo-campos">
-            <div className="grupo-form">
-              <label htmlFor="nome">Nome do Pet *</label>
-              <input
-                type="text"
-                id="nome"
-                name="nome"
-                value={dadosPet.nome}
-                onChange={mudarDado}
-                placeholder="Ex: Luna, Thor, Mel"
-                required
-              />
+        {/* Lado Direito - Formulário */}
+        <div className="lado-direito">
+          <form onSubmit={enviarForm} className="formulario-adicionar-pet">
+            
+            {/* Informações Básicas */}
+            <div className="grupo-campos">
+              <div className="grupo-form">
+                <label htmlFor="nome">Nome do Pet *</label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="nome"
+                  value={dadosPet.nome}
+                  onChange={mudarDado}
+                  placeholder="Ex: Luna, Thor, Mel"
+                  required
+                />
+              </div>
+
+              <div className="grupo-form">
+                <label htmlFor="apelido">Apelido</label>
+                <input
+                  type="text"
+                  id="apelido"
+                  name="apelido"
+                  value={dadosPet.apelido}
+                  onChange={mudarDado}
+                  placeholder="Ex: luninha, thorzinho"
+                />
+              </div>
             </div>
 
-            <div className="grupo-form">
-              <label htmlFor="apelido">Apelido</label>
-              <input
-                type="text"
-                id="apelido"
-                name="apelido"
-                value={dadosPet.apelido}
-                onChange={mudarDado}
-                placeholder="Ex: luninha, thorzinho"
-              />
-            </div>
-          </div>
+            {/* Tipo e Raça */}
+            <div className="grupo-campos">
+              <div className="grupo-form">
+                <label htmlFor="tipo">Tipo de Pet *</label>
+                <select
+                  id="tipo"
+                  name="tipo"
+                  value={dadosPet.tipo}
+                  onChange={mudarDado}
+                  required
+                >
+                  {tiposPet.map(tipo => (
+                    <option key={tipo.value} value={tipo.value}>
+                      {tipo.icone} {tipo.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-          {/* Tipo e Raça */}
-          <div className="grupo-campos">
-            <div className="grupo-form">
-              <label htmlFor="tipo">Tipo de Pet *</label>
-              <select
-                id="tipo"
-                name="tipo"
-                value={dadosPet.tipo}
-                onChange={mudarDado}
-                required
-              >
-                {tiposPet.map(tipo => (
-                  <option key={tipo.value} value={tipo.value}>
-                    {tipo.icone} {tipo.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="grupo-form">
-              <label htmlFor="raca">Raça *</label>
-              <select
-                id="raca"
-                name="raca"
-                value={dadosPet.raca}
-                onChange={mudarDado}
-                required
-              >
-                <option value="">Selecione a raça</option>
-                {racasPorTipo[dadosPet.tipo]?.map(raca => (
-                  <option key={raca} value={raca}>
-                    {raca}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Idade e Peso */}
-          <div className="grupo-campos">
-            <div className="grupo-form">
-              <label htmlFor="idade">Idade (anos) *</label>
-              <input
-                type="number"
-                id="idade"
-                name="idade"
-                value={dadosPet.idade}
-                onChange={mudarDado}
-                min="0"
-                max="30"
-                placeholder="0"
-                required
-              />
+              <div className="grupo-form">
+                <label htmlFor="raca">Raça *</label>
+                <select
+                  id="raca"
+                  name="raca"
+                  value={dadosPet.raca}
+                  onChange={mudarDado}
+                  required
+                >
+                  <option value="">Selecione a raça</option>
+                  {racasPorTipo[dadosPet.tipo]?.map(raca => (
+                    <option key={raca} value={raca}>
+                      {raca}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
-            <div className="grupo-form">
-              <label htmlFor="dataNascimento">Data de Nascimento</label>
-              <input
-                type="date"
-                id="dataNascimento"
-                name="dataNascimento"
-                value={dadosPet.dataNascimento}
-                onChange={mudarDado}
-              />
+            {/* Idade e Peso */}
+            <div className="grupo-campos">
+              <div className="grupo-form">
+                <label htmlFor="idade">Idade (anos) *</label>
+                <input
+                  type="number"
+                  id="idade"
+                  name="idade"
+                  value={dadosPet.idade}
+                  onChange={mudarDado}
+                  min="0"
+                  max="30"
+                  placeholder="0"
+                  required
+                />
+              </div>
+
+              <div className="grupo-form">
+                <label htmlFor="dataNascimento">Data de Nascimento</label>
+                <input
+                  type="date"
+                  id="dataNascimento"
+                  name="dataNascimento"
+                  value={dadosPet.dataNascimento}
+                  onChange={mudarDado}
+                />
+              </div>
+
+              <div className="grupo-form">
+                <label htmlFor="peso">Peso (kg)</label>
+                <input
+                  type="number"
+                  id="peso"
+                  name="peso"
+                  value={dadosPet.peso}
+                  onChange={mudarDado}
+                  min="0"
+                  step="0.1"
+                  placeholder="0.0"
+                />
+              </div>
             </div>
 
-            <div className="grupo-form">
-              <label htmlFor="peso">Peso (kg)</label>
-              <input
-                type="number"
-                id="peso"
-                name="peso"
-                value={dadosPet.peso}
-                onChange={mudarDado}
-                min="0"
-                step="0.1"
-                placeholder="0.0"
-              />
-            </div>
-          </div>
-
-          {/* Sexo e Saúde */}
-          <div className="grupo-campos">
+            {/* Sexo - Estilo Melhorado */}
             <div className="grupo-form">
               <label>Sexo *</label>
               <div className="opcoes-sexo">
@@ -234,6 +237,7 @@ const AdicionarPet = () => {
                     checked={dadosPet.sexo === 'macho'}
                     onChange={mudarDado}
                   />
+                  <div className="indicador-sexo"></div>
                   <span>Macho</span>
                 </label>
                 <label className="opcao-sexo">
@@ -244,11 +248,13 @@ const AdicionarPet = () => {
                     checked={dadosPet.sexo === 'femea'}
                     onChange={mudarDado}
                   />
+                  <div className="indicador-sexo"></div>
                   <span>Fêmea</span>
                 </label>
               </div>
             </div>
 
+            {/* Saúde - Estilo Melhorado */}
             <div className="grupo-form">
               <label>Saúde</label>
               <div className="opcoes-saude">
@@ -259,7 +265,11 @@ const AdicionarPet = () => {
                     checked={dadosPet.vacinado}
                     onChange={mudarDado}
                   />
-                  <span>Vacinado</span>
+                  <div className="checkmark"></div>
+                  <div className="info-saude">
+                    <span className="rotulo-saude">Vacinado</span>
+                    <span className="descricao-saude">Todas as vacinas em dia</span>
+                  </div>
                 </label>
                 <label className="opcao-saude">
                   <input
@@ -268,40 +278,44 @@ const AdicionarPet = () => {
                     checked={dadosPet.castrado}
                     onChange={mudarDado}
                   />
-                  <span>Castrado</span>
+                  <div className="checkmark"></div>
+                  <div className="info-saude">
+                    <span className="rotulo-saude">Castrado</span>
+                    <span className="descricao-saude">Procedimento realizado</span>
+                  </div>
                 </label>
               </div>
             </div>
-          </div>
 
-          {/* Bio */}
-          <div className="grupo-form">
-            <label htmlFor="bio">Sobre o Pet</label>
-            <textarea
-              id="bio"
-              name="bio"
-              value={dadosPet.bio}
-              onChange={mudarDado}
-              placeholder="Conte um pouco sobre a personalidade, hábitos e características do seu pet..."
-              rows="4"
-            />
-          </div>
+            {/* Bio */}
+            <div className="grupo-form">
+              <label htmlFor="bio">Sobre o Pet</label>
+              <textarea
+                id="bio"
+                name="bio"
+                value={dadosPet.bio}
+                onChange={mudarDado}
+                placeholder="Conte um pouco sobre a personalidade, hábitos e características do seu pet..."
+                rows="4"
+              />
+            </div>
 
-          {/* Ações */}
-          <div className="acoes-formulario">
-            <button type="submit" className="botao-principal">
-              Cadastrar Pet
-            </button>
-            <button 
-              type="button" 
-              className="botao-secundario"
-              onClick={() => navigate('/perfil')}
-            >
-              Cancelar
-            </button>
-          </div>
+            {/* Ações */}
+            <div className="acoes-formulario">
+              <button 
+                type="button" 
+                className="botao-secundario"
+                onClick={() => navigate('/perfil')}
+              >
+                Cancelar
+              </button>
+              <button type="submit" className="botao-principal">
+                Cadastrar
+              </button>
+            </div>
 
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
