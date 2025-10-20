@@ -195,6 +195,7 @@
   border: none;
   border-radius: 8px;
   font-size: 1rem;
+  width:  60vh;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;

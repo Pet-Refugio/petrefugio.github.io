@@ -213,17 +213,18 @@ const FormularioCadastro = () => {
               />
             </div>
           </div>
-          
+          <Link to="/principal">
           <div className="acoes-lateral">
             <button 
               type="submit" 
               className="botao-principal-lateral"
               disabled={carregando}
-            >
+              >
               {carregando ? 'Cadastrando...' : 'Cadastrar'}
             </button>
             <Link to="/" className="botao-voltar-lateral">Voltar</Link>
           </div>
+          </Link>
         </form>
         
         <div className="links-lateral">

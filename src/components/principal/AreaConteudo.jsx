@@ -318,7 +318,7 @@ export default function AreaConteudo() {
             />
             <input 
               type="text" 
-              placeholder="🐾 O que está acontecendo com seu pet? Compartilhe fotos, dicas ou histórias!"
+              placeholder="🐾Compartilhe fotos vídeos ou histórias!"
               className="input-criar-post"
               value={novoPost}
               onChange={(e) => setNovoPost(e.target.value)}
@@ -326,14 +326,12 @@ export default function AreaConteudo() {
           </div>
           <div className="info-placeholder">
             <span className="texto-placeholder">
-              💡 Dica: Você pode compartilhar fotos, vídeos, dicas de cuidados, histórias engraçadas ou pedir ajuda sobre seu pet!
+              Aqui você pode compartilhar fotos, vídeos ou pedir ajuda sobre seu pet!
             </span>
           </div>
           <div className="acoes-criar-post">
             <button type="button" className="botao-midia">📷 Foto</button>
             <button type="button" className="botao-midia">🎥 Vídeo</button>
-            <button type="button" className="botao-midia">📍 Local</button>
-            <button type="button" className="botao-midia">😊 Sentimento</button>
             <button type="button" className="botao-publicar" onClick={handlePublicar}>
               Publicar
             </button>
