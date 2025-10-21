@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/cadastro/formulario.css';
+import { authService } from '../../services/api';
 
 const FormularioCadastro = () => {
   const [dados, setDados] = useState({
-    tipoConta: 'pessoal', // Valor padrão
+    tipoConta: 'pessoal',
     nome: '',
     nascimento: '',
     email: '',
@@ -14,14 +15,16 @@ const FormularioCadastro = () => {
   });
   
   const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
   const navigate = useNavigate();
 
-  // Opções de tipo de conta
   const tiposConta = [
-    { value: 'pessoal', label: 'Conta Pessoal', icone: '👤' },
-    { value: 'comercio', label: 'Comércio', icone: '🏪' },
+    { value: 'pessoal', label: 'Pessoal', icone: '👤' },
+    { value: 'petshop', label: 'Pet Shop', icone: '🏪' },
     { value: 'veterinario', label: 'Veterinário', icone: '🐾' },
-    { value: 'ong', label: 'ONG', icone: '❤️' }
+    { value: 'ong', label: 'ONG', icone: '❤️' },
+    { value: 'prestador', label: 'Prestador', icone: '🔧' },
+    { value: 'hotel', label: 'Hotel', icone: '🏨' }
   ];
 
   const mudarDado = (e) => {
@@ -30,166 +33,203 @@ const FormularioCadastro = () => {
       ...prev,
       [name]: value
     }));
+    if (erro) setErro('');
   };
 
-  const enviarForm = (e) => {
+  const enviarForm = async (e) => {
     e.preventDefault();
+    setErro('');
+    setCarregando(true);
     
-    // Validações
     if (dados.senha !== dados.confirmarSenha) {
       setErro('As senhas não coincidem');
+      setCarregando(false);
       return;
     }
     
     if (dados.senha.length < 6) {
       setErro('Senha precisa ter 6+ caracteres');
+      setCarregando(false);
       return;
     }
 
-    // Validação específica para contas não-pessoais
     if (dados.tipoConta !== 'pessoal' && !dados.documento) {
       setErro('Documento é obrigatório para este tipo de conta');
+      setCarregando(false);
       return;
     }
     
-    console.log('Dados enviados:', dados);
-    alert('Cadastro realizado com sucesso!');
-    navigate('/login');
+    try {
+      const resultado = await authService.cadastrar(dados);
+      
+      if (resultado.success) {
+        console.log('Cadastro realizado com sucesso!', resultado.data);
+        alert('Cadastro realizado com sucesso!');
+        navigate('/login');
+      } else {
+        setErro(resultado.message);
+      }
+    } catch (error) {
+      setErro('Erro ao conectar com o servidor');
+    } finally {
+      setCarregando(false);
+    }
   };
 
   return (
-    <div className="card-cadastro">
-      <h2>Criar Conta</h2>
-      
-      {erro && <div className="erro">{erro}</div>}
-      
-      <form onSubmit={enviarForm}>
+    <div className="container-cadastro-lateral">
+      <div className="card-tipos-conta">
+        <h3>Selecione o Tipo de Conta</h3>
+        <div className="opcoes-conta-lateral">
+          {tiposConta.map((tipo) => (
+            <label key={tipo.value} className="opcao-conta-lateral">
+              <input
+                type="radio"
+                name="tipoConta"
+                value={tipo.value}
+                checked={dados.tipoConta === tipo.value}
+                onChange={mudarDado}
+              />
+              <div className="card-opcao">
+                <span className="icone-opcao-lateral">{tipo.icone}</span>
+                <span className="texto-opcao-lateral">{tipo.label}</span>
+              </div>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="card-formulario-lateral">
+        <h2>Criar Conta</h2>
         
-        {/* Seleção do Tipo de Conta */}
-        <div className="grupo-form">
-          <label>Tipo de Conta</label>
-          <div className="opcoes-conta">
-            {tiposConta.map((tipo) => (
-              <label key={tipo.value} className="opcao-conta">
-                <input
-                  type="radio"
-                  name="tipoConta"
-                  value={tipo.value}
-                  checked={dados.tipoConta === tipo.value}
-                  onChange={mudarDado}
-                />
-                <span className="icone-opcao">{tipo.icone}</span>
-                <span className="texto-opcao">{tipo.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div className="grupo-form">
-          <label htmlFor="nome">
-            {dados.tipoConta === 'pessoal' ? 'Nome Completo' : 
-             dados.tipoConta === 'veterinario' ? 'Nome do Veterinário' :
-             'Nome/Razão Social'}
-          </label>
-          <input 
-            type="text" 
-            id="nome" 
-            name="nome" 
-            value={dados.nome}
-            onChange={mudarDado}
-            placeholder={
-              dados.tipoConta === 'pessoal' ? 'Seu nome completo' :
-              dados.tipoConta === 'veterinario' ? 'Nome do profissional' :
-              'Nome da empresa/entidade'
-            }
-            required 
-          />
-        </div>
-
-        {/* Campo de documento para contas não-pessoais */}
-        {dados.tipoConta !== 'pessoal' && (
-          <div className="grupo-form">
-            <label htmlFor="documento">
-              {dados.tipoConta === 'comercio' ? 'CNPJ' :
-               dados.tipoConta === 'veterinario' ? 'CRMV' :
-               'CNPJ da ONG'}
+        {erro && <div className="erro-lateral">{erro}</div>}
+        
+        <form onSubmit={enviarForm} className="form-lateral">
+          <div className="grupo-form-lateral">
+            <label htmlFor="nome">
+              {dados.tipoConta === 'pessoal' ? 'Nome Completo' : 
+               dados.tipoConta === 'veterinario' ? 'Nome do Veterinário' :
+               dados.tipoConta === 'ong' ? 'Nome da ONG' :
+               dados.tipoConta === 'petshop' ? 'Nome do Pet Shop' :
+               dados.tipoConta === 'hotel' ? 'Nome do Hotel' :
+               'Nome do Prestador'}
             </label>
             <input 
               type="text" 
-              id="documento" 
-              name="documento" 
-              value={dados.documento}
+              id="nome" 
+              name="nome" 
+              value={dados.nome}
               onChange={mudarDado}
               placeholder={
-                dados.tipoConta === 'comercio' ? '00.000.000/0000-00' :
-                dados.tipoConta === 'veterinario' ? 'Número do CRMV' :
-                'CNPJ da organização'
+                dados.tipoConta === 'pessoal' ? 'Seu nome completo' :
+                dados.tipoConta === 'veterinario' ? 'Nome do profissional' :
+                dados.tipoConta === 'ong' ? 'Nome da organização' :
+                dados.tipoConta === 'petshop' ? 'Nome do estabelecimento' :
+                dados.tipoConta === 'hotel' ? 'Nome do hotel' :
+                'Nome do prestador de serviço'
               }
+              required 
             />
           </div>
-        )}
+
+          {dados.tipoConta !== 'pessoal' && (
+            <div className="grupo-form-lateral condicional">
+              <label htmlFor="documento">
+                {dados.tipoConta === 'petshop' ? 'CNPJ' :
+                 dados.tipoConta === 'veterinario' ? 'CRMV' :
+                 dados.tipoConta === 'ong' ? 'CNPJ da ONG' :
+                 dados.tipoConta === 'hotel' ? 'CNPJ' :
+                 'Documento Profissional'}
+              </label>
+              <input 
+                type="text" 
+                id="documento" 
+                name="documento" 
+                value={dados.documento}
+                onChange={mudarDado}
+                placeholder={
+                  dados.tipoConta === 'petshop' ? '00.000.000/0000-00' :
+                  dados.tipoConta === 'veterinario' ? 'Número do CRMV' :
+                  dados.tipoConta === 'ong' ? 'CNPJ da organização' :
+                  dados.tipoConta === 'hotel' ? 'CNPJ do estabelecimento' :
+                  'Documento profissional'
+                }
+                required
+              />
+            </div>
+          )}
+          
+          <div className="grupo-form-lateral">
+            <label htmlFor="nascimento">
+              {dados.tipoConta === 'pessoal' ? 'Data de Nascimento' : 'Data de Fundação'}
+            </label>
+            <input 
+              type="date" 
+              id="nascimento" 
+              name="nascimento" 
+              value={dados.nascimento}
+              onChange={mudarDado}
+              required 
+            />
+          </div>
+          
+          <div className="grupo-form-lateral">
+            <label htmlFor="email">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              value={dados.email}
+              onChange={mudarDado}
+              placeholder="seu@email.com"
+              required 
+            />
+          </div>
+          
+          <div className="campos-senha-lateral">
+            <div className="grupo-form-lateral">
+              <label htmlFor="senha">Senha</label>
+              <input 
+                type="password" 
+                id="senha" 
+                name="senha" 
+                value={dados.senha}
+                onChange={mudarDado}
+                placeholder="Mínimo 6 caracteres"
+                required 
+              />
+            </div>
+            
+            <div className="grupo-form-lateral">
+              <label htmlFor="confirmarSenha">Confirmar Senha</label>
+              <input 
+                type="password" 
+                id="confirmarSenha" 
+                name="confirmarSenha" 
+                value={dados.confirmarSenha}
+                onChange={mudarDado}
+                placeholder="Digite novamente"
+                required 
+              />
+            </div>
+          </div>
+          <Link to="/principal">
+          <div className="acoes-lateral">
+            <button 
+              type="submit" 
+              className="botao-principal-lateral"
+              disabled={carregando}
+              >
+              {carregando ? 'Cadastrando...' : 'Cadastrar'}
+            </button>
+            <Link to="/" className="botao-voltar-lateral">Voltar</Link>
+          </div>
+          </Link>
+        </form>
         
-        <div className="grupo-form">
-          <label htmlFor="nascimento">
-            {dados.tipoConta === 'pessoal' ? 'Data de Nascimento' : 'Data de Fundação'}
-          </label>
-          <input 
-            type="date" 
-            id="nascimento" 
-            name="nascimento" 
-            value={dados.nascimento}
-            onChange={mudarDado}
-            required 
-          />
+        <div className="links-lateral">
+          Já tem conta? <Link to="/login">Entrar</Link>
         </div>
-        
-        <div className="grupo-form">
-          <label htmlFor="email">Email</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            value={dados.email}
-            onChange={mudarDado}
-            placeholder="seu@email.com"
-            required 
-          />
-        </div>
-        
-        <div className="grupo-form">
-          <label htmlFor="senha">Senha</label>
-          <input 
-            type="password" 
-            id="senha" 
-            name="senha" 
-            value={dados.senha}
-            onChange={mudarDado}
-            placeholder="Mínimo 6 caracteres"
-            required 
-          />
-        </div>
-        
-        <div className="grupo-form">
-          <label htmlFor="confirmarSenha">Confirmar Senha</label>
-          <input 
-            type="password" 
-            id="confirmarSenha" 
-            name="confirmarSenha" 
-            value={dados.confirmarSenha}
-            onChange={mudarDado}
-            placeholder="Digite a senha novamente"
-            required 
-          />
-        </div>
-        
-        <div className="acoes">
-          <button type="submit" className="botao">Cadastrar</button>
-          <Link to="/" className="botao secundario">Voltar</Link>
-        </div>
-      </form>
-      
-      <div className="links">
-        Já tem conta? <Link to="/login">Entrar</Link>
       </div>
     </div>
   );

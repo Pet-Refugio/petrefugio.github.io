@@ -1,4 +1,3 @@
-// src/components/principal/SidebarAmigos.jsx
 import '../../styles/principal/SidebarAmigos.css';
 import amigosData from '../../dados/amigos.json';
 import { useNavigate } from 'react-router-dom';

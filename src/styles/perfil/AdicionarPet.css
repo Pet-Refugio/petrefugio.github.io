@@ -1,0 +1,382 @@
+.pagina-adicionar-pet {
+  min-height: 100vh;
+  background: #F8F9FA;
+  padding:10px 10px 10px 10px;
+  display: flex;
+  margin-top:2rem ;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.container-adicionar-pet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  max-width: 1000px;
+  width: 100%;
+  background: #f7931e;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-height: 500px;
+}
+
+/* Lado Esquerdo - Upload e Info Básica */
+.lado-esquerdo {
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cabecalho-adicionar-pet {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.cabecalho-adicionar-pet h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.cabecalho-adicionar-pet p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Upload de Imagem */
+.secao-upload {
+  margin: 1rem 0;
+}
+
+.label-upload {
+  cursor: pointer;
+}
+
+.area-upload {
+  width: 180px;
+  height: 180px;
+  border: 4px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.area-upload:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+}
+.preview-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.icone-upload {
+  font-size: 2.5rem;
+  opacity: 0.9;
+}
+
+.input-upload {
+  display: none;
+}
+
+/* Lado Direito - Formulário */
+.lado-direito {
+  padding: 2rem;
+  background-color: #ffffff;
+  overflow-y: auto;
+  max-height: 600px;
+}
+
+.formulario-adicionar-pet {
+  height: 100%;
+}
+
+/* Grupos de Campos */
+.grupo-campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.grupo-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.grupo-form label {
+  font-weight: 600;
+  color: #3E3E3E;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.grupo-form input,
+.grupo-form select,
+.grupo-form textarea {
+  padding: 0.8rem;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background: white;
+}
+
+.grupo-form input:focus,
+.grupo-form select:focus,
+.grupo-form textarea:focus {
+  outline: none;
+  border-color: #F26B38;
+}
+
+/* Opções de Sexo - Estilo Melhorado */
+.opcoes-sexo {
+  display: flex;
+  gap: 0.5rem;
+  background: #F8F9FA;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 2px solid #E0E0E0;
+}
+
+.opcao-sexo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.opcao-sexo:hover {
+  background: rgba(242, 107, 56, 0.1);
+}
+
+.opcao-sexo input[type="radio"] {
+  display: none;
+}
+
+.opcao-sexo input[type="radio"]:checked + span {
+  color: #F26B38;
+  font-weight: 600;
+}
+
+.opcao-sexo input[type="radio"]:checked ~ .indicador-sexo {
+  background: #F26B38;
+  border-color: #F26B38;
+}
+
+.indicador-sexo {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #CCC;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.indicador-sexo::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease;
+}
+
+.opcao-sexo input[type="radio"]:checked ~ .indicador-sexo::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Opções de Saúde - Estilo Melhorado */
+.opcoes-saude {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  background: #F8F9FA;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 2px solid #E0E0E0;
+}
+
+.opcao-saude {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  padding: 0.8rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  background: white;
+  border: 1px solid #E0E0E0;
+}
+
+.opcao-saude:hover {
+  border-color: #F26B38;
+  transform: translateY(-1px);
+}
+
+.opcao-saude input[type="checkbox"] {
+  display: none;
+}
+
+.opcao-saude input[type="checkbox"]:checked + .checkmark {
+  background: #F26B38;
+  border-color: #F26B38;
+}
+
+.opcao-saude input[type="checkbox"]:checked + .checkmark::after {
+  content: '✓';
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #CCC;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-saude {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.rotulo-saude {
+  font-weight: 600;
+  color: #3E3E3E;
+  font-size: 0.9rem;
+}
+
+.descricao-saude {
+  font-size: 0.75rem;
+  color: #7A7A7A;
+}
+
+/* Textarea */
+.grupo-form textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+/* Ações */
+.acoes-formulario {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #E0E0E0;
+}
+
+.botao-principal {
+  flex: 2;
+  background: linear-gradient(135deg, #F26B38, #FF9D71);
+  color: white;
+  border: none;
+  padding: 1.3rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botao-principal:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.botao-secundario {
+  flex: 1;
+  background: #F8F9FA;
+  color: #3E3E3E;
+  border: 2px solid #E0E0E0;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botao-secundario:hover {
+  background: #E9ECEF;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .pagina-adicionar-pet {
+    padding: 80px 15px 15px 15px;
+  }
+  
+  .container-adicionar-pet {
+    grid-template-columns: 1fr;
+  }
+  
+  .lado-esquerdo {
+    padding: 1.5rem;
+  }
+  
+  .lado-direito {
+    padding: 1.5rem;
+    max-height: none;
+  }
+  
+  .grupo-campos {
+    grid-template-columns: 1fr;
+  }
+  
+  .acoes-formulario {
+    flex-direction: column;
+  }
+  
+  .area-upload {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .opcoes-saude {
+    grid-template-columns: 1fr;
+  }
+}

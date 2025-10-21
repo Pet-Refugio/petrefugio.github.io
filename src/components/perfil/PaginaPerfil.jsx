@@ -3,6 +3,7 @@ import InfoUsuario from './InfoUsuario';
 import ListaPets from './ListaPets';
 import '../../styles/perfil/PaginaPerfil.css';
 
+
 const PaginaPerfil = () => {
   return (
     <div className="pagina-perfil">

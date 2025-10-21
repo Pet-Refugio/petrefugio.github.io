@@ -1,33 +1,108 @@
-import usuarioData from '../dados/usuario.json';
 import '../../styles/perfil/InfoUsuario.css';
-import capa from "./img/capa1.jpg";
-import fotoperfil from "./img/mulher1.jpg";
+import { useState } from 'react';
 const InfoUsuario = () => {
-  const { usuario } = usuarioData;
+  const [avatarError, setAvatarError] = useState(false);
+  const [capaError, setCapaError] = useState(false);
+// Adicione estas funções no seu componente, antes do return
 
-  const calcularIdade = (dataNascimento) => {
+const calcularIdade = (dataNascimento) => {
+  try {
+    if (!dataNascimento) return '--';
+    
     const nascimento = new Date(dataNascimento);
     const hoje = new Date();
-    let idade = hoje.getFullYear() - nascimento.getFullYear();
-    const mes = hoje.getMonth() - nascimento.getMonth();
     
-    if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
+    const mesAtual = hoje.getMonth();
+    const mesNascimento = nascimento.getMonth();
+    
+    // Ajusta se ainda não fez aniversário este ano
+    if (mesAtual < mesNascimento || 
+        (mesAtual === mesNascimento && hoje.getDate() < nascimento.getDate())) {
       idade--;
     }
     
     return idade;
+  } catch (error) {
+    console.error('Erro ao calcular idade:', error);
+    return '--';
+  }
+};
+
+const formatarData = (dataString) => {
+  try {
+    if (!dataString) return '--/--/----';
+    
+    const data = new Date(dataString);
+    
+    // Verifica se a data é válida
+    if (isNaN(data.getTime())) {
+      return '--/--/----';
+    }
+    
+    return data.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  } catch (error) {
+    console.error('Erro ao formatar data:', error);
+    return '--/--/----';
+  }
+};
+  // Dados do usuário com caminhos corrigidos
+  const usuario = {
+    id: 101,
+    nome: "Ana Silva",
+    apelido: "aninhapets",
+    email: "ana.silva@email.com",
+    avatar: "/images/avartars/anasilva.jpg", // CAMINHO CORRETO
+    capa: "/images/capas/perfil-ana.jpg",
+    bio: "Amante de animais, mãe de 3 pets e voluntária em abrigos. ❤️🐾",
+    localizacao: "São Paulo, SP",
+    dataNascimento: "1990-05-15",
+    telefone: "(11) 99999-9999",
+    estatisticas: {
+      seguindo: 245,
+      seguidores: 1560,
+      posts: 89
+    },
+    redesSociais: {
+      instagram: "@aninhapets",
+      facebook: "Ana Silva Pets"
+    },
+    dataCadastro: "2022-03-10"
   };
 
-  const formatarData = (dataString) => {
-    return new Date(dataString).toLocaleDateString('pt-BR');
+  const handleAvatarError = () => {
+    console.log('❌ Avatar não encontrado:', usuario.avatar);
+    setAvatarError(true);
   };
+
+  const handleCapaError = () => {
+    console.log('❌ Capa não encontrada:', usuario.capa);
+    setCapaError(true);
+  };
+
+  // ... resto do código permanece igual ...
 
   return (
     <div className="info-usuario">
       
       {/* Capa do Perfil */}
       <div className="capa-perfil">
-        <img src={capa} alt="Capa do perfil" />
+        {!capaError ? (
+          <img 
+            src={usuario.capa} 
+            alt="Capa do perfil" 
+            onError={handleCapaError}
+          />
+        ) : (
+          <div className="placeholder-capa">
+            <div className="texto-capa">🌅 Capa do Perfil</div>
+            <div className="subtitulo-capa">Adicione uma foto de capa personalizada</div>
+          </div>
+        )}
         <button className="botao-alterar-capa">📷 Alterar capa</button>
       </div>
 
@@ -37,7 +112,18 @@ const InfoUsuario = () => {
         {/* Avatar e Nome */}
         <div className="cabecalho-info">
           <div className="avatar-container">
-            <img src={fotoperfil} alt={usuario.nome} className="avatar-usuario" />
+            {!avatarError ? (
+              <img 
+                src={usuario.avatar} 
+                alt={usuario.nome} 
+                className="avatar-usuario"
+                onError={handleAvatarError}
+              />
+            ) : (
+              <div className="avatar-placeholder">
+                <span className="avatar-inicial">{usuario.nome.charAt(0)}</span>
+              </div>
+            )}
             <button className="botao-alterar-avatar">📷</button>
           </div>
           
@@ -46,7 +132,7 @@ const InfoUsuario = () => {
             <p className="apelido">@{usuario.apelido}</p>
           </div>
         </div>
-
+            
         {/* Bio e Estatísticas */}
         <div className="detalhes-usuario">
           <p className="bio">{usuario.bio}</p>
@@ -85,11 +171,23 @@ const InfoUsuario = () => {
           {/* Redes Sociais */}
           <div className="redes-sociais">
             {usuario.redesSociais.instagram && (
-              <a href="#" className="rede-social">📷 {usuario.redesSociais.instagram}</a>
+              <a href="#" className="rede-social">
+                <span className="icone-rede">📷</span>
+                {usuario.redesSociais.instagram}
+              </a>
             )}
             {usuario.redesSociais.facebook && (
-              <a href="#" className="rede-social">📘 {usuario.redesSociais.facebook}</a>
+              <a href="#" className="rede-social">
+                <span className="icone-rede">📘</span>
+                {usuario.redesSociais.facebook}
+              </a>
             )}
+          </div>
+
+          {/* Botões de Ação */}
+          <div className="acoes-usuario">
+            <button className="botao-acao-principal">✏️ Editar Perfil</button>
+            <button className="botao-acao-secundario">📤 Compartilhar</button>
           </div>
         </div>
 
@@ -97,5 +195,4 @@ const InfoUsuario = () => {
     </div>
   );
 };
-
 export default InfoUsuario;
