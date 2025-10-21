@@ -9,6 +9,8 @@ import PaginaLogin from './components/login/paginaLogin.jsx';
 import Principal from './components/principal/PagPrincipal.jsx';
 import PaginaPerfil from './components/perfil/PaginaPerfil.jsx';
 import AdicionarPet from './components/perfil/AdicionarPet.jsx';
+import ChatConversa from './components/principal/ChatConversa.jsx'
+import ListaAmigos from './components/amigos/ListaAmigos.jsx';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
   {
   path:"/perfil/adicionar-pet",
   element: <AdicionarPet />,
+  }, 
+  {
+    path:"/principal/amigos",
+    element: <ListaAmigos />,
+  },
+  {
+  path:'/chat',
+  element:<ChatConversa />,
   }
 ])
 

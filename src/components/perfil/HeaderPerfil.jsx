@@ -13,7 +13,7 @@ export default function HeaderPerfil() {
 
           <div className="menu-perfil">
           <Link to="/principal"><button className="menu-item">Início</button></Link>
-            <button className="menu-item active">Perfil</button>
+            <button className="menu-item active"> Perfil</button>
             <button className="menu-item">Notificações</button>
           </div>
           <div className="acoes-perfil">

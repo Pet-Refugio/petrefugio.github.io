@@ -11,10 +11,12 @@ export default function HeaderPrincipal() {
             <span className="logo-texto-principal">PetRefugio</span>
           </div>
           <div className="menu-central">
+          <Link to="/principal/amigos">
             <button className="menu-item-principal">
               <span className="menu-icone">👥</span>
               <span className="menu-texto-principal">Amigos</span>
-            </button>            
+            </button> 
+            </Link>           
             <button className="menu-item-principal">
               <span className="menu-icone">📝</span>
               <span className="menu-texto-principal"> Fazer post</span>
