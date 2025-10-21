@@ -11,7 +11,7 @@ import PaginaPerfil from './components/perfil/PaginaPerfil.jsx';
 import AdicionarPet from './components/perfil/AdicionarPet.jsx';
 import ChatConversa from './components/principal/ChatConversa.jsx'
 import ListaAmigos from './components/amigos/ListaAmigos.jsx';
-
+import PerfilPublico from './components/perfil/PerfilPublico';
 const router = createBrowserRouter([
   {
     path:"/",
@@ -44,6 +44,10 @@ const router = createBrowserRouter([
   {
   path:'/chat',
   element:<ChatConversa />,
+  },
+  {
+    path:'/perfil/publico/:id',
+    element:<PerfilPublico />
   }
 ])
 

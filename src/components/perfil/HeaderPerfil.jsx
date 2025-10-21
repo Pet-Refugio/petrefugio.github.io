@@ -1,5 +1,6 @@
 import '../../styles/perfil/HeaderPerfil.css';
 import { Link } from 'react-router-dom';
+import SinoNotificacoes from '../notificacoes/notificacao';
 
 export default function HeaderPerfil() {
   return (
@@ -14,7 +15,6 @@ export default function HeaderPerfil() {
           <div className="menu-perfil">
           <Link to="/principal"><button className="menu-item">Início</button></Link>
             <button className="menu-item active"> Perfil</button>
-            <button className="menu-item">Notificações</button>
           </div>
           <div className="acoes-perfil">
             <button className="botao-config">⚙️</button>

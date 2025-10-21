@@ -1,6 +1,7 @@
 import '../../styles/principal/header.css'
 import { Link } from 'react-router-dom';
 import perfil from "../perfil/img/mulher1.jpg"
+import SinoNotificacoes from '../notificacoes/notificacao';
 export default function HeaderPrincipal() {
   return (
     <header className="header-principal">
@@ -24,7 +25,7 @@ export default function HeaderPrincipal() {
           </div>
           <div className="area-perfil">
             <button className="botao-notificacao">
-            <span className="notificacao-icone">🔔</span>
+            <SinoNotificacoes />
             </button>
             <div className="perfil-usuario">
               <div className="avatar-perfil">
