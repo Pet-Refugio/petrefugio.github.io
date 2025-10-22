@@ -9,6 +9,8 @@ import Principal from './components/principal/PagPrincipal.jsx';
 import PaginaPerfil from './components/perfil/PaginaPerfil.jsx';
 import AdicionarPet from './components/perfil/AdicionarPet.jsx';
 import ChatConversa from './components/principal/ChatConversa.jsx';
+import ListaAmigos from './components/amigos/ListaAmigos.jsx';
+import PerfilPublico from './components/perfil/PerfilPublico.jsx';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
   {
     path: "/chat/:amigoId",
     element: <ChatConversa />,
+  },
+  {
+    path: "/principal/amigos",
+    element: <ListaAmigos />
+  },
+  { 
+   path:"/perfil/publico/:usuarioId",
+   element:<PerfilPublico /> 
   }
 ]);
 

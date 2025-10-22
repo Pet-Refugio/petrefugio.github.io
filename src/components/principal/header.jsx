@@ -1,6 +1,6 @@
 import '../../styles/principal/header.css'
 import { Link } from 'react-router-dom';
-import perfil from "../perfil/img/mulher1.jpg"
+import perfil from "../perfil/img/anasilva.jpg"
 import SinoNotificacoes from '../notificacoes/notificacao';
 export default function HeaderPrincipal() {
   return (

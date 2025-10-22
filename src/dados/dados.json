@@ -1,10 +1,9 @@
 {
   "amigos": [
     {
-      "id": 101,
+      "id": 1,
       "nome": "Ana Silva",
-      "avatar": "/images/avatars/anasilva.jpg",
-      "online": true
+      "avatar": "/src/components/dados/avatars/anasilva.jpg"
     },
     {
       "id": 102,

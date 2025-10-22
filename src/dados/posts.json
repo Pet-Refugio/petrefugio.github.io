@@ -1,92 +1,366 @@
 {
-    "posts": [
-      {
+  "posts": [
+    {
+      "id": 1,
+      "usuarioId": 1,
+      "usuario": {
         "id": 1,
-        "usuario": {
-          "id": 101,
-          "nome": "Ana Silva",
-          "avatar": "/images/avatars/anasilva.jpg",
-          "tipo": "usuario"
-        },
-        "conteudo": {
-          "texto": "Meu gatinho acabou de fazer 1 ano! 🎉 Comemorem com a gente!",
-          "midia": {
-            "tipo": "imagem",
-            "url": "/images/posts/gatopost1_anasilva.jpg",
-            "alt": "Gato de aniversário com chapéu"
-          }
-        },
-        "engajamento": {
-          "curtidas": 24,
-          "comentarios": 8,
-          "compartilhamentos": 3
-        },
-        "data": "2024-03-15T10:30:00Z",
-        "localizacao": "São Paulo, SP",
-        "hashtags": ["#gato", "#aniversario", "#pet"]
+        "nome": "Ana Silva",
+        "avatar": "/images/avatars/anasilva.jpg",
+        "tipo": "usuario"
       },
-      {
+      "conteudo": {
+        "texto": "Meu gatinho acabou de fazer 1 ano! 🎉 Comemorem com a gente!",
+        "midia": {
+          "tipo": "imagem",
+          "url": "/images/posts/gatopost1_anasilva.jpg",
+          "alt": "Gato de aniversário com chapéu"
+        }
+      },
+      "engajamento": {
+        "curtidas": 24,
+        "comentarios": 8,
+        "compartilhamentos": 3
+      },
+      "data": "2024-03-15T10:30:00Z",
+      "localizacao": "São Paulo, SP",
+      "hashtags": ["#gato", "#aniversario", "#pet"]
+    },
+    {
+      "id": 2,
+      "usuarioId": 2,
+      "usuario": {
         "id": 2,
-        "usuario": {
-          "id": 102,
-          "nome": "Carlos Santos",
-          "avatar": "/images/avatars/carlossantos.jpg",
-          "tipo": "usuario"
-        },
-        "conteudo": {
-          "texto": "Encontrei esse doguinho perdido no Parque Ibirapuera. Alguém conhece? 🐶 Estava com coleira azul.",
-          "midia": null
-        },
-        "engajamento": {
-          "curtidas": 42,
-          "comentarios": 15,
-          "compartilhamentos": 8
-        },
-        "data": "2024-03-15T08:15:00Z",
-        "localizacao": "Parque Ibirapuera, SP",
-        "hashtags": ["#animalperdido", "#achado", "#cachorro"]
+        "nome": "Carlos Santos",
+        "avatar": "/images/avatars/carlossantos.jpg",
+        "tipo": "usuario"
       },
-      {
+      "conteudo": {
+        "texto": "Encontrei esse doguinho perdido no Parque Ibirapuera. Alguém conhece? 🐶 Estava com coleira azul.",
+        "midia": null
+      },
+      "engajamento": {
+        "curtidas": 42,
+        "comentarios": 15,
+        "compartilhamentos": 8
+      },
+      "data": "2024-03-15T08:15:00Z",
+      "localizacao": "Parque Ibirapuera, SP",
+      "hashtags": ["#animalperdido", "#achado", "#cachorro"]
+    },
+    {
+      "id": 3,
+      "usuarioId": 3,
+      "usuario": {
         "id": 3,
-        "usuario": {
-          "id": 201,
-          "nome": "PetShop Amigo Fiel",
-          "avatar": "/images/lojas/logo_loja1.png",
-          "tipo": "comercio"
-        },
-        "conteudo": {
-          "texto": "🎊 Promoção especial desta semana! Banho e tosa com 20% de desconto para clientes PetRefugio!",
-          "midia": null
-        },
-        "engajamento": {
-          "curtidas": 89,
-          "comentarios": 12,
-          "compartilhamentos": 5
-        },
-        "data": "2024-03-14T14:20:00Z",
-        "localizacao": "Av. Paulista, 1000 - São Paulo",
-        "hashtags": ["#promocao", "#petshop", "#desconto"]
+        "nome": "Maria Oliveira",
+        "avatar": "/images/avatars/mariaoliveira.jpg",
+        "tipo": "usuario"
       },
-      {
+      "conteudo": {
+        "texto": "Primeiro dia de adestramento do Rex! Ele já aprendeu a sentar e deitar! 🐶💕 Quem mais tem dicas de treinamento?",
+        "midia": null
+      },
+      "engajamento": {
+        "curtidas": 67,
+        "comentarios": 23,
+        "compartilhamentos": 4
+      },
+      "data": "2024-03-14T11:45:00Z",
+      "localizacao": "Campinas, SP",
+      "hashtags": ["#adestramento", "#cachorro", "#treinamento", "#peteducado"]
+    },
+    {
+      "id": 4,
+      "usuarioId": 4,
+      "usuario": {
         "id": 4,
-        "usuario": {
-          "id": 202,
-          "nome": "Clínica Veterinária Saúde Animal",
-          "avatar": "/images/lojas/logo_loja2.png",
-          "tipo": "veterinario"
-        },
-        "conteudo": {
-          "texto": "Dica da semana: A importância da vacinação anual para seu pet! 🩺🐕",
-          "midia": null
-        },
-        "engajamento": {
-          "curtidas": 67,
-          "comentarios": 8,
-          "compartilhamentos": 3
-        },
-        "data": "2024-03-14T11:30:00Z",
-        "localizacao": "Rua das Flores, 123 - São Paulo",
-        "hashtags": ["#veterinario", "#saude", "#dica"]
-      }
-    ]
-  }
+        "nome": "João Pereira",
+        "avatar": "/images/avatars/joaopereira.jpg",
+        "tipo": "veterinario"
+      },
+      "conteudo": {
+        "texto": "DICA DA SEMANA: A importância da escovação dental nos pets! 🦷🐕 Escovar os dentes do seu animal previne tártaro, mau hálito e doenças periodontais.",
+        "midia": null
+      },
+      "engajamento": {
+        "curtidas": 156,
+        "comentarios": 34,
+        "compartilhamentos": 12
+      },
+      "data": "2024-03-13T09:30:00Z",
+      "localizacao": "Osasco, SP",
+      "hashtags": ["#veterinario", "#saude", "#dica", "#higienebucal"]
+    },
+    {
+      "id": 5,
+      "usuarioId": 5,
+      "usuario": {
+        "id": 5,
+        "nome": "Juliana Costa",
+        "avatar": "/images/avatars/julianacosta.jpg",
+        "tipo": "usuario"
+      },
+      "conteudo": {
+        "texto": "Dia de passeio no parque com meu golden Thor! 🐕💨 Ele adora correr atrás da bolinha! Qual é o brinquedo preferido do pet de vocês?",
+        "midia": null
+      },
+      "engajamento": {
+        "curtidas": 78,
+        "comentarios": 18,
+        "compartilhamentos": 3
+      },
+      "data": "2024-03-11T15:40:00Z",
+      "localizacao": "Parque do Ibirapuera, SP",
+      "hashtags": ["#passeio", "#parque", "#goldenretriever", "#brinquedos"]
+    },
+    {
+      "id": 6,
+      "usuarioId": 6,
+      "usuario": {
+        "id": 6,
+        "nome": "Pedro Alves",
+        "avatar": "/images/avatars/pedroalves.jpg",
+        "tipo": "comercio"
+      },
+      "conteudo": {
+        "texto": "PROMOÇÃO ESPECIAL! Esta semana: Banho e tosa com 20% de desconto! 🐕✨ Agende já!",
+        "midia": {
+          "tipo": "imagem",
+          "url": "/images/posts/post2.jpg",
+          "alt": "Promoção banho e tosa"
+        }
+      },
+      "engajamento": {
+        "curtidas": 89,
+        "comentarios": 12,
+        "compartilhamentos": 5
+      },
+      "data": "2024-03-14T14:20:00Z",
+      "localizacao": "São Paulo, SP",
+      "hashtags": ["#promocao", "#petshop", "#desconto", "#banhoetosa"]
+    },
+    {
+      "id": 7,
+      "usuarioId": 7,
+      "usuario": {
+        "id": 7,
+        "nome": "Carla Joares",
+        "avatar": "/images/avatars/carlajoares.jpg",
+        "tipo": "usuario"
+      },
+      "conteudo": {
+        "texto": "🐱💖 Oi, humanos! Aqui é a Lady Lingueta, especialista em carinhas fofas e línguas fora de hora 👅✨",
+        "midia": {
+          "tipo": "imagem",
+          "url": "/images/posts/post3.jpg",
+          "alt": "Gata Lady Lingueta"
+        }
+      },
+      "engajamento": {
+        "curtidas": 145,
+        "comentarios": 28,
+        "compartilhamentos": 15
+      },
+      "data": "2024-03-12T16:30:00Z",
+      "localizacao": "Curitiba, PR",
+      "hashtags": ["#LadyLingueta", "#FofuraEmPessoa", "#CarinhaDeTravessura", "#VidaDeGato", "#PetStar"]
+    },
+    {
+      "id": 8,
+      "usuarioId": 8,
+      "usuario": {
+        "id": 8,
+        "nome": "João Galvão",
+        "avatar": "/images/avatars/joaogalvao.jpg",
+        "tipo": "prestador"
+      },
+      "conteudo": {
+        "texto": "👑✨ Apresento a vocês Dom Crocinho, o estiloso! Diretamente do mundo da moda canina, trazendo a nova tendência do verão: Chapéu Crocs Edition 😎🐶",
+        "midia": {
+          "tipo": "imagem",
+          "url": "/images/posts/post4.jpg",
+          "alt": "Cachorro Dom Crocinho"
+        }
+      },
+      "engajamento": {
+        "curtidas": 98,
+        "comentarios": 22,
+        "compartilhamentos": 8
+      },
+      "data": "2024-03-13T11:20:00Z",
+      "localizacao": "Belo Horizonte, MG",
+      "hashtags": ["#DomCrocinho", "#FashionDog", "#EstiloÉPraQuemPode", "#DogModel", "#LookDoDia"]
+    },
+    {
+      "id": 9,
+      "usuarioId": 9,
+      "usuario": {
+        "id": 9,
+        "nome": "José Cardoso",
+        "avatar": "/images/avatars/josecardoso.jpg",
+        "tipo": "veterinario"
+      },
+      "conteudo": {
+        "texto": "🦷 \"Sorria! A vida é melhor quando você tem um brinquedo novo e dentes perfeitos 😎✨\"",
+        "midia": {
+          "tipo": "imagem",
+          "url": "/images/posts/post5.jpg",
+          "alt": "Cachorro sorridente"
+        }
+      },
+      "engajamento": {
+        "curtidas": 167,
+        "comentarios": 31,
+        "compartilhamentos": 12
+      },
+      "data": "2024-03-14T09:15:00Z",
+      "localizacao": "Porto Alegre, RS",
+      "hashtags": ["#SorrisoDoDia", "#DogComEstilo", "#FelizDaVida", "#CachorroSorridente", "#GoodVibesOnly"]
+    },
+    {
+      "id": 10,
+      "usuarioId": 10,
+      "usuario": {
+        "id": 10,
+        "nome": "Juliana Almeida",
+        "avatar": "/images/avatars/julianaalmeida.jpg",
+        "tipo": "usuario"
+      },
+      "conteudo": {
+        "texto": "💋 \"Nem todo mundo merece um beijinho meu, mas hoje tô de bom humor!\" 😚✨",
+        "midia": {
+          "tipo": "imagem",
+          "url": "/images/posts/post6.jpg",
+          "alt": "Porquinho dando beijinho"
+        }
+      },
+      "engajamento": {
+        "curtidas": 203,
+        "comentarios": 45,
+        "compartilhamentos": 23
+      },
+      "data": "2024-03-15T13:45:00Z",
+      "localizacao": "Florianópolis, SC",
+      "hashtags": ["#MoodDoDia", "#BeijinhoDoPorquinho", "#FofuraNívelMáximo", "#PigVibes", "#AmoSerAssim"]
+    },
+    {
+      "id": 11,
+      "usuarioId": 11,
+      "usuario": {
+        "id": 11,
+        "nome": "Marcos Santos",
+        "avatar": "/images/avatars/marcsossantos.jpg",
+        "tipo": "comercio"
+      },
+      "conteudo": {
+        "texto": "📸✨ Quando você acorda e o espelho pergunta: \"tem certeza que dormiu 8 horas?\" 😅🐶",
+        "midia": {
+          "tipo": "imagem",
+          "url": "/images/posts/post7.jpg",
+          "alt": "Cachorro com cara de sono"
+        }
+      },
+      "engajamento": {
+        "curtidas": 112,
+        "comentarios": 19,
+        "compartilhamentos": 7
+      },
+      "data": "2024-03-12T08:30:00Z",
+      "localizacao": "Salvador, BA",
+      "hashtags": ["#ModoSegundaFeira", "#CaraDeQuemQuerCafé", "#DogVibes", "#AcordeiAssim", "#GrumpyPup"]
+    },
+    {
+      "id": 12,
+      "usuarioId": 12,
+      "usuario": {
+        "id": 12,
+        "nome": "Mariana Oliveira",
+        "avatar": "/images/avatars/mariaoliveira.jpg",
+        "tipo": "prestador"
+      },
+      "conteudo": {
+        "texto": "Novo serviço disponível: Cuidados especiais para pets idosos! 🐾❤️ Experiência e carinho para seu melhor amigo na melhor idade.",
+        "midia": null
+      },
+      "engajamento": {
+        "curtidas": 76,
+        "comentarios": 14,
+        "compartilhamentos": 6
+      },
+      "data": "2024-03-13T16:20:00Z",
+      "localizacao": "Recife, PE",
+      "hashtags": ["#PetIdoso", "#CuidadosEspeciais", "#Carinho", "#MelhorIdade", "#PetCare"]
+    },
+    {
+      "id": 13,
+      "usuarioId": 13,
+      "usuario": {
+        "id": 13,
+        "nome": "Silvia Soares",
+        "avatar": "/images/avatars/silviasoares.jpg",
+        "tipo": "veterinario"
+      },
+      "conteudo": {
+        "texto": "DICA IMPORTANTE: Check-up anual é essencial para a saúde do seu pet! 🩺✨ Prevenção é o melhor remédio.",
+        "midia": null
+      },
+      "engajamento": {
+        "curtidas": 134,
+        "comentarios": 27,
+        "compartilhamentos": 11
+      },
+      "data": "2024-03-14T10:00:00Z",
+      "localizacao": "Brasília, DF",
+      "hashtags": ["#CheckUp", "#SaúdeAnimal", "#Prevenção", "#Veterinário", "#Cuidados"]
+    },
+    {
+      "id": 14,
+      "usuarioId": 1,
+      "usuario": {
+        "id": 1,
+        "nome": "Ana Silva",
+        "avatar": "/images/avatars/anasilva.jpg",
+        "tipo": "usuario"
+      },
+      "conteudo": {
+        "texto": "Dia de brincadeira no parque! O Thor adora correr atrás da bolinha 🎾🐕",
+        "midia": {
+          "tipo": "imagem",
+          "url": "/images/posts/post8.jpg",
+          "alt": "Cachorro brincando no parque"
+        }
+      },
+      "engajamento": {
+        "curtidas": 67,
+        "comentarios": 12,
+        "compartilhamentos": 3
+      },
+      "data": "2024-03-16T14:30:00Z",
+      "localizacao": "São Paulo, SP",
+      "hashtags": ["#brincadeira", "#parque", "#cachorro", "#diversao"]
+    },
+    {
+      "id": 15,
+      "usuarioId": 3,
+      "usuario": {
+        "id": 3,
+        "nome": "Maria Oliveira",
+        "avatar": "/images/avatars/mariaoliveira.jpg",
+        "tipo": "usuario"
+      },
+      "conteudo": {
+        "texto": "Workshop de adestramento básico neste sábado! Vagas limitadas 🐶📚",
+        "midia": null
+      },
+      "engajamento": {
+        "curtidas": 89,
+        "comentarios": 18,
+        "compartilhamentos": 9
+      },
+      "data": "2024-03-15T17:00:00Z",
+      "localizacao": "Campinas, SP",
+      "hashtags": ["#workshop", "#adestramento", "#cachorro", "#treinamento"]
+    }
+  ]
+}

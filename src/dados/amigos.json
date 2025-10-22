@@ -1,40 +1,224 @@
 {
-    "amigos": [
-      {
-        "id": 101,
-        "nome": "Ana Silva",
-        "avatar": "/src/components/dados/anasilva.jpg",
-        "online": true
+  "amigos": [
+    {
+      "id": 1,
+      "nome": "Ana Silva",
+      "apelido": "Ana",
+      "avatar": "/images/avatars/anasilva.jpg",
+      "capa": "/images/capas/perfil-ana.jpg",
+      "online": true,
+      "ultimaVez": "2 min atrás",
+      "bio": "Mãe da Luna e do Thor ❤️ | Amante de animais | Compartilhando nosso dia a dia",
+      "localizacao": "São Paulo, SP",
+      "dataCadastro": "2023-05-15",
+      "pets": ["Luna", "Thor"],
+      "mutualFriends": 12,
+      "estatisticas": {
+        "posts": 24,
+        "seguidores": 156,
+        "seguindo": 89
       },
-      {
-        "id": 102,
-        "nome": "Carlos Santos",
-        "avatar": "/src/components/dados/carlossantos.jpg",
-        "online": true
+      "tipo": "usuario"
+    },
+    {
+      "id": 3,
+      "nome": "Maria Oliveira",
+      "apelido": "Maria",
+      "avatar": "/images/avatars/mariaoliveira.jpg",
+      "capa": "/images/capas/marianaoliveiracapa.jpg",
+      "online": true,
+      "ultimaVez": "Agora",
+      "bio": "Adestradora profissional | Especialista em comportamento animal",
+      "localizacao": "Campinas, SP",
+      "dataCadastro": "2023-07-10",
+      "pets": ["Mel", "Bob"],
+      "mutualFriends": 15,
+      "estatisticas": {
+        "posts": 32,
+        "seguidores": 203,
+        "seguindo": 67
       },
-      {
-        "id": 103,
-        "nome": "Maria Oliveira",
-        "avatar": "/src/components/dados/mariaoliveira.jpg",
-        "online": true
+      "tipo": "usuario"
+    },
+    {
+      "id": 4,
+      "nome": "João Pereira",
+      "apelido": "João",
+      "avatar": "/images/avatars/joaopereira.jpg",
+      "capa": "/images/capas/joaopereiracapa.jpg",
+      "online": false,
+      "ultimaVez": "3 horas atrás",
+      "bio": "Veterinário | Cuidador de animais especiais",
+      "localizacao": "Osasco, SP",
+      "dataCadastro": "2023-09-05",
+      "pets": ["Luna"],
+      "mutualFriends": 5,
+      "estatisticas": {
+        "posts": 15,
+        "seguidores": 78,
+        "seguindo": 34
       },
-      {
-        "id": 104,
-        "nome": "João Pereira",
-        "avatar": "/src/components/dados/joaopereira.jpg",
-        "online": false
+      "tipo": "veterinario"
+    },
+    {
+      "id": 5,
+      "nome": "Juliana Costa",
+      "apelido": "Ju",
+      "avatar": "/images/avatars/julianacosta.jpg",
+      "capa": "/images/capas/julianaalmeidacapa.jpg",
+      "online": true,
+      "ultimaVez": "10 min atrás",
+      "bio": "Fotógrafa de pets | Capturando momentos especiais",
+      "localizacao": "São Paulo, SP",
+      "dataCadastro": "2023-06-18",
+      "pets": ["Thor", "Bella"],
+      "mutualFriends": 9,
+      "estatisticas": {
+        "posts": 41,
+        "seguidores": 289,
+        "seguindo": 123
       },
-      {
-        "id": 105,
-        "nome": "Juliana Costa",
-        "avatar": "/src/components/dados/julianacosta.jpg",
-        "online": false
+      "tipo": "usuario"
+    },
+    {
+      "id": 6,
+      "nome": "Pedro Alves",
+      "apelido": "Pedro",
+      "avatar": "/images/avatars/pedroalves.jpg",
+      "capa": "/images/capas/pedroalvescapa.jpg",
+      "online": false,
+      "ultimaVez": "1 dia atrás",
+      "bio": "Petshop owner | Especialista em banho e tosa",
+      "localizacao": "São Paulo, SP",
+      "dataCadastro": "2023-10-12",
+      "pets": ["Max"],
+      "mutualFriends": 3,
+      "estatisticas": {
+        "posts": 8,
+        "seguidores": 45,
+        "seguindo": 28
       },
-      {
-        "id": 106,
-        "nome": "Pedro Alves",
-        "avatar": "/src/components/dados/pedroalves.jpg",
-        "online": false
-      }
-    ]
-  }
+      "tipo": "comercio"
+    },
+    {
+      "id": 7,
+      "nome": "Carla Joares",
+      "apelido": "Carla",
+      "avatar": "/images/avatars/carlajoares.jpg",
+      "capa": "/images/capas/carlajoarescapa.jpg",
+      "online": true,
+      "ultimaVez": "5 min atrás",
+      "bio": "Mãe de pets | Amante de gatos | Compartilhando dicas de cuidado",
+      "localizacao": "Curitiba, PR",
+      "dataCadastro": "2023-11-20",
+      "pets": ["Mimi", "Bolinha"],
+      "mutualFriends": 7,
+      "estatisticas": {
+        "posts": 19,
+        "seguidores": 134,
+        "seguindo": 56
+      },
+      "tipo": "usuario"
+    },
+    {
+      "id": 8,
+      "nome": "João Galvão",
+      "apelido": "JG",
+      "avatar": "/images/avatars/joaogalvao.jpg",
+      "capa": "/images/capas/joaogalvaocapa.jpg",
+      "online": false,
+      "ultimaVez": "2 horas atrás",
+      "bio": "Adestrador profissional | Transformando vidas de pets e tutores",
+      "localizacao": "Belo Horizonte, MG",
+      "dataCadastro": "2023-04-12",
+      "pets": ["Rex", "Luna"],
+      "mutualFriends": 11,
+      "estatisticas": {
+        "posts": 27,
+        "seguidores": 189,
+        "seguindo": 72
+      },
+      "tipo": "prestador"
+    },
+    {
+      "id": 9,
+      "nome": "José Cardoso",
+      "apelido": "Zé",
+      "avatar": "/images/avatars/josecardoso.jpg",
+      "capa": "/images/capas/josecardosocapa.jpg",
+      "online": true,
+      "ultimaVez": "Agora",
+      "bio": "Veterinário especialista em animais exóticos | Apaixonado por répteis",
+      "localizacao": "Porto Alegre, RS",
+      "dataCadastro": "2023-08-30",
+      "pets": ["Spike", "Flash"],
+      "mutualFriends": 6,
+      "estatisticas": {
+        "posts": 22,
+        "seguidores": 167,
+        "seguindo": 45
+      },
+      "tipo": "veterinario"
+    },
+    {
+      "id": 11,
+      "nome": "Marcos Santos",
+      "apelido": "Marcão",
+      "avatar": "/images/avatars/marcossantos.jpg",
+      "capa": "/images/capas/marcossantoscapa.jpg",
+      "online": false,
+      "ultimaVez": "6 horas atrás",
+      "bio": "Dono de petshop | Especialista em produtos naturais",
+      "localizacao": "Salvador, BA",
+      "dataCadastro": "2023-12-05",
+      "pets": ["Bob", "Mel"],
+      "mutualFriends": 8,
+      "estatisticas": {
+        "posts": 12,
+        "seguidores": 89,
+        "seguindo": 34
+      },
+      "tipo": "comercio"
+    },
+    {
+      "id": 12,
+      "nome": "Mariana Oliveira",
+      "apelido": "Mari",
+      "avatar": "/images/avatars/mariaoliveira.jpg",
+      "capa": "/images/capas/marianaoliveiracapa.jpg",
+      "online": true,
+      "ultimaVez": "Agora",
+      "bio": "Cuidadora de pets | Especialista em animais idosos",
+      "localizacao": "Recife, PE",
+      "dataCadastro": "2023-09-18",
+      "pets": ["Luna", "Thor"],
+      "mutualFriends": 9,
+      "estatisticas": {
+        "posts": 28,
+        "seguidores": 178,
+        "seguindo": 67
+      },
+      "tipo": "prestador"
+    },
+    {
+      "id": 13,
+      "nome": "Silvia Soares",
+      "apelido": "Sil",
+      "avatar": "/images/avatars/silviasoares.jpg",
+      "capa": "/images/capas/silviasoarescapa.jpg",
+      "online": false,
+      "ultimaVez": "1 dia atrás",
+      "bio": "Médica veterinária | Especialista em oncologia animal",
+      "localizacao": "Brasília, DF",
+      "dataCadastro": "2023-05-30",
+      "pets": ["Max", "Luna"],
+      "mutualFriends": 13,
+      "estatisticas": {
+        "posts": 31,
+        "seguidores": 267,
+        "seguindo": 89
+      },
+      "tipo": "veterinario"
+    }
+  ]
+}

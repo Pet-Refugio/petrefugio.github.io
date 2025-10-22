@@ -56,7 +56,7 @@ const formatarData = (dataString) => {
     nome: "Ana Silva",
     apelido: "aninhapets",
     email: "ana.silva@email.com",
-    avatar: "/images/avartars/anasilva.jpg", // CAMINHO CORRETO
+    avatar: "/images/avatars/anasilva.jpg", // CAMINHO CORRETO
     capa: "/images/capas/perfil-ana.jpg",
     bio: "Amante de animais, mãe de 3 pets e voluntária em abrigos. ❤️🐾",
     localizacao: "São Paulo, SP",

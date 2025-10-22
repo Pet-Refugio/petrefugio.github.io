@@ -1,193 +1,40 @@
 import '../../styles/principal/AreaConteudo.css';
-import { useState, error } from 'react';
+import { useState } from 'react';
+import postsData from '../../dados/posts.json';
+import empresasData from '../../dados/empresas.json';
 
 export default function AreaConteudo() {
   const [novoPost, setNovoPost] = useState('');
-
-  // Dados de posts fixos com placeholders
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      usuario: {
-        id: 101,
-        nome: "Ana Silva",
-        avatar: "/images/avatars/anasilva.jpg",
-        tipo: "usuario"
-      },
-      conteudo: {
-        texto: "Meu gatinho acabou de fazer 1 ano! 🎉 Comemorem com a gente!",
-        midia: {
-          tipo: "imagem",
-          url: "/images/posts/gatopost1_anasilva.jpg",
-          alt: "Gato de aniversário com chapéu"
-        }
-      },
-      engajamento: {
-        curtidas: 24,
-        comentarios: 8,
-        compartilhamentos: 3
-      },
-      data: "2024-03-15T10:30:00Z",
-      localizacao: "São Paulo, SP",
-      hashtags: ["#gato", "#aniversario", "#pet"]
-    },
-    {
-      id: 2,
-      usuario: {
-        id: 102,
-        nome: "Carlos Santos",
-        avatar: "/images/avatars/carlossantos.jpg",
-        tipo: "usuario"
-      },
-      conteudo: {
-        texto: "Encontrei esse doguinho perdido no Parque Ibirapuera. Alguém conhece? 🐶 Estava com coleira azul.",
-        midia: null
-      },
-      engajamento: {
-        curtidas: 42,
-        comentarios: 15,
-        compartilhamentos: 8
-      },
-      data: "2024-03-15T08:15:00Z",
-      localizacao: "Parque Ibirapuera, SP",
-      hashtags: ["#animalperdido", "#achado", "#cachorro"]
-    },
-    {
-      id: 3,
-      usuario: {
-        id: 201,
-        nome: "PetShop Amigo Fiel",
-        avatar: "/images/lojas/logo_loja1.png",
-        tipo: "comercio"
-      },
-      conteudo: {
-        texto: "🎊 PROMOÇÃO ESPECIAL! Esta semana: Banho e tosa com 20% de desconto para todos os clientes PetRefugio! 🐕✨",
-        midia: null
-      },
-      engajamento: {
-        curtidas: 89,
-        comentarios: 12,
-        compartilhamentos: 5
-      },
-      data: "2024-03-14T14:20:00Z",
-      localizacao: "Av. Paulista, 1000 - São Paulo",
-      hashtags: ["#promocao", "#petshop", "#desconto", "#banhoetosa"]
-    },
-    {
-      id: 4,
-      usuario: {
-        id: 103,
-        nome: "Maria Oliveira",
-        avatar: "/images/avatars/mariaoliveira.jpg",
-        tipo: "usuario"
-      },
-      conteudo: {
-        texto: "Primeiro dia de adestramento do Rex! Ele já aprendeu a sentar e deitar! 🐶💕 Quem mais tem dicas de treinamento?",
-        midia: null
-      },
-      engajamento: {
-        curtidas: 67,
-        comentarios: 23,
-        compartilhamentos: 4
-      },
-      data: "2024-03-14T11:45:00Z",
-      localizacao: "Campinas, SP",
-      hashtags: ["#adestramento", "#cachorro", "#treinamento", "#peteducado"]
-    },
-    {
-      id: 5,
-      usuario: {
-        id: 202,
-        nome: "Clínica Veterinária Saúde Animal",
-        avatar: "/images/lojas/logo_loja2.png",
-        tipo: "veterinario"
-      },
-      conteudo: {
-        texto: "DICA DA SEMANA: A importância da escovação dental nos pets! 🦷🐕 Escovar os dentes do seu animal previne tártaro, mau hálito e doenças periodontais. Use escova e pasta específicas para pets!",
-        midia: null
-      },
-      engajamento: {
-        curtidas: 156,
-        comentarios: 34,
-        compartilhamentos: 12
-      },
-      data: "2024-03-13T09:30:00Z",
-      localizacao: "Rua das Flores, 123 - São Paulo",
-      hashtags: ["#veterinario", "#saude", "#dica", "#higienebucal", "#cuidados"]
-    },
-    {
-      id: 6,
-      usuario: {
-        id: 104,
-        nome: "João Pereira",
-        avatar: "/images/avatars/joaopereira.jpg",
-        tipo: "usuario"
-      },
-      conteudo: {
-        texto: "Minha gata Luna acabou de ter 4 filhotes! 🐱❤️ São todos lindos e saudáveis! Alguém interessado em adoção responsável?",
-        midia: null
-      },
-      engajamento: {
-        curtidas: 128,
-        comentarios: 45,
-        compartilhamentos: 28
-      },
-      data: "2024-03-12T16:20:00Z",
-      localizacao: "Osasco, SP",
-      hashtags: ["#gatinhos", "#filhotes", "#adocao", "#gato", "#pet"]
-    },
-    {
-      id: 7,
-      usuario: {
-        id: 301,
-        nome: "Abrigo São Francisco",
-        avatar: "/images/avatars/default-avatar.jpg",
-        tipo: "ong"
-      },
-      conteudo: {
-        texto: "URGENTE: Precisamos de doações de ração para cães e gatos! 🆘 Nosso abrigo está com 50+ animais e estoques baixos. Qualquer ajuda é bem-vinda! ❤️🐾",
-        midia: null
-      },
-      engajamento: {
-        curtidas: 234,
-        comentarios: 67,
-        compartilhamentos: 89
-      },
-      data: "2024-03-12T10:15:00Z",
-      localizacao: "Rua dos Animais, 123 - São Paulo",
-      hashtags: ["#doacao", "#ajuda", "#abrigo", "#animais", "#solidariedade"]
-    },
-    {
-      id: 8,
-      usuario: {
-        id: 105,
-        nome: "Juliana Costa",
-        avatar: "/images/avatars/julianacosta.jpg",
-        tipo: "usuario"
-      },
-      conteudo: {
-        texto: "Dia de passeio no parque com meu golden Thor! 🐕💨 Ele adora correr atrás da bolinha! Qual é o brinquedo preferido do pet de vocês?",
-        midia: null
-      },
-      engajamento: {
-        curtidas: 78,
-        comentarios: 18,
-        compartilhamentos: 3
-      },
-      data: "2024-03-11T15:40:00Z",
-      localizacao: "Parque do Ibirapuera, SP",
-      hashtags: ["#passeio", "#parque", "#goldenretriever", "#brinquedos", "#petativo"]
-    }
-  ]);
+  const [posts, setPosts] = useState(postsData.posts);
 
   const handleImageError = (e) => {
-    console.log('❌ Imagem não encontrada:', e.target.src);
-    // Substitui por placeholder
+    console.log('❌ Imagem não carregou, usando placeholder');
+    
     if (e.target.className.includes('avatar')) {
-      e.target.src = '/images/avatars/default-avatar.jpg';
+      const parent = e.target.parentNode;
+      const nome = e.target.alt || 'Usuário';
+      const inicial = nome.charAt(0).toUpperCase();
+      
+      const placeholder = document.createElement('div');
+      placeholder.className = 'avatar-placeholder';
+      placeholder.innerHTML = `<span>${inicial}</span>`;
+      placeholder.style.cssText = `
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #F26B38, #FF9D71);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+      `;
+      
+      e.target.style.display = 'none';
+      parent.appendChild(placeholder);
     } else {
       e.target.style.display = 'none';
-      // Adiciona mensagem de placeholder
       const placeholder = document.createElement('div');
       placeholder.className = 'placeholder-imagem';
       placeholder.innerHTML = '🖼️ Imagem não disponível';
@@ -204,36 +51,13 @@ export default function AreaConteudo() {
       e.target.parentNode.appendChild(placeholder);
     }
   };
-
-  const handleAvatarError = (e) => {
-    console.log('❌ Avatar não carregou no card criar post');
-    // Substitui por placeholder com inicial
-    const parent = e.target.parentNode;
-    const placeholder = document.createElement('div');
-    placeholder.className = 'avatar-placeholder-criar';
-    placeholder.innerHTML = '<span>A</span>';
-    placeholder.style.cssText = `
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #F26B38, #FF9D71);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
-      font-size: 1.2rem;
-    `;
-    e.target.style.display = 'none';
-    parent.appendChild(placeholder);
-  };
-
   const handlePublicar = () => {
     if (novoPost.trim()) {
       const novoPostObj = {
         id: Date.now(),
+        usuarioId: 1,
         usuario: {
-          id: 101,
+          id: 1,
           nome: "Ana Silva",
           avatar: "/images/avatars/anasilva.jpg",
           tipo: "usuario"
@@ -261,25 +85,21 @@ export default function AreaConteudo() {
   };
 
   const formatarData = (dataString) => {
-    try {
-      const data = new Date(dataString);
-      const agora = new Date();
-      const diffMs = agora - data;
-      const diffMin = Math.floor(diffMs / (1000 * 60));
-      const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
-      const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const data = new Date(dataString);
+    const agora = new Date();
+    const diffMs = agora - data;
+    const diffMin = Math.floor(diffMs / (1000 * 60));
+    const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-      if (diffMin < 60) {
-        return `há ${diffMin} min`;
-      } else if (diffHrs < 24) {
-        return `há ${diffHrs} h`;
-      } else if (diffDias < 7) {
-        return `há ${diffDias} dia${diffDias > 1 ? 's' : ''}`;
-      } else {
-        return data.toLocaleDateString('pt-BR');
-      }
-    } catch (error) {
-      return 'há algum tempo';
+    if (diffMin < 60) {
+      return `há ${diffMin} min`;
+    } else if (diffHrs < 24) {
+      return `há ${diffHrs} h`;
+    } else if (diffDias < 7) {
+      return `há ${diffDias} dia${diffDias > 1 ? 's' : ''}`;
+    } else {
+      return data.toLocaleDateString('pt-BR');
     }
   };
 
@@ -294,27 +114,25 @@ export default function AreaConteudo() {
           className="imagem-post"
           onError={handleImageError}
         />
-        <div className="placeholder-carregando">
-          🖼️ Carregando imagem...
-        </div>
       </div>
     );
+  };
+
+  const handleContratarServico = (empresa) => {
+    alert(`📞 Entrando em contato com ${empresa.nome}\nTelefone: ${empresa.telefone}`);
   };
 
   return (
     <main className="area-conteudo">
       
-      {/* Feed Principal */}
       <div className="feed-principal">
         
-        {/* Card para Criar Postagem - COM MELHORIAS DO NOVO CÓDIGO */}
-        <div className="card-criar-post">
+        <div className="card-criar-post"> 
           <div className="cabecalho-criar">
             <img 
               src="/images/avatars/anasilva.jpg"
               alt="Seu perfil"
               className="avatar-usuario"
-              onError={handleAvatarError}
             />
             <input 
               type="text" 
@@ -331,19 +149,16 @@ export default function AreaConteudo() {
           </div>
           <div className="acoes-criar-post">
             <button type="button" className="botao-midia">📷 Foto</button>
-            <button type="button" className="botao-midia">🎥 Vídeo</button>
             <button type="button" className="botao-publicar" onClick={handlePublicar}>
               Publicar
             </button>
           </div>
         </div>
 
-        {/* Lista de Posts - MANTIDO DO CÓDIGO ANTIGO */}
         <div className="lista-postagens">
           {posts.map((post) => (
             <div key={post.id} className="card-postagem">
               
-              {/* Cabeçalho do Post */}
               <div className="cabecalho-post">
                 <img 
                   src={post.usuario.avatar} 
@@ -365,12 +180,10 @@ export default function AreaConteudo() {
                 </div>
               </div>
               
-              {/* Conteúdo do Post */}
               <div className="conteudo-post">
                 <p>{post.conteudo.texto}</p>
                 {renderizarMidia(post)}
                 
-                {/* Hashtags */}
                 {post.hashtags && post.hashtags.length > 0 && (
                   <div className="hashtags">
                     {post.hashtags.map((hashtag, index) => (
@@ -382,7 +195,6 @@ export default function AreaConteudo() {
                 )}
               </div>
               
-              {/* Engajamento */}
               <div className="engajamento-post">
                 <div className="estatisticas">
                   <span>❤️ {post.engajamento.curtidas}</span>
@@ -391,7 +203,6 @@ export default function AreaConteudo() {
                 </div>
               </div>
 
-              {/* Ações */}
               <div className="acoes-post">
                 <button type="button" className="botao-acao">🤍 Curtir</button>
                 <button type="button" className="botao-acao">💬 Comentar</button>
@@ -403,7 +214,6 @@ export default function AreaConteudo() {
 
       </div>
 
-      {/* Sidebar Direito Simplificado - MANTIDO DO CÓDIGO ANTIGO */}
       <aside className="sidebar-direito">
         
         {/* Sugestões de Amigos */}
@@ -426,14 +236,49 @@ export default function AreaConteudo() {
               </div>
               <button type="button" className="botao-seguir">Seguir</button>
             </div>
-            <div className="item-sugestao">
-              <div className="avatar-placeholder">👤</div>
-              <div className="info-sugestao">
-                <span>Maria Oliveira</span>
-                <small>5 amigos em comum</small>
+          </div>
+        </div>
+
+        {/* Prestadores de Serviços */}
+        <div className="card-prestadores">
+          <h3>🏆 Serviços para seu Pet</h3>
+          <div className="lista-prestadores">
+            {empresasData.empresas.map((empresa) => (
+              <div key={empresa.id} className="item-prestador">
+                <div className="avatar-prestador">
+                  <img 
+                    src={empresa.avatar} 
+                    alt={empresa.nome}
+                    onError={handleImageError}
+                  />
+                  <span className="categoria-prestador">{empresa.categoria}</span>
+                </div>
+                <div className="info-prestador">
+                  <span className="nome-prestador">{empresa.nome}</span>
+                  <div className="avaliacao-prestador">
+                    <span className="estrelas">{"⭐".repeat(Math.floor(empresa.avaliacao))}</span>
+                    <span className="nota">{empresa.avaliacao}</span>
+                  </div>
+                  <small className="local-prestador">{empresa.localizacao}</small>
+                  <p className="bio-prestador">{empresa.bio}</p>
+                  <div className="servicos-prestador">
+                    {empresa.servicos.slice(0, 2).map((servico, index) => (
+                      <span key={index} className="servico-tag">{servico}</span>
+                    ))}
+                    {empresa.servicos.length > 2 && (
+                      <span className="servico-tag">+{empresa.servicos.length - 2}</span>
+                    )}
+                  </div>
+                </div>
+                <button 
+                  type="button" 
+                  className="botao-contratar"
+                  onClick={() => handleContratarServico(empresa)}
+                >
+                  📞 Contatar
+                </button>
               </div>
-              <button type="button" className="botao-seguir">Seguir</button>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -448,10 +293,6 @@ export default function AreaConteudo() {
             <div className="item-evento">
               <span className="data-evento">20/06</span>
               <span className="titulo-evento">Palestra sobre Pets</span>
-            </div>
-            <div className="item-evento">
-              <span className="data-evento">25/06</span>
-              <span className="titulo-evento">Campanha de Vacinação</span>
             </div>
           </div>
         </div>
