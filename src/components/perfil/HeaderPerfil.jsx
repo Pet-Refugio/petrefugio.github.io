@@ -66,11 +66,6 @@ export default function HeaderPerfil() {
                 <span className="menu-texto">Amigos</span>
               </button>
             </Link>
-
-            <button className={`menu-item ${paginaAtiva.includes('/perfil') && !paginaAtiva.includes('publico') ? 'active' : ''}`}>
-              <span className="menu-icone">👤</span>
-              <span className="menu-texto">Perfil</span>
-            </button>
           </div>
 
           {/* Ações */}

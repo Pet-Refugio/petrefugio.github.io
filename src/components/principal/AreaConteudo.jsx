@@ -2,13 +2,15 @@ import '../../styles/principal/AreaConteudo.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import postsData from '../../dados/posts.json';
-import SidebarServicos from './SidebarServicos';
-
+import empresasServicosData from '../../dados/empresasServicos.json';
 
 export default function AreaConteudo() {
   const [novoPost, setNovoPost] = useState('');
   const [posts, setPosts] = useState(postsData.posts);
   const navigate = useNavigate();
+
+  // Dados do JSON externo
+  const { empresas, servicos } = empresasServicosData;
 
   // Dados para sugestões (alguns amigos como sugestões)
   const sugestoesPessoas = [
@@ -233,12 +235,21 @@ export default function AreaConteudo() {
     alert(`📅 Abrindo evento ${eventoId}`);
   };
 
+  const handleAbrirEmpresa = (empresaId) => {
+    alert(`🏢 Abrindo perfil da empresa ${empresaId}`);
+  };
+
+  const handleInteresseServico = (servicoId) => {
+    alert(`💼 Mostrando interesse no serviço ${servicoId}`);
+  };
+
   return (
     <main className="area-conteudo">
       
       {/* Feed Principal */}
       <div className="feed-principal">
         
+        {/* Card Criar Post */}
         <div className="card-criar-post">
           <div className="cabecalho-criar">
             <img 
@@ -268,6 +279,7 @@ export default function AreaConteudo() {
           </div>
         </div>
 
+        {/* Lista de Posts */}
         <div className="lista-postagens">
           {posts.map((post) => (
             <div key={post.id} className="card-postagem">
@@ -331,15 +343,77 @@ export default function AreaConteudo() {
           ))}
         </div>
 
+        {/* Seção: Empresas em Destaque (AGORA ABAIXO DOS POSTS) */}
+        <div className="secao-empresas">
+          <h3>🏢 Empresas em Destaque</h3>
+          <div className="lista-empresas">
+            {empresas.map((empresa) => (
+              <div 
+                key={empresa.id} 
+                className="card-empresa"
+                onClick={() => handleAbrirEmpresa(empresa.id)}
+              >
+                <div className="empresa-imagem">
+                  <img 
+                    src={empresa.imagem} 
+                    alt={empresa.nome}
+                    onError={handleImageError}
+                  />
+                </div>
+                <div className="empresa-info">
+                  <h4>{empresa.nome}</h4>
+                  <p className="empresa-descricao">{empresa.descricao}</p>
+                  <div className="empresa-promocao">
+                    <span className="tag-promocao">🎁 {empresa.promocao}</span>
+                  </div>
+                  <div className="empresa-detalhes">
+                    <span className="empresa-localizacao">📍 {empresa.localizacao}</span>
+                    <span className="empresa-avaliacao">⭐ {empresa.avaliacao}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Seção: Serviços que Você Pode se Interessar (AGORA ABAIXO DOS POSTS) */}
+        <div className="secao-servicos">
+          <h3>💼 Serviços que Você Pode se Interessar</h3>
+          <div className="lista-servicos">
+            {servicos.map((servico) => (
+              <div 
+                key={servico.id} 
+                className="card-servico"
+                onClick={() => handleInteresseServico(servico.id)}
+              >
+                <div className="servico-imagem">
+                  <img 
+                    src={servico.imagem} 
+                    alt={servico.nome}
+                    onError={handleImageError}
+                  />
+                </div>
+                <div className="servico-info">
+                  <h4>{servico.nome}</h4>
+                  <p className="servico-especialidade">{servico.especialidade}</p>
+                  <p className="servico-descricao">{servico.descricao}</p>
+                  <div className="servico-detalhes">
+                    <span className="servico-localizacao">📍 {servico.localizacao}</span>
+                    <span className="servico-avaliacao">⭐ {servico.avaliacao}</span>
+                  </div>
+                </div>
+                <button className="botao-interesse">
+                  Tenho Interesse
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
 
-      {/* Sidebar Direito */}
       <aside className="sidebar-direito">
         
-        {/* Botão de Serviços */}
-        <SidebarServicos />
-
-
         {/* Sugestões de Pessoas */}
         <div className="card-sugestoes">
           <h3>👤 Sugestões para seguir</h3>

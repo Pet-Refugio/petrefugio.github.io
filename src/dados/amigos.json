@@ -1,26 +1,5 @@
 {
-  "amigos": [
-    {
-      "id": 1,
-      "nome": "Ana Silva",
-      "apelido": "Ana",
-      "avatar": "/images/avatars/anasilva.jpg",
-      "capa": "/images/capas/perfil-ana.jpg",
-      "online": true,
-      "ultimaVez": "2 min atrás",
-      "bio": "Mãe da Luna e do Thor ❤️ | Amante de animais | Compartilhando nosso dia a dia",
-      "localizacao": "São Paulo, SP",
-      "dataCadastro": "2023-05-15",
-      "pets": ["Luna", "Thor"],
-      "mutualFriends": 12,
-      "estatisticas": {
-        "posts": 24,
-        "seguidores": 156,
-        "seguindo": 89
-      },
-      "tipo": "usuario"
-    },
-    
+  "amigos": [  
     {
       "id": 3,
       "nome": "Maria Oliveira",
@@ -185,8 +164,8 @@
       "id": 11,
       "nome": "Marcos Santos",
       "apelido": "Marcão",
-      "avatar": "/images/avatars/marcsossantos.jpg",
-      "capa": "/images/capas/marcsossantoscapa.jpg",
+      "avatar": "/images/avatars/marcossantos.jpg",
+      "capa": "/images/capas/marcossantoscapa.jpg",
       "online": false,
       "ultimaVez": "6 horas atrás",
       "bio": "Dono de petshop | Especialista em produtos naturais",

@@ -1,5 +1,6 @@
+// src/components/notificacoes/notificacao.jsx
 import { useState, useRef, useEffect } from 'react';
-import '../../styles/notificacoes/notificacao.css';
+import '../../styles/notificacoes/Sinonotificacoes.css';
 
 export default function SinoNotificacoes() {
   const [notificacoesAbertas, setNotificacoesAbertas] = useState(false);
@@ -28,6 +29,7 @@ export default function SinoNotificacoes() {
   ]);
 
   const modalRef = useRef(null);
+  const botaoRef = useRef(null);
 
   const toggleNotificacoes = () => {
     setNotificacoesAbertas(!notificacoesAbertas);
@@ -47,10 +49,16 @@ export default function SinoNotificacoes() {
     setNotificacoes([]);
   };
 
-  // Fechar modal ao clicar fora
+  // Fechar modal ao clicar fora - CORRIGIDO
   useEffect(() => {
     const handleClickFora = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+      // Verifica se o clique foi fora do modal E fora do botão do sino
+      if (
+        modalRef.current && 
+        !modalRef.current.contains(event.target) &&
+        botaoRef.current &&
+        !botaoRef.current.contains(event.target)
+      ) {
         setNotificacoesAbertas(false);
       }
     };
@@ -72,8 +80,9 @@ export default function SinoNotificacoes() {
   const notificacoesNaoLidas = notificacoes.filter(notif => !notif.lida).length;
 
   return (
-    <div className="container-sino-notificacoes" ref={modalRef}>
+    <div className="container-sino-notificacoes">
       <button 
+        ref={botaoRef}
         className="botao-sino"
         onClick={toggleNotificacoes}
         title="Notificações"
@@ -88,7 +97,7 @@ export default function SinoNotificacoes() {
 
       {notificacoesAbertas && (
         <div className="modal-notificacoes-overlay">
-          <div className="modal-notificacoes">
+          <div className="modal-notificacoes" ref={modalRef}>
             <div className="cabecalho-notificacoes">
               <h3>Notificações</h3>
               <div className="acoes-cabecalho">
