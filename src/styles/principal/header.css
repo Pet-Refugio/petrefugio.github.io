@@ -1,71 +1,110 @@
 .header-principal {
   position: fixed;
   top: 0;
-  width: 90%;
-  left: 5%;
-  border-radius: 15px;
-  background: #FFFFFF;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  border-bottom: 1px solid #E0E0E0;
+  transition: transform 0.3s ease, top 0.3s ease;
+  transform: translateY(0);
 }
-.notificacao-icone{
-  font-size: 1.3em;
+*{
+  text-decoration: none;
 }
+
+.header-principal.header-escondido {
+  transform: translateY(-100%);
+}
+
+.nav-principal {
+  padding: 0 1rem;
+}
+
 .nav-container-principal {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
-  height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 70px;
 }
 
+/* Logo com Status */
 .logo-principal {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: #F26B38;
+  gap: 10px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  user-select: none;
+}
+
+.logo-principal:hover {
+  opacity: 0.8;
 }
 
 .logo-icone {
   font-size: 1.8rem;
 }
 
+.logo-texto-principal {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #F26B38, #FF9D71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.status-pagina {
+  font-size: 0.8rem;
+  color: #F26B38;
+  font-weight: 600;
+  background: rgba(242, 107, 56, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  margin-left: 0.5rem;
+}
+
+/* Menu Central */
 .menu-central {
   display: flex;
-  gap: 15px;
+  gap: 0.5rem;
   align-items: center;
+  background: #F8F9FA;
+  padding: 0.3rem;
+  border-radius: 25px;
 }
 
 .menu-item-principal {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
-  border: none;
+  gap: 0.5rem;
   background: transparent;
+  border: 2px solid transparent;
   border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6c757d;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  font-family: inherit;
+}
+
+.menu-item-principal:hover {
+  background: white;
   color: #3E3E3E;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.menu-item:hover {
-  background: #F8F9FA;
-}
-
-.menu-item.destaque {
-  background: linear-gradient(135deg, #F26B38, #FF9D71);
+.menu-item-principal.active {
+  background: #F26B38;
   color: white;
-}
-
-.menu-item.destaque:hover {
-  opacity: 0.9;
+  box-shadow: 0 4px 12px rgba(242, 107, 56, 0.3);
 }
 
 .menu-icone {
@@ -73,56 +112,89 @@
 }
 
 .menu-texto-principal {
-  font-size: 1.em;
+  white-space: nowrap;
 }
 
+/* Área do Perfil */
 .area-perfil {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
 }
 
-.botao-notificacao {
-  position: relative;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: pri8px;
-  border-radius: 50%;
-  transition: background 0.3s ease;
-}
-
-.botao-notificacao:hover {
-  background: #F8F9FA;
-}
-
-.notificacao-bolha {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  background: #E74C3C;
-  color: white;
-  font-size: 0.7rem;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
+.perfil-usuario {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: 600;
+  gap: 0.5rem;
 }
 
 .avatar-perfil {
-  width: 55px;
-  height: 55px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   overflow: hidden;
-  cursor: pointer;
-  border: 0.5px solid #000000;
+  border: 3px solid #F26B38;
+  transition: all 0.3s ease;
+}
+
+.avatar-perfil:hover {
+  transform: scale(1.1);
+  border-color: #FF9D71;
 }
 
 .imagem-perfil {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .nav-container-principal {
+    padding: 0 1rem;
+  }
+  
+  .menu-texto-principal {
+    display: none;
+  }
+  
+  .menu-item-principal {
+    padding: 0.6rem;
+  }
+  
+  .status-pagina {
+    display: none;
+  }
+  
+  .logo-texto-principal {
+    font-size: 1.3rem;
+  }
+  
+  .menu-central {
+    gap: 0.3rem;
+    padding: 0.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-container-principal {
+    height: 60px;
+  }
+  
+  .logo-icone {
+    font-size: 1.5rem;
+  }
+  
+  .logo-texto-principal {
+    font-size: 1.2rem;
+  }
+  
+  .avatar-perfil {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .menu-item-principal {
+    padding: 0.5rem;
+  }
 }

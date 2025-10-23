@@ -1,3 +1,4 @@
+/* src/styles/notificacoes/SinoNotificacoes.css */
 .container-sino-notificacoes {
   position: relative;
   display: inline-block;
@@ -64,19 +65,31 @@
   }
 }
 
-/* Modal Overlay */
+/* Modal Overlay - CORRIGIDO */
 .modal-notificacoes-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100vw; /* Garante largura total da viewport */
+  height: 100vh; /* Garante altura total da viewport */
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: flex-start;
   z-index: 9999;
   padding-top: 80px;
+}
+
+/* Garantir que o overlay cubra toda a tela */
+.modal-notificacoes-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
 }
 
 .modal-notificacoes {
@@ -90,6 +103,8 @@
   flex-direction: column;
   animation: modalSlideDown 0.3s ease;
   overflow: hidden;
+  position: relative; /* Garante que fique acima do overlay */
+  z-index: 10000; /* Z-index mais alto que o overlay */
 }
 
 @keyframes modalSlideDown {
@@ -173,6 +188,7 @@
   border-bottom: 1px solid #F8F9FA;
   transition: all 0.3s ease;
   position: relative;
+  cursor: pointer;
 }
 
 .item-notificacao:hover {
@@ -205,6 +221,7 @@
   justify-content: center;
   font-size: 1.1rem;
   flex-shrink: 0;
+  background: #F8F9FA;
 }
 
 .conteudo-notificacao {
@@ -331,4 +348,13 @@
     padding: 0.3rem 0.6rem;
     font-size: 0.75rem;
   }
+}
+
+/* Garantir que o modal fique acima de tudo */
+.modal-notificacoes-overlay {
+  z-index: 9999;
+}
+
+.modal-notificacoes {
+  z-index: 10000;
 }
