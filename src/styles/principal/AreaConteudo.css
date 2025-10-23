@@ -155,7 +155,17 @@
   .botao-acao:hover {
     color: #F26B38;
   }
-  
+  .botao-servicos-topo{
+    height: 3rem;
+    width: 15rem;
+    font-size:1rem ;
+    margin-left: 10px;
+    border-radius: 10px;
+    background-color: #F26B38;
+    border:none;
+    color:#ffffff;
+    margin-bottom: 15px;
+  }
   .sidebar-direito {
     width: 300px;
     padding: 20px;

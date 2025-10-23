@@ -1,11 +1,86 @@
 import '../../styles/principal/AreaConteudo.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import postsData from '../../dados/posts.json';
-import empresasData from '../../dados/empresas.json';
+import SidebarServicos from './SidebarServicos';
+
 
 export default function AreaConteudo() {
   const [novoPost, setNovoPost] = useState('');
   const [posts, setPosts] = useState(postsData.posts);
+  const navigate = useNavigate();
+
+  // Dados para sugestões (alguns amigos como sugestões)
+  const sugestoesPessoas = [
+    {
+      id: 7,
+      nome: "Carla Joares",
+      avatar: "/images/avatars/carlajoares.jpg",
+      online: true,
+      mutualFriends: 7
+    },
+    {
+      id: 8,
+      nome: "João Galvão",
+      avatar: "/images/avatars/joaogalvao.jpg", 
+      online: false,
+      mutualFriends: 11
+    },
+    {
+      id: 10,
+      nome: "Juliana Almeida",
+      avatar: "/images/avatars/julianaalmeida.jpg",
+      online: true,
+      mutualFriends: 14
+    }
+  ];
+
+  // Dados para grupos
+  const grupos = [
+    {
+      id: 1,
+      nome: "Cachorros da Cidade",
+      icone: "🐕",
+      membros: 128,
+      descricao: "Grupo para donos de cachorros"
+    },
+    {
+      id: 2,
+      nome: "Amantes de Gatos",
+      icone: "🐈",
+      membros: 95,
+      descricao: "Comunidade de tutores de gatos"
+    },
+    {
+      id: 3,
+      nome: "Adoção Responsável",
+      icone: "❤️",
+      membros: 203,
+      descricao: "Encontre seu novo amigo"
+    }
+  ];
+
+  // Dados para eventos
+  const eventos = [
+    {
+      id: 1,
+      data: "15/06",
+      titulo: "Feira de Adoção",
+      local: "Parque Ibirapuera"
+    },
+    {
+      id: 2,
+      data: "20/06", 
+      titulo: "Palestra sobre Pets",
+      local: "Centro Cultural"
+    },
+    {
+      id: 3,
+      data: "25/06",
+      titulo: "Campanha de Vacinação",
+      local: "Praça da Sé"
+    }
+  ];
 
   const handleImageError = (e) => {
     console.log('❌ Imagem não carregou, usando placeholder');
@@ -51,6 +126,29 @@ export default function AreaConteudo() {
       e.target.parentNode.appendChild(placeholder);
     }
   };
+
+  const handleAvatarError = (e) => {
+    console.log('❌ Avatar não carregou no card criar post');
+    const parent = e.target.parentNode;
+    const placeholder = document.createElement('div');
+    placeholder.className = 'avatar-placeholder-criar';
+    placeholder.innerHTML = '<span>A</span>';
+    placeholder.style.cssText = `
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #F26B38, #FF9D71);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    `;
+    e.target.style.display = 'none';
+    parent.appendChild(placeholder);
+  };
+
   const handlePublicar = () => {
     if (novoPost.trim()) {
       const novoPostObj = {
@@ -118,21 +216,36 @@ export default function AreaConteudo() {
     );
   };
 
-  const handleContratarServico = (empresa) => {
-    alert(`📞 Entrando em contato com ${empresa.nome}\nTelefone: ${empresa.telefone}`);
+  const handleAbrirPerfil = (usuarioId) => {
+    navigate(`/perfil/publico/${usuarioId}`);
+  };
+
+  const handleSeguir = (usuarioId, e) => {
+    e.stopPropagation();
+    alert(`✅ Seguindo usuário!`);
+  };
+
+  const handleAbrirGrupo = (grupoId) => {
+    alert(`📖 Abrindo grupo ${grupoId}`);
+  };
+
+  const handleAbrirEvento = (eventoId) => {
+    alert(`📅 Abrindo evento ${eventoId}`);
   };
 
   return (
     <main className="area-conteudo">
       
+      {/* Feed Principal */}
       <div className="feed-principal">
         
-        <div className="card-criar-post"> 
+        <div className="card-criar-post">
           <div className="cabecalho-criar">
             <img 
               src="/images/avatars/anasilva.jpg"
               alt="Seu perfil"
               className="avatar-usuario"
+              onError={handleAvatarError}
             />
             <input 
               type="text" 
@@ -165,9 +278,15 @@ export default function AreaConteudo() {
                   alt={post.usuario.nome}
                   className="avatar-post"
                   onError={handleImageError}
+                  onClick={() => handleAbrirPerfil(post.usuario.id)}
                 />
                 <div className="info-post">
-                  <span className="nome-usuario">{post.usuario.nome}</span>
+                  <span 
+                    className="nome-usuario"
+                    onClick={() => handleAbrirPerfil(post.usuario.id)}
+                  >
+                    {post.usuario.nome}
+                  </span>
                   <div className="metadados-post">
                     <span className="tempo-post">{formatarData(post.data)}</span>
                     {post.localizacao && (
@@ -214,69 +333,62 @@ export default function AreaConteudo() {
 
       </div>
 
+      {/* Sidebar Direito */}
       <aside className="sidebar-direito">
         
-        {/* Sugestões de Amigos */}
+        {/* Botão de Serviços */}
+        <SidebarServicos />
+
+
+        {/* Sugestões de Pessoas */}
         <div className="card-sugestoes">
-          <h3>🔍 Sugestões para seguir</h3>
+          <h3>👤 Sugestões para seguir</h3>
           <div className="lista-sugestoes">
-            <div className="item-sugestao">
-              <div className="avatar-placeholder">🏪</div>
-              <div className="info-sugestao">
-                <span>PetShop Amigo Fiel</span>
-                <small>12 amigos em comum</small>
+            {sugestoesPessoas.map((pessoa) => (
+              <div 
+                key={pessoa.id} 
+                className="item-sugestao"
+                onClick={() => handleAbrirPerfil(pessoa.id)}
+              >
+                <div className="avatar-sugestao">
+                  <img 
+                    src={pessoa.avatar} 
+                    alt={pessoa.nome}
+                    onError={handleImageError}
+                  />
+                  {pessoa.online && <span className="status-online" title="Online"></span>}
+                </div>
+                <div className="info-sugestao">
+                  <span>{pessoa.nome}</span>
+                  <small>{pessoa.mutualFriends} amigos em comum</small>
+                </div>
+                <button 
+                  className="botao-seguir"
+                  onClick={(e) => handleSeguir(pessoa.id, e)}
+                >
+                  Seguir
+                </button>
               </div>
-              <button type="button" className="botao-seguir">Seguir</button>
-            </div>
-            <div className="item-sugestao">
-              <div className="avatar-placeholder">🐾</div>
-              <div className="info-sugestao">
-                <span>Clínica Veterinária</span>
-                <small>8 amigos em comum</small>
-              </div>
-              <button type="button" className="botao-seguir">Seguir</button>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Prestadores de Serviços */}
-        <div className="card-prestadores">
-          <h3>🏆 Serviços para seu Pet</h3>
-          <div className="lista-prestadores">
-            {empresasData.empresas.map((empresa) => (
-              <div key={empresa.id} className="item-prestador">
-                <div className="avatar-prestador">
-                  <img 
-                    src={empresa.avatar} 
-                    alt={empresa.nome}
-                    onError={handleImageError}
-                  />
-                  <span className="categoria-prestador">{empresa.categoria}</span>
+        {/* Grupos Sugeridos */}
+        <div className="card-grupos">
+          <h3>👥 Grupos Sugeridos</h3>
+          <div className="lista-grupos">
+            {grupos.map((grupo) => (
+              <div 
+                key={grupo.id} 
+                className="item-grupo"
+                onClick={() => handleAbrirGrupo(grupo.id)}
+              >
+                <div className="icone-grupo">{grupo.icone}</div>
+                <div className="info-grupo">
+                  <span className="nome-grupo">{grupo.nome}</span>
+                  <small>{grupo.descricao}</small>
                 </div>
-                <div className="info-prestador">
-                  <span className="nome-prestador">{empresa.nome}</span>
-                  <div className="avaliacao-prestador">
-                    <span className="estrelas">{"⭐".repeat(Math.floor(empresa.avaliacao))}</span>
-                    <span className="nota">{empresa.avaliacao}</span>
-                  </div>
-                  <small className="local-prestador">{empresa.localizacao}</small>
-                  <p className="bio-prestador">{empresa.bio}</p>
-                  <div className="servicos-prestador">
-                    {empresa.servicos.slice(0, 2).map((servico, index) => (
-                      <span key={index} className="servico-tag">{servico}</span>
-                    ))}
-                    {empresa.servicos.length > 2 && (
-                      <span className="servico-tag">+{empresa.servicos.length - 2}</span>
-                    )}
-                  </div>
-                </div>
-                <button 
-                  type="button" 
-                  className="botao-contratar"
-                  onClick={() => handleContratarServico(empresa)}
-                >
-                  📞 Contatar
-                </button>
+                <span className="contador-grupo">{grupo.membros}</span>
               </div>
             ))}
           </div>
@@ -286,14 +398,16 @@ export default function AreaConteudo() {
         <div className="card-eventos">
           <h3>📅 Eventos Próximos</h3>
           <div className="lista-eventos">
-            <div className="item-evento">
-              <span className="data-evento">15/06</span>
-              <span className="titulo-evento">Feira de Adoção</span>
-            </div>
-            <div className="item-evento">
-              <span className="data-evento">20/06</span>
-              <span className="titulo-evento">Palestra sobre Pets</span>
-            </div>
+            {eventos.map((evento) => (
+              <div 
+                key={evento.id} 
+                className="item-evento"
+                onClick={() => handleAbrirEvento(evento.id)}
+              >
+                <span className="data-evento">{evento.data}</span>
+                <span className="titulo-evento">{evento.titulo}</span>
+              </div>
+            ))}
           </div>
         </div>
 

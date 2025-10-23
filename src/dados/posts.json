@@ -27,28 +27,6 @@
       "hashtags": ["#gato", "#aniversario", "#pet"]
     },
     {
-      "id": 2,
-      "usuarioId": 2,
-      "usuario": {
-        "id": 2,
-        "nome": "Carlos Santos",
-        "avatar": "/images/avatars/carlossantos.jpg",
-        "tipo": "usuario"
-      },
-      "conteudo": {
-        "texto": "Encontrei esse doguinho perdido no Parque Ibirapuera. Alguém conhece? 🐶 Estava com coleira azul.",
-        "midia": null
-      },
-      "engajamento": {
-        "curtidas": 42,
-        "comentarios": 15,
-        "compartilhamentos": 8
-      },
-      "data": "2024-03-15T08:15:00Z",
-      "localizacao": "Parque Ibirapuera, SP",
-      "hashtags": ["#animalperdido", "#achado", "#cachorro"]
-    },
-    {
       "id": 3,
       "usuarioId": 3,
       "usuario": {

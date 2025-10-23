@@ -20,6 +20,7 @@
       },
       "tipo": "usuario"
     },
+    
     {
       "id": 3,
       "nome": "Maria Oliveira",
@@ -65,7 +66,7 @@
       "nome": "Juliana Costa",
       "apelido": "Ju",
       "avatar": "/images/avatars/julianacosta.jpg",
-      "capa": "/images/capas/julianaalmeidacapa.jpg",
+      "capa": "/images/capas/julianacostacapa.jpg",
       "online": true,
       "ultimaVez": "10 min atrás",
       "bio": "Fotógrafa de pets | Capturando momentos especiais",
@@ -161,11 +162,31 @@
       "tipo": "veterinario"
     },
     {
+      "id": 10,
+      "nome": "Juliana Almeida",
+      "apelido": "Juju",
+      "avatar": "/images/avatars/julianaalmeida.jpg",
+      "capa": "/images/capas/julianaalmeidacapa.jpg",
+      "online": true,
+      "ultimaVez": "15 min atrás",
+      "bio": "Fotógrafa de pets | Especialista em ensaios ao ar livre",
+      "localizacao": "Florianópolis, SC",
+      "dataCadastro": "2023-07-22",
+      "pets": ["Bella", "Thor"],
+      "mutualFriends": 14,
+      "estatisticas": {
+        "posts": 35,
+        "seguidores": 245,
+        "seguindo": 98
+      },
+      "tipo": "usuario"
+    },
+    {
       "id": 11,
       "nome": "Marcos Santos",
       "apelido": "Marcão",
-      "avatar": "/images/avatars/marcossantos.jpg",
-      "capa": "/images/capas/marcossantoscapa.jpg",
+      "avatar": "/images/avatars/marcsossantos.jpg",
+      "capa": "/images/capas/marcsossantoscapa.jpg",
       "online": false,
       "ultimaVez": "6 horas atrás",
       "bio": "Dono de petshop | Especialista em produtos naturais",
