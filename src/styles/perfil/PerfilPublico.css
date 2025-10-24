@@ -33,7 +33,7 @@
   background: #3E3E3E;
   color: white;
   border: none;
-  padding: 0.6rem 0.5rem;
+  padding: 1;
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
@@ -458,4 +458,5 @@
   .acoes-post-publico {
     flex-direction: column;
   }
+
 }
