@@ -1,129 +1,88 @@
-import React, { useState, useRef, useEffect } from 'react';
-import '../../styles/notificacoes/notificacao.css';
+// src/components/notificacoes/notificacao.jsx
+import { useState, useRef, useEffect } from 'react';
+import '../../styles/notificacoes/Sinonotificacoes.css';
 
-const SinoNotificacoes = () => {
+export default function SinoNotificacoes() {
   const [notificacoesAbertas, setNotificacoesAbertas] = useState(false);
   const [notificacoes, setNotificacoes] = useState([
     {
       id: 1,
       tipo: 'amizade',
-      mensagem: 'Ana Silva aceitou sua solicitação de amizade',
+      mensagem: 'Ana Silva enviou uma solicitação de amizade',
       tempo: '2 min atrás',
-      lida: false,
-      avatar: '/images/avatars/anasilva.jpg'
+      lida: false
     },
     {
       id: 2,
       tipo: 'curtida',
-      mensagem: 'Carlos Santos curtiu sua foto com o Thor',
+      mensagem: 'Carlos Santos curtiu seu post',
       tempo: '1 hora atrás',
-      lida: false,
-      avatar: '/images/avatars/carlossantos.jpg'
+      lida: false
     },
     {
       id: 3,
       tipo: 'comentario',
       mensagem: 'Maria Oliveira comentou no seu post',
       tempo: '3 horas atrás',
-      lida: true,
-      avatar: '/images/avatars/mariaoliveira.jpg'
-    },
-    {
-      id: 4,
-      tipo: 'sistema',
-      mensagem: 'Seu pet Luna completou 1 ano no PetRefugio! 🎉',
-      tempo: '1 dia atrás',
-      lida: true,
-      avatar: null
-    },
-    {
-      id: 5,
-      tipo: 'amizade',
-      mensagem: 'João Pereira enviou uma solicitação de amizade',
-      tempo: '2 dias atrás',
-      lida: true,
-      avatar: '/images/avatars/joaopereira.jpg'
+      lida: true
     }
   ]);
 
   const modalRef = useRef(null);
-  const sinoRef = useRef(null);
+  const botaoRef = useRef(null);
 
-  // Fechar modal ao clicar fora
+  const toggleNotificacoes = () => {
+    setNotificacoesAbertas(!notificacoesAbertas);
+  };
+
+  const marcarComoLida = (id) => {
+    setNotificacoes(notificacoes.map(notif => 
+      notif.id === id ? { ...notif, lida: true } : notif
+    ));
+  };
+
+  const marcarTodasComoLidas = () => {
+    setNotificacoes(notificacoes.map(notif => ({ ...notif, lida: true })));
+  };
+
+  const limparNotificacoes = () => {
+    setNotificacoes([]);
+  };
+
+  // Fechar modal ao clicar fora - CORRIGIDO
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target) &&
-          sinoRef.current && !sinoRef.current.contains(event.target)) {
+    const handleClickFora = (event) => {
+      // Verifica se o clique foi fora do modal E fora do botão do sino
+      if (
+        modalRef.current && 
+        !modalRef.current.contains(event.target) &&
+        botaoRef.current &&
+        !botaoRef.current.contains(event.target)
+      ) {
         setNotificacoesAbertas(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    if (notificacoesAbertas) {
+      document.addEventListener('mousedown', handleClickFora);
+      // Prevenir scroll do body quando modal estiver aberto
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickFora);
+      document.body.style.overflow = 'unset';
     };
-  }, []);
-
-  const toggleNotificacoes = () => {
-    setNotificacoesAbertas(!notificacoesAbertas);
-    
-    // Marcar notificações como lidas quando abrir
-    if (!notificacoesAbertas) {
-      setNotificacoes(notificacoes.map(notif => ({
-        ...notif,
-        lida: true
-      })));
-    }
-  };
-
-  const getIconePorTipo = (tipo) => {
-    switch (tipo) {
-      case 'amizade':
-        return '👋';
-      case 'curtida':
-        return '❤️';
-      case 'comentario':
-        return '💬';
-      case 'sistema':
-        return '🔔';
-      default:
-        return '📢';
-    }
-  };
-
-  const getCorPorTipo = (tipo) => {
-    switch (tipo) {
-      case 'amizade':
-        return '#4CAF50';
-      case 'curtida':
-        return '#E91E63';
-      case 'comentario':
-        return '#2196F3';
-      case 'sistema':
-        return '#FF9800';
-      default:
-        return '#9C27B0';
-    }
-  };
-
-  const handleLimparNotificacoes = () => {
-    setNotificacoes([]);
-  };
-
-  const handleMarcarTodasComoLidas = () => {
-    setNotificacoes(notificacoes.map(notif => ({
-      ...notif,
-      lida: true
-    })));
-  };
+  }, [notificacoesAbertas]);
 
   const notificacoesNaoLidas = notificacoes.filter(notif => !notif.lida).length;
 
   return (
     <div className="container-sino-notificacoes">
-      {/* Botão do Sino */}
       <button 
-        ref={sinoRef}
+        ref={botaoRef}
         className="botao-sino"
         onClick={toggleNotificacoes}
         title="Notificações"
@@ -136,21 +95,16 @@ const SinoNotificacoes = () => {
         )}
       </button>
 
-      {/* Modal de Notificações */}
       {notificacoesAbertas && (
         <div className="modal-notificacoes-overlay">
-          <div 
-            ref={modalRef}
-            className="modal-notificacoes"
-          >
-            {/* Cabeçalho */}
+          <div className="modal-notificacoes" ref={modalRef}>
             <div className="cabecalho-notificacoes">
               <h3>Notificações</h3>
               <div className="acoes-cabecalho">
                 {notificacoesNaoLidas > 0 && (
                   <button 
                     className="botao-marcar-lidas"
-                    onClick={handleMarcarTodasComoLidas}
+                    onClick={marcarTodasComoLidas}
                   >
                     Marcar como lidas
                   </button>
@@ -158,60 +112,52 @@ const SinoNotificacoes = () => {
                 {notificacoes.length > 0 && (
                   <button 
                     className="botao-limpar"
-                    onClick={handleLimparNotificacoes}
+                    onClick={limparNotificacoes}
                   >
                     Limpar
                   </button>
                 )}
               </div>
             </div>
-
-            {/* Lista de Notificações */}
+            
             <div className="lista-notificacoes">
               {notificacoes.length > 0 ? (
                 notificacoes.map(notificacao => (
                   <div 
-                    key={notificacao.id}
-                    className={`item-notificacao ${notificacao.lida ? 'lida' : 'nao-lida'}`}
+                    key={notificacao.id} 
+                    className={`item-notificacao ${notificacao.lida ? '' : 'nao-lida'}`}
+                    onClick={() => marcarComoLida(notificacao.id)}
                   >
-                    <div className="icone-tipo" style={{ backgroundColor: getCorPorTipo(notificacao.tipo) }}>
-                      {getIconePorTipo(notificacao.tipo)}
+                    <div className="icone-tipo">
+                      {notificacao.tipo === 'amizade' && '👤'}
+                      {notificacao.tipo === 'curtida' && '❤️'}
+                      {notificacao.tipo === 'comentario' && '💬'}
                     </div>
-                    
                     <div className="conteudo-notificacao">
-                      <div className="mensagem-notificacao">
-                        {notificacao.mensagem}
-                      </div>
-                      <div className="tempo-notificacao">
-                        {notificacao.tempo}
-                      </div>
+                      <p className="mensagem-notificacao">{notificacao.mensagem}</p>
+                      <span className="tempo-notificacao">{notificacao.tempo}</span>
                     </div>
-
-                    {notificacao.avatar && (
-                      <img 
-                        src={notificacao.avatar}
-                        alt="Avatar"
-                        className="avatar-notificacao"
-                        onError={(e) => {
-                          e.target.src = '/images/avatars/default-avatar.jpg';
-                        }}
-                      />
-                    )}
                   </div>
                 ))
               ) : (
                 <div className="sem-notificacoes">
-                  <div className="icone-sem-notificacoes">📭</div>
+                  <div className="icone-sem-notificacoes">🔔</div>
                   <p>Nenhuma notificação</p>
                   <span>Novas notificações aparecerão aqui</span>
                 </div>
               )}
             </div>
+
+            {notificacoes.length > 0 && (
+              <div className="rodape-notificacoes">
+                <button className="botao-ver-todas">
+                  Ver todas as notificações
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
     </div>
   );
-};
-
-export default SinoNotificacoes;
+}

@@ -1,76 +1,47 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/amigos/ListaAmigos.css';
-import Header from '../home/Header';
-import HeaderPerfil from '../perfil/HeaderPerfil';
-import HeaderPrincipal from '../principal/header';
+import HeaderPrincipal from '../principal/Header';
+import amigosData from '../../dados/amigos.json';
 
 const ListaAmigos = () => {
-  const [amigos, setAmigos] = useState([
-    {
-      id: 1,
-      nome: 'Ana Silva',
-      avatar: '/images/avatars/anasilva.jpg',
-      online: true,
-      ultimaVez: '2 min atrás',
-      pets: ['Luna', 'Thor'],
-      mutualFriends: 12
-    },
-    {
-      id: 2,
-      nome: 'Carlos Santos',
-      avatar: '/images/avatars/carlossantos.jpg',
-      online: false,
-      ultimaVez: '1 hora atrás',
-      pets: ['Rex'],
-      mutualFriends: 8
-    },
-    {
-      id: 3,
-      nome: 'Maria Oliveira',
-      avatar: '/images/avatars/mariaoliveira.jpg',
-      online: true,
-      ultimaVez: 'Agora',
-      pets: ['Mel', 'Bob'],
-      mutualFriends: 15
-    },
-    {
-      id: 4,
-      nome: 'João Pereira',
-      avatar: '/images/avatars/joaopereira.jpg',
-      online: false,
-      ultimaVez: '3 horas atrás',
-      pets: ['Luna'],
-      mutualFriends: 5
-    },
-    {
-      id: 5,
-      nome: 'Juliana Costa',
-      avatar: '/images/avatars/julianacosta.jpg',
-      online: true,
-      ultimaVez: '10 min atrás',
-      pets: ['Thor', 'Bella'],
-      mutualFriends: 9
-    },
-    {
-      id: 6,
-      nome: 'Pedro Alves',
-      avatar: '/images/avatars/pedroalves.jpg',
-      online: false,
-      ultimaVez: '1 dia atrás',
-      pets: ['Max'],
-      mutualFriends: 3
-    }
-  ]);
-
+  const [amigos, setAmigos] = useState(amigosData.amigos);
   const [amigoParaRemover, setAmigoParaRemover] = useState(null);
   const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
   const navigate = useNavigate();
 
+  const handleImageError = (e) => {
+    console.log('❌ Avatar não carregou, usando placeholder');
+    const parent = e.target.parentNode;
+    const nome = e.target.alt || 'Usuário';
+    const inicial = nome.charAt(0).toUpperCase();
+    
+    const placeholder = document.createElement('div');
+    placeholder.className = 'avatar-placeholder';
+    placeholder.innerHTML = `<span>${inicial}</span>`;
+    placeholder.style.cssText = `
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #F26B38, #FF9D71);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    `;
+    
+    e.target.style.display = 'none';
+    parent.appendChild(placeholder);
+  };
+
   const handleAbrirChat = (amigoId) => {
-    console.log('Abrindo chat com amigo:', amigoId);
-    // Navegar para a tela de chat
     navigate(`/chat/${amigoId}`);
+  };
+
+  const handleVerPerfil = (amigoId) => {
+    navigate(`/perfil/publico/${amigoId}`);
   };
 
   const handleRemoverAmigo = (amigo) => {
@@ -83,7 +54,6 @@ const ListaAmigos = () => {
       setAmigos(amigos.filter(amigo => amigo.id !== amigoParaRemover.id));
       setMostrarConfirmacao(false);
       setAmigoParaRemover(null);
-      console.log('Amigo removido:', amigoParaRemover.nome);
     }
   };
 
@@ -104,55 +74,53 @@ const ListaAmigos = () => {
     <div className="pagina-amigos">
       <HeaderPrincipal />
       <div className="container-amigos">
-
-        {/* Cabeçalho */}
+        
         <div className="cabecalho-amigos">
           <h1>Meus Amigos</h1>
           <p>{amigos.length} amigos conectados</p>
         </div>
 
-        {/* Lista de Amigos */}
         <div className="lista-amigos">
           {amigos.map(amigo => (
             <div key={amigo.id} className="card-amigo">
+              
               <div className="info-amigo">
                 <div className="avatar-container">
-                  <img
-                    src={amigo.avatar}
+                  <img 
+                    src={amigo.avatar} 
                     alt={amigo.nome}
                     className="avatar-amigo"
-                    onClick={() => navigate(`/perfil/publico/${amigo.id}`)}
-                    style={{ cursor: 'pointer' }}
+                    onError={handleImageError}
+                    onClick={() => handleVerPerfil(amigo.id)}
                   />
-                  <div
+                  <div 
                     className="status-indicador"
                     style={{ backgroundColor: getStatusColor(amigo.online) }}
                   ></div>
                 </div>
+
                 <div className="detalhes-amigo">
-                  <h3
+                  <h3 
                     className="nome-amigo"
-                    onClick={() => navigate(`/perfil/publico/${amigo.id}`)}
-                    style={{ cursor: 'pointer' }}
+                    onClick={() => handleVerPerfil(amigo.id)}
                   >
                     {amigo.nome}
                   </h3>
-                <p className="status-amigo">
-                  {getStatusText(amigo.online, amigo.ultimaVez)}
-                </p>
-                <div className="info-adicional">
-                  <span className="pets-amigo">
-                    🐾 {amigo.pets.join(', ')}
-                  </span>
-                  <span className="amigos-mutuos">
-                    {amigo.mutualFriends} amigos em comum
-                  </span>
+                  <p className="status-amigo">
+                    {getStatusText(amigo.online, amigo.ultimaVez)}
+                  </p>
+                  <div className="info-adicional">
+                    <span className="pets-amigo">
+                      🐾 {amigo.pets ? amigo.pets.join(', ') : 'Sem pets'}
+                    </span>
+                    <span className="amigos-mutuos">
+                      {amigo.mutualFriends} amigos em comum
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-              {/* Ações */ }
-            < div className = "acoes-amigo" >
+              <div className="acoes-amigo">
                 <button 
                   className="botao-chat"
                   onClick={() => handleAbrirChat(amigo.id)}
@@ -168,61 +136,55 @@ const ListaAmigos = () => {
                   🗑️ Remover
                 </button>
               </div>
-      </div>
+            </div>
           ))}
-    </div>
+        </div>
 
-        {/* Modal de Confirmação */ }
-  {
-    mostrarConfirmacao && (
-      <div className="modal-overlay">
-        <div className="modal-confirmacao">
-          <div className="modal-cabecalho">
-            <h3>Remover Amigo</h3>
-          </div>
+        {mostrarConfirmacao && (
+          <div className="modal-overlay">
+            <div className="modal-confirmacao">
+              <div className="modal-cabecalho">
+                <h3>Remover Amigo</h3>
+              </div>
+              
+              <div className="modal-conteudo">
+                <p>
+                  Tem certeza que deseja remover <strong>{amigoParaRemover?.nome}</strong> da sua lista de amigos?
+                </p>
+                <div className="info-remocao">
+                  <span>⚠️ Esta ação não pode ser desfeita</span>
+                </div>
+              </div>
 
-          <div className="modal-conteudo">
-            <p>
-              Tem certeza que deseja remover <strong>{amigoParaRemover?.nome}</strong> da sua lista de amigos?
-            </p>
-            <div className="info-remocao">
-              <span>⚠️ Esta ação não pode ser desfeita</span>
+              <div className="modal-acoes">
+                <button 
+                  className="botao-cancelar"
+                  onClick={cancelarRemocao}
+                >
+                  Cancelar
+                </button>
+                <button 
+                  className="botao-confirmar"
+                  onClick={confirmarRemocao}
+                >
+                  Sim, Remover
+                </button>
+              </div>
             </div>
           </div>
+        )}
 
-          <div className="modal-acoes">
-            <button
-              className="botao-cancelar"
-              onClick={cancelarRemocao}
-            >
-              Cancelar
-            </button>
-            <button
-              className="botao-confirmar"
-              onClick={confirmarRemocao}
-            >
-              Sim, Remover
-            </button>
+        {amigos.length === 0 && (
+          <div className="sem-amigos">
+            <div className="icone-sem-amigos">👥</div>
+            <h3>Nenhum amigo encontrado</h3>
+            <p>Adicione amigos para começar a conversar!</p>
           </div>
-        </div>
-      </div>
-    )
-  }
+        )}
 
-  {/* Mensagem quando não há amigos */ }
-  {
-    amigos.length === 0 && (
-      <div className="sem-amigos">
-        <div className="icone-sem-amigos">👥</div>
-        <h3>Nenhum amigo encontrado</h3>
-        <p>Adicione amigos para começar a conversar!</p>
       </div>
-    )
-  }
-
-      </div >
-    </div >
+    </div>
   );
 };
 
-export default ListaAmigos; 
+export default ListaAmigos;

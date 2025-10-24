@@ -220,7 +220,7 @@ const AdicionarPet = () => {
                   onChange={mudarDado}
                   min="0"
                   step="0.1"
-                  placeholder="0.0"
+                  placeholder="28.5"
                 />
               </div>
             </div>
