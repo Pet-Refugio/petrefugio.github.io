@@ -92,6 +92,7 @@
 .card-postagem {
   background: #FFFFFF;
   padding: 20px;
+  margin: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -542,8 +543,59 @@
   border-radius: 12px;
   word-break: break-word;
 }
-/* Adicione estas regras ao seu AreaConteudo.css */
 
+/* Responsivo */
+@media (max-width: 1200px) {
+  .sidebar-direito {
+    display: none;
+  }
+  
+  .feed-principal {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .area-conteudo {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .feed-principal {
+    padding: 15px;
+  }
+  
+  .card-criar-post, .card-postagem,
+  .secao-empresas, .secao-servicos {
+    padding: 15px;
+  }
+  
+  .acoes-criar-post {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .card-empresa,
+  .card-servico {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .empresa-detalhes,
+  .servico-detalhes {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .botao-interesse {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: 10px;
+    width: 100%;
+  }
+}
 /* Modal da Câmera */
 .modal-camera-overlay {
   position: fixed;
@@ -784,58 +836,5 @@
   
   .controles-camera {
     padding: 1rem;
-  }
-}
-
-/* Responsivo */
-@media (max-width: 1200px) {
-  .sidebar-direito {
-    display: none;
-  }
-  
-  .feed-principal {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 1024px) {
-  .area-conteudo {
-    margin-left: 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .feed-principal {
-    padding: 15px;
-  }
-  
-  .card-criar-post, .card-postagem,
-  .secao-empresas, .secao-servicos {
-    padding: 15px;
-  }
-  
-  .acoes-criar-post {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .card-empresa,
-  .card-servico {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .empresa-detalhes,
-  .servico-detalhes {
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .botao-interesse {
-    position: relative;
-    bottom: auto;
-    right: auto;
-    margin-top: 10px;
-    width: 100%;
   }
 }
