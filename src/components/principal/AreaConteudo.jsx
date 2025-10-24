@@ -1,18 +1,91 @@
 import '../../styles/principal/AreaConteudo.css';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import postsData from '../../dados/posts.json';
 import empresasServicosData from '../../dados/empresasServicos.json';
 
 export default function AreaConteudo() {
   const [novoPost, setNovoPost] = useState('');
-  const [posts, setPosts] = useState(postsData.posts);
+  const [posts, setPosts] = useState([]);
+  const [mostrarCamera, setMostrarCamera] = useState(false);
+  const [imagemCapturada, setImagemCapturada] = useState(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
   // Dados do JSON externo
   const { empresas, servicos } = empresasServicosData;
 
-  // Dados para sugestões (alguns amigos como sugestões)
+  // Carregar posts do Local Storage ao inicializar
+  useEffect(() => {
+    const postsSalvos = localStorage.getItem('postsPetRefugio');
+    if (postsSalvos) {
+      setPosts(JSON.parse(postsSalvos));
+    } else {
+      // Posts iniciais padrão
+      const postsIniciais = [
+        {
+          id: 1,
+          usuarioId: 1,
+          usuario: {
+            id: 1,
+            nome: "Ana Silva",
+            avatar: "/images/avatars/anasilva.jpg",
+            tipo: "usuario"
+          },
+          conteudo: {
+            texto: "Meu gatinho acabou de fazer 1 ano! 🎉 Comemorem com a gente!",
+            midia: {
+              tipo: "imagem",
+              url: "/images/posts/gatopost1_anasilva.jpg",
+              alt: "Gato de aniversário com chapéu"
+            }
+          },
+          engajamento: {
+            curtidas: 24,
+            comentarios: 8,
+            compartilhamentos: 3
+          },
+          data: "2024-03-15T10:30:00Z",
+          localizacao: "São Paulo, SP",
+          hashtags: ["gato", "aniversario", "pet"]
+        },
+        {
+          id: 2,
+          usuarioId: 2,
+          usuario: {
+            id: 2,
+            nome: "Carlos Santos",
+            avatar: "/images/avatars/carlossantos.jpg",
+            tipo: "usuario"
+          },
+          conteudo: {
+            texto: "Encontrei esse doguinho perdido no Parque Ibirapuera. Alguém conhece? 🐶 Estava com coleira azul.",
+            midia: null
+          },
+          engajamento: {
+            curtidas: 42,
+            comentarios: 15,
+            compartilhamentos: 8
+          },
+          data: "2024-03-15T08:15:00Z",
+          localizacao: "Parque Ibirapuera, SP",
+          hashtags: ["animalperdido", "achado", "cachorro"]
+        }
+      ];
+      setPosts(postsIniciais);
+      localStorage.setItem('postsPetRefugio', JSON.stringify(postsIniciais));
+    }
+  }, []);
+
+  // Salvar posts no Local Storage sempre que mudar
+  useEffect(() => {
+    if (posts.length > 0) {
+      localStorage.setItem('postsPetRefugio', JSON.stringify(posts));
+    }
+  }, [posts]);
+
+  // Dados para sugestões
   const sugestoesPessoas = [
     {
       id: 7,
@@ -27,17 +100,9 @@ export default function AreaConteudo() {
       avatar: "/images/avatars/joaogalvao.jpg", 
       online: false,
       mutualFriends: 11
-    },
-    {
-      id: 10,
-      nome: "Juliana Almeida",
-      avatar: "/images/avatars/julianaalmeida.jpg",
-      online: true,
-      mutualFriends: 14
     }
   ];
 
-  // Dados para grupos
   const grupos = [
     {
       id: 1,
@@ -45,44 +110,76 @@ export default function AreaConteudo() {
       icone: "🐕",
       membros: 128,
       descricao: "Grupo para donos de cachorros"
-    },
-    {
-      id: 2,
-      nome: "Amantes de Gatos",
-      icone: "🐈",
-      membros: 95,
-      descricao: "Comunidade de tutores de gatos"
-    },
-    {
-      id: 3,
-      nome: "Adoção Responsável",
-      icone: "❤️",
-      membros: 203,
-      descricao: "Encontre seu novo amigo"
     }
   ];
 
-  // Dados para eventos
   const eventos = [
     {
       id: 1,
       data: "15/06",
       titulo: "Feira de Adoção",
       local: "Parque Ibirapuera"
-    },
-    {
-      id: 2,
-      data: "20/06", 
-      titulo: "Palestra sobre Pets",
-      local: "Centro Cultural"
-    },
-    {
-      id: 3,
-      data: "25/06",
-      titulo: "Campanha de Vacinação",
-      local: "Praça da Sé"
     }
   ];
+
+  // Função para iniciar a câmera
+  const iniciarCamera = async () => {
+    try {
+      setMostrarCamera(true);
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: 'environment' } 
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (error) {
+      console.error('Erro ao acessar a câmera:', error);
+      alert('Não foi possível acessar a câmera. Verifique as permissões.');
+      setMostrarCamera(false);
+    }
+  };
+
+  // Função para tirar foto
+  const tirarFoto = () => {
+    if (videoRef.current && canvasRef.current) {
+      const context = canvasRef.current.getContext('2d');
+      canvasRef.current.width = videoRef.current.videoWidth;
+      canvasRef.current.height = videoRef.current.videoHeight;
+      context.drawImage(videoRef.current, 0, 0);
+      
+      const imageDataURL = canvasRef.current.toDataURL('image/jpeg');
+      setImagemCapturada(imageDataURL);
+      pararCamera();
+    }
+  };
+
+  // Função para parar a câmera
+  const pararCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject;
+      const tracks = stream.getTracks();
+      tracks.forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+    setMostrarCamera(false);
+  };
+
+  // Função para selecionar arquivo
+  const selecionarArquivo = () => {
+    fileInputRef.current?.click();
+  };
+
+  // Função para lidar com upload de arquivo
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImagemCapturada(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleImageError = (e) => {
     console.log('❌ Imagem não carregou, usando placeholder');
@@ -152,7 +249,7 @@ export default function AreaConteudo() {
   };
 
   const handlePublicar = () => {
-    if (novoPost.trim()) {
+    if (novoPost.trim() || imagemCapturada) {
       const novoPostObj = {
         id: Date.now(),
         usuarioId: 1,
@@ -164,7 +261,11 @@ export default function AreaConteudo() {
         },
         conteudo: {
           texto: novoPost,
-          midia: null
+          midia: imagemCapturada ? {
+            tipo: "imagem",
+            url: imagemCapturada,
+            alt: "Foto do post"
+          } : null
         },
         engajamento: {
           curtidas: 0,
@@ -173,15 +274,22 @@ export default function AreaConteudo() {
         },
         data: new Date().toISOString(),
         localizacao: "São Paulo, SP",
-        hashtags: []
+        hashtags: extrairHashtags(novoPost)
       };
 
-      setPosts([novoPostObj, ...posts]);
+      const novosPosts = [novoPostObj, ...posts];
+      setPosts(novosPosts);
       setNovoPost('');
-      alert('✅ Post publicado com sucesso!');
+      setImagemCapturada(null);
     } else {
-      alert('⚠️ Digite algo para publicar!');
+      alert('⚠️ Digite algo para publicar ou adicione uma foto!');
     }
+  };
+
+  // Função para extrair hashtags do texto
+  const extrairHashtags = (texto) => {
+    const hashtags = texto.match(/#\w+/g);
+    return hashtags ? hashtags.map(tag => tag.substring(1)) : [];
   };
 
   const formatarData = (dataString) => {
@@ -246,6 +354,37 @@ export default function AreaConteudo() {
   return (
     <main className="area-conteudo">
       
+      {/* Modal da Câmera */}
+      {mostrarCamera && (
+        <div className="modal-camera-overlay">
+          <div className="modal-camera">
+            <div className="cabecalho-camera">
+              <h3>Tirar Foto</h3>
+              <button className="botao-fechar-camera" onClick={pararCamera}>
+                ✕
+              </button>
+            </div>
+            <div className="area-camera">
+              <video 
+                ref={videoRef} 
+                autoPlay 
+                playsInline
+                className="video-camera"
+              />
+              <canvas ref={canvasRef} style={{ display: 'none' }} />
+            </div>
+            <div className="controles-camera">
+              <button className="botao-tirar-foto" onClick={tirarFoto}>
+                📷
+              </button>
+              <button className="botao-cancelar" onClick={pararCamera}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Feed Principal */}
       <div className="feed-principal">
         
@@ -266,14 +405,53 @@ export default function AreaConteudo() {
               onChange={(e) => setNovoPost(e.target.value)}
             />
           </div>
+
+          {/* Preview da Imagem Capturada */}
+          {imagemCapturada && (
+            <div className="preview-imagem">
+              <img src={imagemCapturada} alt="Preview" />
+              <button 
+                className="botao-remover-imagem"
+                onClick={() => setImagemCapturada(null)}
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
           <div className="info-placeholder">
             <span className="texto-placeholder">
               Aqui você pode compartilhar fotos, vídeos ou pedir ajuda sobre seu pet!
             </span>
           </div>
+
           <div className="acoes-criar-post">
-            <button type="button" className="botao-midia">📷 Foto</button>
-            <button type="button" className="botao-publicar" onClick={handlePublicar}>
+            <button 
+              type="button" 
+              className="botao-midia"
+              onClick={iniciarCamera}
+            >
+              📷 Câmera
+            </button>
+            <button 
+              type="button" 
+              className="botao-midia"
+              onClick={selecionarArquivo}
+            >
+              📁 Galeria
+            </button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleFileUpload}
+            />
+            <button 
+              type="button" 
+              className="botao-publicar" 
+              onClick={handlePublicar}
+            >
               Publicar
             </button>
           </div>
@@ -343,7 +521,7 @@ export default function AreaConteudo() {
           ))}
         </div>
 
-        {/* Seção: Empresas em Destaque (AGORA ABAIXO DOS POSTS) */}
+        {/* Seção: Empresas em Destaque */}
         <div className="secao-empresas">
           <h3>🏢 Empresas em Destaque</h3>
           <div className="lista-empresas">
@@ -376,7 +554,7 @@ export default function AreaConteudo() {
           </div>
         </div>
 
-        {/* Seção: Serviços que Você Pode se Interessar (AGORA ABAIXO DOS POSTS) */}
+        {/* Seção: Serviços que Você Pode se Interessar */}
         <div className="secao-servicos">
           <h3>💼 Serviços que Você Pode se Interessar</h3>
           <div className="lista-servicos">
@@ -412,6 +590,7 @@ export default function AreaConteudo() {
 
       </div>
 
+      {/* Sidebar Direito */}
       <aside className="sidebar-direito">
         
         {/* Sugestões de Pessoas */}

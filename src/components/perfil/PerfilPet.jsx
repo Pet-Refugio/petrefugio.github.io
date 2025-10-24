@@ -149,7 +149,6 @@ const PerfilPet = () => {
             className="imagem-capa-pet"
             onError={handleImageError}
             />
-            {/* Overlay para melhor contraste do texto */}
             <div className="overlay-capa-pet"></div>
         </div>
         <div className="avatar-container-pet">

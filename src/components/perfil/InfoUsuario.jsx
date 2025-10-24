@@ -1,5 +1,6 @@
 import '../../styles/perfil/InfoUsuario.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 const InfoUsuario = () => {
   const [avatarError, setAvatarError] = useState(false);
   const [capaError, setCapaError] = useState(false);
@@ -186,7 +187,9 @@ const formatarData = (dataString) => {
 
           {/* Botões de Ação */}
           <div className="acoes-usuario">
-            <button className="botao-acao-principal">✏️ Editar Perfil</button>
+            <Link to="/perfil/gerenciar">
+            <button className="botao-acao-principal">✏️ Editar publicações</button>
+            </Link>
             <button className="botao-acao-secundario">📤 Compartilhar</button>
           </div>
         </div>
