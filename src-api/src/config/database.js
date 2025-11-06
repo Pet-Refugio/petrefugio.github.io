@@ -1,42 +1,26 @@
-import pkg from 'pg';
-const { Pool } = pkg;
+// src-api/src/config/database.js
+import pg from 'pg';
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ path: '../../.env' }); // Carrega o .env da raiz do src-api
+
+const { Pool } = pg;
 
 const pool = new Pool({
-  user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  database: process.env.DB_NAME || 'petrefugio',
-  password: process.env.DB_PASSWORD || 'password',
-  port: process.env.DB_PORT || 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
-// Criar tabelas automaticamente
-const createTables = async () => {
-  const client = await pool.connect();
-  try {
-    // Tabela de usuários
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS usuarios (
-        id SERIAL PRIMARY KEY,
-        tipo_conta VARCHAR(20) NOT NULL CHECK (tipo_conta IN ('pessoal', 'ong', 'petshop', 'prestador', 'veterinario', 'hotel')),
-        nome VARCHAR(100) NOT NULL,
-        nascimento DATE,
-        email VARCHAR(100) UNIQUE NOT NULL,
-        documento VARCHAR(20),
-        senha_hash VARCHAR(255) NOT NULL,
-        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
+pool.on('connect', () => {
+  console.log('🔗 Conectado ao banco de dados PostgreSQL!');
+});
 
-    console.log('✅ Tabelas criadas/verificadas com sucesso!');
-  } catch (error) {
-    console.error('❌ Erro ao criar tabelas:', error);
-  } finally {
-    client.release();
-  }
-};
+pool.on('error', (err) => {
+  console.error('❌ Erro inesperado no cliente do banco de dados', err);
+  process.exit(-1);
+});
 
-export { pool, createTables };
+export default pool;

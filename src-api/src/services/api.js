@@ -1,11 +1,15 @@
-// Configuração da API
+// src/services/api.js
+
+// A URL base da nossa API que está rodando na porta 5000
 const API_BASE_URL = 'http://localhost:5000/api';
 
-// Função melhorada com timeout e retry
+/**
+ * Função central para fazer requisições à API
+ * @param {string} endpoint - O endpoint da API (ex: '/auth/login')
+ * @param {object} options - Opções da requisição (method, body, headers)
+ */
 const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
-  
-  console.log('🌐 Fazendo requisição para:', url);
   
   const config = {
     headers: {
@@ -13,10 +17,9 @@ const apiRequest = async (endpoint, options = {}) => {
       ...options.headers,
     },
     ...options,
-    // Timeout de 5 segundos
-    signal: AbortSignal.timeout(5000)
   };
 
+  // Converte o body para JSON se for um objeto
   if (config.body && typeof config.body === 'object') {
     config.body = JSON.stringify(config.body);
   }
@@ -24,32 +27,27 @@ const apiRequest = async (endpoint, options = {}) => {
   try {
     const response = await fetch(url, config);
     
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
+    // Tenta parsear a resposta como JSON
     const data = await response.json();
-    console.log('✅ Resposta recebida:', data);
-    return data;
-    
-  } catch (error) {
-    console.error('❌ Erro detalhado:', {
-      message: error.message,
-      endpoint: url,
-      method: options.method || 'GET'
-    });
-    
-    if (error.name === 'TimeoutError') {
-      throw new Error('Timeout: Servidor não respondeu em 5 segundos');
-    } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
-      throw new Error('Não foi possível conectar com o servidor. Verifique se o backend está rodando na porta 5000.');
-    } else {
-      throw new Error(`Erro de conexão: ${error.message}`);
+
+    if (!response.ok) {
+      // Se a API retornar um erro (ex: 400, 404, 500), 'data.message' terá o erro
+      throw new Error(data.message || 'Erro na requisição');
     }
+
+    return data; // Retorna o objeto JSON (ex: { success: true, data: ... })
+
+  } catch (error) {
+    console.error('Erro na requisição:', error);
+    // Retorna um objeto de erro padronizado
+    return { 
+      success: false, 
+      message: error.message || 'Não foi possível conectar com o servidor.' 
+    };
   }
 };
 
-// Serviço de autenticação
+// Serviços de Autenticação
 export const authService = {
   cadastrar: (dadosUsuario) => 
     apiRequest('/auth/cadastrar', {
@@ -57,35 +55,9 @@ export const authService = {
       body: dadosUsuario
     }),
 
-  login: (credenciais) => 
+  login: (credenciais) =>
     apiRequest('/auth/login', {
       method: 'POST',
       body: credenciais
     }),
-
-  verificarUsuario: (token) => 
-    apiRequest('/auth/verificar', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
 };
-
-// Função para testar conexão
-export const testConnection = async () => {
-  try {
-    console.log('🔍 Testando conexão com backend...');
-    const response = await fetch(`${API_BASE_URL}/health`);
-    if (response.ok) {
-      const data = await response.json();
-      console.log('✅ Backend conectado:', data);
-      return true;
-    }
-    return false;
-  } catch (error) {
-    console.error('❌ Backend offline:', error.message);
-    return false;
-  }
-};
-
-export default apiRequest;
