@@ -1,59 +1,42 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:5001/api'; 
 
-// Função genérica para fazer requisições
-const apiRequest = async (endpoint, options = {}) => {
+const apiRequest = async (endpoint, method = 'GET', data = null) => {
   const url = `${API_BASE_URL}${endpoint}`;
   
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-    ...options,
+  const headers = {
+    'Content-Type': 'application/json',
   };
 
-  if (config.body && typeof config.body === 'object') {
-    config.body = JSON.stringify(config.body);
-  }
+  const config = {
+    method,
+    headers,
+    body: data ? JSON.stringify(data) : null,
+  };
 
   try {
     const response = await fetch(url, config);
-    const data = await response.json();
-    
+
     if (!response.ok) {
-      throw new Error(data.message || 'Erro na requisição');
+        const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido do servidor.' }));
+        const errorMessage = errorData.message || `Erro do servidor com status ${response.status}`;
+        throw new Error(errorMessage);
     }
-    
-    return data;
+
+    // Retorna a resposta JSON em caso de sucesso
+    return response.json();
   } catch (error) {
-    console.error('Erro na requisição:', error);
+    console.error(`Erro na requisição ${method} ${endpoint}:`, error.message);
     throw error;
   }
 };
 
-// Serviço de autenticação
+
 export const authService = {
-  // Cadastro
-  cadastrar: (dadosUsuario) => 
-    apiRequest('/auth/cadastrar', {
-      method: 'POST',
-      body: dadosUsuario
-    }),
-
-  // Login
-  login: (credenciais) => 
-    apiRequest('/auth/login', {
-      method: 'POST',
-      body: credenciais
-    }),
-
-  // Verificar usuário logado
-  verificarUsuario: (token) => 
-    apiRequest('/auth/verificar', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+  cadastrar: async (dados) => {
+    return apiRequest('/auth/cadastrar', 'POST', dados);
+  },
+  
+  login: async (email, senha) => {
+    return apiRequest('/auth/login', 'POST', { email, senha });
+  },
 };
-
-export default apiRequest;

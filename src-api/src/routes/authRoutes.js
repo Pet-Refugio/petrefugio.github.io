@@ -1,13 +1,12 @@
-// src-api/src/routes/auth.routes.js
-import { Router } from 'express';
-import { register, login } from '../controllers/auth.controller.js';
+import express from 'express';
+import { cadastrarUsuario, loginUsuario } from '../controllers/authController.js';
 
-const router = Router();
+const router = express.Router();
 
+// Rota POST para Cadastro de Usuário
+router.post('/cadastrar', cadastrarUsuario);
 
-router.post('/cadastrar', register);
-
-
-router.post('/login', login);
+// Rota POST para Login de Usuário
+router.post('/login', loginUsuario);
 
 export default router;

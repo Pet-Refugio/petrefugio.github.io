@@ -12,7 +12,7 @@ import ChatConversa from './components/principal/ChatConversa.jsx';
 import ListaAmigos from './components/amigos/ListaAmigos.jsx';
 import PerfilPublico from './components/perfil/PerfilPublico.jsx';
 import PerfilPet from './components/perfil/PerfilPet.jsx';
-
+import { AuthProvider } from './context/AuthContext.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </AuthProvider>
   </React.StrictMode>
 );

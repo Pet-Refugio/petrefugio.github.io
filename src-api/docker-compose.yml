@@ -1,17 +1,14 @@
-# src-api/docker-compose.yml
-version: '3.8'
 services:
   postgres-db:
     image: postgres:14-alpine
     container_name: petrefugio_db
     restart: always
     environment:
-      # Essas variáveis criam o banco e o usuário automaticamente
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: sua_senha_forte_aqui # Troque isso
+      POSTGRES_PASSWORD: NSdandandograu@123
       POSTGRES_DB: petrefugio
     ports:
-      - "5432:5432" # Mapeia a porta do container para a porta do seu PC
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

@@ -1,9 +1,8 @@
 // src/components/login/FormularioLogin.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext.jsx'; // Importa o contexto
+import { useAuth } from '../../context/AuthContext.jsx';
 import '../../styles/login/estiloForm.css'; //
-
 const FormLogin = () => {
   const [dados, setDados] = useState({
     email: '',
