@@ -1,14 +1,10 @@
+// src-api/src/routes/authRoutes.js
 import express from 'express';
-import AuthController from '../controllers/authController.js';
-import authMiddleware from '../middleware/auth.js';
+import { cadastrar, logar } from '../controllers/authController.js';
 
 const router = express.Router();
 
-// Rotas públicas
-router.post('/cadastrar', AuthController.cadastrar);
-router.post('/login', AuthController.login);
-
-// Rota protegida
-router.get('/verificar', authMiddleware, AuthController.verificarUsuario);
+router.post('/cadastrar', cadastrar);
+router.post('/login', logar);
 
 export default router;

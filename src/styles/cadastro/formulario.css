@@ -1,11 +1,14 @@
-/* Layout Lateral */
+/* src/styles/cadastro/formulario.css */
 .container-cadastro-lateral {
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 30px;
   max-width: 900px;
   margin: 0 auto;
-  padding-left: 8rem;
+  min-height: 100vh;
+  align-items: start;
+  padding-top: 6rem;
+  padding-bottom: 2rem;
 }
 
 /* Card de Tipos de Conta (Lateral Esquerda) */
@@ -16,6 +19,7 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   position: sticky;
   top: 20px;
+  height: fit-content;
 }
 
 .card-tipos-conta h3 {
@@ -99,7 +103,6 @@
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   min-height: 600px;
-
 }
 
 .card-formulario-lateral h2 {
@@ -136,6 +139,7 @@
   font-size: 0.95rem;
   transition: all 0.3s ease;
   background: #FAFAFA;
+  font-family: inherit;
 }
 
 .grupo-form-lateral input:focus {
@@ -143,6 +147,11 @@
   border-color: #F26B38;
   background: #FFFFFF;
   box-shadow: 0 0 0 3px rgba(242, 107, 56, 0.1);
+}
+
+.grupo-form-lateral input::placeholder {
+  color: #999;
+  font-size: 0.9rem;
 }
 
 /* Campos de Senha Lado a Lado */
@@ -178,6 +187,7 @@
   text-align: center;
   font-size: 0.9rem;
   margin-bottom: 15px;
+  font-weight: 500;
 }
 
 /* Ações */
@@ -185,6 +195,7 @@
   display: flex;
   gap: 12px;
   margin-top: 10px;
+  align-items: center;
 }
 
 .botao-principal-lateral {
@@ -195,10 +206,10 @@
   border: none;
   border-radius: 8px;
   font-size: 1rem;
-  width:  60vh;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  min-height: 48px;
 }
 
 .botao-principal-lateral:hover:not(:disabled) {
@@ -211,26 +222,30 @@
   background: #CCCCCC;
   cursor: not-allowed;
   transform: none;
+  opacity: 0.7;
 }
 
 .botao-voltar-lateral {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 12px 20px;
   background: #3E3E3E;
   color: white;
   border: none;
   border-radius: 8px;
   text-decoration: none;
-  text-align: center;
   font-size: 1rem;
   font-weight: 500;
   transition: all 0.3s ease;
+  min-height: 48px;
   flex: 0.5;
 }
 
 .botao-voltar-lateral:hover {
   background: #2E2E2E;
   transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 /* Links */
@@ -240,24 +255,38 @@
   padding-top: 20px;
   border-top: 1px solid #E8E8E8;
   color: #666;
+  font-size: 0.95rem;
 }
 
 .links-lateral a {
   color: #F26B38;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .links-lateral a:hover {
   text-decoration: underline;
+  color: #E55A2B;
 }
 
 /* Responsividade */
+@media (max-width: 968px) {
+  .container-cadastro-lateral {
+    grid-template-columns: 280px 1fr;
+    gap: 25px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .container-cadastro-lateral {
     grid-template-columns: 1fr;
     gap: 20px;
     padding: 15px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   
   .card-tipos-conta {
@@ -269,23 +298,14 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  .conteudo-cadastro {
-    border: 2px solid red; /* Verifique se ocupa a tela toda */
-  }
-  
-  .container-cadastro {
-    border: 2px solid blue; /* Verifique se está centralizado */
-  }
-  
-  .card-cadastro {
-    border: 2px solid green; /* Verifique o card */
-  }
   
   .card-opcao {
     flex-direction: column;
     text-align: center;
     padding: 12px;
     min-width: 100px;
+    flex: 1;
+    min-width: 120px;
   }
   
   .icone-opcao-lateral {
@@ -303,10 +323,19 @@
   
   .botao-voltar-lateral {
     flex: 1;
+    width: 100%;
+  }
+  
+  .botao-principal-lateral {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
+  .container-cadastro-lateral {
+    padding: 10px;
+  }
+  
   .card-formulario-lateral {
     padding: 20px 15px;
   }
@@ -322,4 +351,53 @@
   .texto-opcao-lateral {
     font-size: 0.8rem;
   }
+  
+  .card-formulario-lateral h2 {
+    font-size: 1.4rem;
+  }
+  
+  .card-tipos-conta h3 {
+    font-size: 1.1rem;
+  }
+  
+  .grupo-form-lateral input {
+    padding: 10px;
+  }
+  
+  .botao-principal-lateral,
+  .botao-voltar-lateral {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Melhorias de Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .card-opcao,
+  .grupo-form-lateral input,
+  .botao-principal-lateral,
+  .botao-voltar-lateral {
+    transition: none;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Foco visível para acessibilidade */
+.grupo-form-lateral input:focus-visible {
+  outline: 2px solid #F26B38;
+  outline-offset: 2px;
+}
+
+.botao-principal-lateral:focus-visible,
+.botao-voltar-lateral:focus-visible {
+  outline: 2px solid #3E3E3E;
+  outline-offset: 2px;
 }

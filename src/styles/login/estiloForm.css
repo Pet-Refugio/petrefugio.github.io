@@ -54,10 +54,9 @@
   }
   
   .botao-principal {
-    width: 55vh;
+    width: 55%;
     height: 4rem;
     margin: 1vh;
-
     background: linear-gradient(135deg, #F26B38, #FF9D71);
     color: white;
     border: none;
@@ -69,7 +68,7 @@
     transition: all 0.3s ease;
   }
   .botao-voltar {
-    width: 45vh;
+    width: 50%;
     height: 4rem;
     padding: 1rem;
     background: #3E3E3E;

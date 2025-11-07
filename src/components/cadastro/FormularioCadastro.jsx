@@ -1,9 +1,16 @@
+// src/components/cadastro/FormularioCadastro.jsx
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../../styles/cadastro/formulario.css';
-import { authService } from '../../services/api';
+import { useAuth } from '../../context/AuthContext'; // 👈 NOVO: Importa o contexto
+import { cadastrar } from '../../services/api';     // 👈 NOVO: Importa a função (ajustada para ser chamada diretamente)
+
+// Importa o CSS original (caminho ajustado para a profundidade do componente)
+import '../../styles/cadastro/formulario.css'; 
 
 const FormularioCadastro = () => {
+  const { login } = useAuth(); // 👈 NOVO: Pega a função de login do contexto
+  const navigate = useNavigate();
+
   const [dados, setDados] = useState({
     tipoConta: 'pessoal',
     nome: '',
@@ -16,7 +23,6 @@ const FormularioCadastro = () => {
   
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
-  const navigate = useNavigate();
 
   const tiposConta = [
     { value: 'pessoal', label: 'Pessoal', icone: '👤' },
@@ -41,6 +47,7 @@ const FormularioCadastro = () => {
     setErro('');
     setCarregando(true);
     
+    // --- Validações ---
     if (dados.senha !== dados.confirmarSenha) {
       setErro('As senhas não coincidem');
       setCarregando(false);
@@ -58,19 +65,26 @@ const FormularioCadastro = () => {
       setCarregando(false);
       return;
     }
+    // --- Fim Validações ---
     
     try {
-      const resultado = await authService.cadastrar(dados);
+      // Chama a função cadastrar (que está no api.js)
+      const resultado = await cadastrar(dados);
       
       if (resultado.success) {
+        // Usa a função login do AuthContext para salvar estado e localStorage
+        login(resultado.data, resultado.token); 
+        
         console.log('Cadastro realizado com sucesso!', resultado.data);
-        alert('Cadastro realizado com sucesso!');
-        navigate('/login');
+        alert('Cadastro realizado com sucesso! Redirecionando...');
+        
+        // Navega para a área principal
+        navigate('/principal', { replace: true });
       } else {
         setErro(resultado.message);
       }
     } catch (error) {
-      setErro('Erro ao conectar com o servidor');
+      setErro(error.message || 'Erro ao conectar com o servidor. Verifique o backend.');
     } finally {
       setCarregando(false);
     }
@@ -213,7 +227,7 @@ const FormularioCadastro = () => {
               />
             </div>
           </div>
-          <Link to="/principal">
+
           <div className="acoes-lateral">
             <button 
               type="submit" 
@@ -224,7 +238,6 @@ const FormularioCadastro = () => {
             </button>
             <Link to="/" className="botao-voltar-lateral">Voltar</Link>
           </div>
-          </Link>
         </form>
         
         <div className="links-lateral">

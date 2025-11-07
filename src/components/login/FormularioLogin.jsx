@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+// src/components/login/FormularioLogin.jsx
+import  { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext'; // 👈 NOVO: Importa o contexto
+import { logar } from '../../services/api';         // 👈 NOVO: Importa a função (ajustada para ser chamada diretamente)
+
+// Importa o CSS original (caminho ajustado para a profundidade do componente)
 import '../../styles/login/estiloForm.css';
-import { authService } from '../../services/api';
 
 const FormLogin = () => {
+  const { login } = useAuth(); // 👈 NOVO: Pega a função de login do contexto
+  const navigate = useNavigate();
+
   const [dados, setDados] = useState({
     email: '',
     senha: ''
@@ -11,7 +18,6 @@ const FormLogin = () => {
   
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,20 +25,22 @@ const FormLogin = () => {
     setCarregando(true);
 
     try {
-      const resultado = await authService.login(dados);
+      // Chama a função logar (que está no api.js)
+      const resultado = await logar(dados);
       
       if (resultado.success) {
-        // Salvar token no localStorage
-        localStorage.setItem('token', resultado.data.token);
-        localStorage.setItem('usuario', JSON.stringify(resultado.data.usuario));
+        // Usa a função login do AuthContext para salvar estado e localStorage
+        login(resultado.data.usuario, resultado.data.token);
         
         console.log('Login realizado com sucesso!', resultado.data.usuario);
-        navigate('/perfil');
+        
+        // Redireciona para a página principal (rota protegida)
+        navigate('/principal', { replace: true });
       } else {
         setErro(resultado.message);
       }
     } catch (error) {
-      setErro('Erro ao conectar com o servidor');
+      setErro(error.message || 'Erro ao conectar com o servidor. Verifique o backend.');
     } finally {
       setCarregando(false);
     }

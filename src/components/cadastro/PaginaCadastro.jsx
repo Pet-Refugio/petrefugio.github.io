@@ -1,22 +1,16 @@
-import HeaderCadastro from './HeaderCadastro';
-import FormCadastro from './FormularioCadastro';
-import Footer from '../home/Footer';
-import '../../styles/cadastro/pagina.css';
+import FormularioCadastro from './FormularioCadastro'; 
+import { Link } from 'react-router-dom';
 
-const PaginaCadastro = () => {
+export default function PaginaCadastro() {
   return (
-    <div className="pagina-cadastro">
-      <HeaderCadastro />
-      
-      <main className="conteudo-cadastro">
-        <div className="container-cadastro margin-auto">
-          <FormCadastro />
-        </div>
-      </main>
-
-      <Footer />
+    <div className="pagina-autenticacao">
+      <div className="conteudo-autenticacao">
+        {/* Aqui você pode incluir seu HeaderCadastro se ele existir */}
+        <FormularioCadastro />
+        <p className="link-alternativo">
+          Já tem uma conta? <Link to="/login">Fazer Login</Link>
+        </p>
+      </div>
     </div>
   );
-};
-
-export default PaginaCadastro;
+}
