@@ -54,7 +54,7 @@
   }
   
   .botao-principal {
-    width: 55vh;
+    width: 55%;
     height: 4rem;
     margin: 1vh;
 
@@ -68,9 +68,9 @@
     margin-top: 1rem;
     transition: all 0.3s ease;
   }
-  .botao-voltar {
-    width: 45vh;
+  .botaovoltar {
     height: 4rem;
+    width:40%;
     padding: 1rem;
     background: #3E3E3E;
     color: white;

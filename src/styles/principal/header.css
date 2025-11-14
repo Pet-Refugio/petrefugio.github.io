@@ -1,200 +1,83 @@
+/* src/components/principal/header.css - ADICIONE ESTES ESTILOS */
 .header-principal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: white;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  transition: transform 0.3s ease, top 0.3s ease;
-  transform: translateY(0);
-}
-*{
-  text-decoration: none;
-}
-
-.header-principal.header-escondido {
-  transform: translateY(-100%);
-}
-
-.nav-principal {
-  padding: 0 1rem;
-}
-
-.nav-container-principal {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  height: 70px;
-}
-
-/* Logo com Status */
-.logo-principal {
-  display: flex;
   align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-  user-select: none;
-}
-
-.logo-principal:hover {
-  opacity: 0.8;
-}
-
-.logo-icone {
-  font-size: 1.8rem;
-}
-
-.logo-texto-principal {
-  font-size: 1.5rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #F26B38, #FF9D71);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.status-pagina {
-  font-size: 0.8rem;
-  color: #F26B38;
-  font-weight: 600;
-  background: rgba(242, 107, 56, 0.1);
-  padding: 0.2rem 0.6rem;
-  border-radius: 12px;
-  margin-left: 0.5rem;
-}
-
-/* Menu Central */
-.menu-central {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  background: #F8F9FA;
-  padding: 0.3rem;
-  border-radius: 25px;
-}
-
-.menu-item-principal {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  border: 2px solid transparent;
-  border-radius: 20px;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #6c757d;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  border: none;
-  font-family: inherit;
-}
-
-.menu-item-principal:hover {
+  padding: 1rem 2rem;
   background: white;
-  color: #3E3E3E;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.menu-item-principal.active {
-  background: #F26B38;
-  color: white;
-  box-shadow: 0 4px 12px rgba(242, 107, 56, 0.3);
+.logo-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #F26B38;
 }
 
-.menu-icone {
-  font-size: 1.1rem;
+.buscador-header {
+  flex: 1;
+  max-width: 400px;
+  margin: 0 2rem;
 }
 
-.menu-texto-principal {
-  white-space: nowrap;
+.input-busca {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #f8f9fa;
 }
 
-/* Área do Perfil */
-.area-perfil {
+.usuario-header {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.perfil-usuario {
+.info-usuario {
+  text-align: right;
+}
+
+.saudacao {
+  color: #666;
+}
+
+.nome-usuario {
+  color: #333;
+}
+
+.acoes-header {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
 }
 
-.avatar-perfil {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid #F26B38;
-  transition: all 0.3s ease;
+.botao-header {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
-.avatar-perfil:hover {
-  transform: scale(1.1);
-  border-color: #FF9D71;
+.botao-perfil:hover {
+  background: #f8f9fa;
 }
 
-.imagem-perfil {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.botao-admin {
+  background: #F26B38;
+  color: white;
+  border-color: #F26B38;
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
-  .nav-container-principal {
-    padding: 0 1rem;
-  }
-  
-  .menu-texto-principal {
-    display: none;
-  }
-  
-  .menu-item-principal {
-    padding: 0.6rem;
-  }
-  
-  .status-pagina {
-    display: none;
-  }
-  
-  .logo-texto-principal {
-    font-size: 1.3rem;
-  }
-  
-  .menu-central {
-    gap: 0.3rem;
-    padding: 0.2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .nav-container-principal {
-    height: 60px;
-  }
-  
-  .logo-icone {
-    font-size: 1.5rem;
-  }
-  
-  .logo-texto-principal {
-    font-size: 1.2rem;
-  }
-  
-  .avatar-perfil {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .menu-item-principal {
-    padding: 0.5rem;
-  }
+.botao-sair {
+  background: #ff6b6b;
+  color: white;
+  border-color: #ff6b6b;
 }

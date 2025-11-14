@@ -1,88 +1,113 @@
 // src/components/principal/SidebarServicos.jsx
+import React from 'react';
+import { useAuth } from '../../context/AuthContext';
 import '../../styles/principal/SidebarServicos.css';
-import servicosData from '../../dados/servicos.json';
 
-export default function SidebarServicos() {
-  
-  const handleImageError = (e) => {
-    e.target.src = '/images/prestadores/default-service.jpg';
+const SidebarServicos = ({ usuario }) => {
+  const servicosPorTipo = {
+    veterinario: [
+      { icone: '💊', nome: 'Consultas', descricao: 'Agende consultas' },
+      { icone: '🏥', nome: 'Emergências', descricao: 'Atendimento 24h' },
+      { icone: '💉', nome: 'Vacinas', descricao: 'Cartão de vacinação' }
+    ],
+    usuario: [
+      { icone: '🐕', nome: 'Passeios', descricao: 'Encontre passeadores' },
+      { icone: '🏠', nome: 'Hospedagem', descricao: 'Hotéis para pets' },
+      { icone: '✂️', nome: 'Banho & Tosa', descricao: 'Cuidados estéticos' }
+    ],
+    admin: [
+      { icone: '👥', nome: 'Usuários', descricao: 'Gerenciar usuários' },
+      { icone: '📊', nome: 'Estatísticas', descricao: 'Relatórios do sistema' },
+      { icone: '⚙️', nome: 'Configurações', descricao: 'Configurar sistema' }
+    ]
   };
 
-  const handleServicoClick = (servicoId) => {
-    console.log('Abrindo serviço:', servicoId);
-    // Navegar para página do serviço ou abrir modal
-  };
-
-  const getIconePorTipo = (tipo) => {
-    const icones = {
-      cuidador: '🏠',
-      hotel: '🏨',
-      treinador: '🎓',
-      veterinario: '🏥',
-      petshop: '🛍️',
-      ong: '❤️'
-    };
-    return icones[tipo] || '🐾';
-  };
+  const servicos = servicosPorTipo[usuario.tipo] || servicosPorTipo.usuario;
 
   return (
-    <aside className="sidebar-servicos">
-      
-      {/* Cabeçalho */}
-      <div className="cabecalho-servicos">
-        <h3>🏥 Serviços Pet</h3>
-        <button className="botao-ver-todos" title="Ver todos os serviços">
-          Ver Todos
-        </button>
-      </div>
-
-      {/* Lista de Serviços */}
-      <div className="lista-servicos">
-        {servicosData.servicos.map((servico) => (
-          <div 
-            key={servico.id} 
-            className="card-servico"
-            onClick={() => handleServicoClick(servico.id)}
-          >
-            <div className="servico-imagem">
-              <img 
-                src={servico.imagem} 
-                alt={servico.nome}
-                onError={handleImageError}
-              />
-              <span className="servico-icone">
-                {getIconePorTipo(servico.tipo)}
-              </span>
-            </div>
-            
-            <div className="servico-info">
-              <h4 className="servico-nome">{servico.nome}</h4>
-              <p className="servico-especialidade">{servico.especialidade}</p>
-              
-              <div className="servico-detalhes">
-                <span className="servico-avaliacao">
-                  ⭐ {servico.avaliacao}
-                </span>
-                <span className="servico-localizacao">
-                  📍 {servico.localizacao}
-                </span>
+    <div className="sidebar-servicos">
+      <div className="card-servicos">
+        <h3 className="titulo-servicos">
+          {usuario.tipo === 'veterinario' ? 'Meus Serviços' : 
+           usuario.tipo === 'admin' ? 'Ferramentas Admin' : 'Serviços para Você'}
+        </h3>
+        
+        <div className="lista-servicos">
+          {servicos.map((servico, index) => (
+            <div key={index} className="item-servico">
+              <span className="icone-servico">{servico.icone}</span>
+              <div className="info-servico">
+                <strong>{servico.nome}</strong>
+                <span>{servico.descricao}</span>
               </div>
-              
-              <p className="servico-descricao">{servico.descricao}</p>
             </div>
-
-            <div className="servico-acoes">
-              <button className="botao-contato" title="Entrar em contato">
-                📞 Contato
-              </button>
-              <button className="botao-favorito" title="Favoritar">
-                ❤️
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-    </aside>
+      {/* Seus Pets */}
+      <div className="card-meus-pets">
+        <h3 className="titulo-pets">Meus Pets</h3>
+        
+        {usuario.pets.length === 0 ? (
+          <div className="sem-pets">
+            <p>Nenhum pet cadastrado</p>
+            <button 
+              onClick={() => window.location.href = '/perfil/adicionar-pet'}
+              className="botao-adicionar-pet"
+            >
+              Adicionar Pet
+            </button>
+          </div>
+        ) : (
+          <div className="lista-pets">
+            {usuario.pets.map(pet => (
+              <div key={pet.id} className="item-pet">
+                <span className="icone-pet">{pet.foto}</span>
+                <div className="info-pet">
+                  <strong>{pet.nome}</strong>
+                  <span>{pet.tipo} • {pet.raca}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Atalhos Rápidos */}
+      <div className="card-atalhos">
+        <h3 className="titulo-atalhos">Atalhos</h3>
+        <div className="lista-atalhos">
+          <button 
+            onClick={() => window.location.href = '/perfil'}
+            className="atalho"
+          >
+            👤 Meu Perfil
+          </button>
+          <button 
+            onClick={() => window.location.href = '/perfil/adicionar-pet'}
+            className="atalho"
+          >
+            🐾 Adicionar Pet
+          </button>
+          <button 
+            onClick={() => window.location.href = '/principal/amigos'}
+            className="atalho"
+          >
+            👥 Amigos
+          </button>
+          {usuario.tipo === 'admin' && (
+            <button 
+              onClick={() => window.location.href = '/admin'}
+              className="atalho atalho-admin"
+            >
+              ⚙️ Painel Admin
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default SidebarServicos;
