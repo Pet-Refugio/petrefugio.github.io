@@ -1,4 +1,4 @@
-// src/components/principal/AreaConteudo.jsx - VERSÃO ATUALIZADA
+// src/components/principal/AreaConteudo.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -11,37 +11,71 @@ const AreaConteudo = ({ usuario }) => {
   const [imagemPost, setImagemPost] = useState(null);
   const [mostrarOpcoesFoto, setMostrarOpcoesFoto] = useState(false);
 
-  // Função segura para obter posts
+  // Função segura para obter posts - CORRIGIDA
   const getTodosPosts = () => {
     if (!usuarios || !usuario) return [];
     
-    return Object.values(usuarios)
-      .flatMap(user => {
-        const postsDoUsuario = Array.isArray(user.posts) ? user.posts : [];
-        return postsDoUsuario.map(post => ({
-          ...post,
-          usuarioNome: user.nome || 'Usuário',
-          usuarioUsername: user.username || 'usuario',
-          usuarioEmail: Object.keys(usuarios).find(email => usuarios[email] === user) || '',
-          usuarioFoto: user.fotoPerfil || null
-        }));
-      })
-      .filter(post => {
-        const usuariosParaMostrar = [usuario.email, ...(Array.isArray(usuario.seguindo) ? usuario.seguindo : [])];
-        return usuariosParaMostrar.includes(post.usuarioEmail);
-      })
-      .sort((a, b) => new Date(b.data) - new Date(a.data));
+    try {
+      const todosPosts = [];
+      
+      // Coletar posts do usuário atual
+      if (usuario.posts && Array.isArray(usuario.posts)) {
+        usuario.posts.forEach(post => {
+          todosPosts.push({
+            ...post,
+            usuarioNome: usuario.nome,
+            usuarioUsername: usuario.username,
+            usuarioEmail: usuario.email,
+            usuarioFoto: usuario.fotoPerfil
+          });
+        });
+      }
+
+      // Coletar posts dos usuários que o usuário segue
+      if (usuario.seguindo && Array.isArray(usuario.seguindo)) {
+        usuario.seguindo.forEach(email => {
+          const userSeguido = usuarios[email];
+          if (userSeguido && userSeguido.posts && Array.isArray(userSeguido.posts)) {
+            userSeguido.posts.forEach(post => {
+              todosPosts.push({
+                ...post,
+                usuarioNome: userSeguido.nome,
+                usuarioUsername: userSeguido.username,
+                usuarioEmail: email,
+                usuarioFoto: userSeguido.fotoPerfil
+              });
+            });
+          }
+        });
+      }
+
+      // Ordenar por data
+      return todosPosts.sort((a, b) => {
+        try {
+          return new Date(b.data) - new Date(a.data);
+        } catch {
+          return 0;
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao carregar posts:', error);
+      return [];
+    }
   };
 
   const todosPosts = getTodosPosts();
 
-  const handleCriarPost = (e) => {
+  const handleCriarPost = async (e) => {
     e.preventDefault();
     if (novoPost.trim() || imagemPost) {
-      criarPost(novoPost, imagemPost);
-      setNovoPost('');
-      setImagemPost(null);
-      setMostrarOpcoesFoto(false);
+      const resultado = await criarPost(novoPost, imagemPost);
+      if (resultado) {
+        setNovoPost('');
+        setImagemPost(null);
+        setMostrarOpcoesFoto(false);
+      } else {
+        alert('Erro ao criar post. Tente novamente.');
+      }
     }
   };
 
@@ -91,13 +125,11 @@ const AreaConteudo = ({ usuario }) => {
   };
 
   const handleCurtirPost = (postId) => {
-    if (curtirPost) {
-      curtirPost(postId);
-    }
+    curtirPost(postId);
   };
 
   const estaSeguindo = (emailUsuario) => {
-    return Array.isArray(usuario.seguindo) && usuario.seguindo.includes(emailUsuario);
+    return usuario.seguindo && Array.isArray(usuario.seguindo) && usuario.seguindo.includes(emailUsuario);
   };
 
   const irParaPerfil = (emailUsuario) => {
@@ -108,9 +140,18 @@ const AreaConteudo = ({ usuario }) => {
     }
   };
 
+  const handleImageError = (e) => {
+    e.target.style.display = 'none';
+    const parent = e.target.parentNode;
+    const placeholder = document.createElement('div');
+    placeholder.className = 'avatar-placeholder';
+    placeholder.textContent = '👤';
+    parent.appendChild(placeholder);
+  };
+
   return (
     <div className="area-conteudo">
-      {/* Criar Post - DESIGN MODERNO */}
+      {/* Criar Post - FORMATAÇÃO CORRIGIDA */}
       <div className="card-criar-post">
         <div className="cabecalho-criar-post">
           <div 
@@ -119,7 +160,12 @@ const AreaConteudo = ({ usuario }) => {
             style={{cursor: 'pointer'}}
           >
             {usuario.fotoPerfil ? (
-              <img src={usuario.fotoPerfil} alt="Seu perfil" className="avatar-usuario" />
+              <img 
+                src={usuario.fotoPerfil} 
+                alt={usuario.nome} 
+                className="avatar-usuario"
+                onError={handleImageError}
+              />
             ) : (
               <div className="avatar-placeholder-usuario">
                 {usuario.nome ? usuario.nome.charAt(0).toUpperCase() : 'U'}
@@ -185,9 +231,9 @@ const AreaConteudo = ({ usuario }) => {
         </form>
       </div>
 
-      {/* Feed de Posts */}
+      {/* Feed de Posts - FORMATAÇÃO CORRIGIDA */}
       <div className="feed-posts">
-        {!Array.isArray(todosPosts) || todosPosts.length === 0 ? (
+        {todosPosts.length === 0 ? (
           <div className="sem-posts">
             <div className="icone-sem-posts">🐾</div>
             <h3>Seu feed está vazio</h3>
@@ -201,7 +247,7 @@ const AreaConteudo = ({ usuario }) => {
           </div>
         ) : (
           todosPosts.map(post => (
-            <div key={post.id || Math.random()} className="card-post">
+            <div key={post.id} className="card-post">
               <div className="cabecalho-post">
                 <div 
                   className="usuario-post"
@@ -209,7 +255,12 @@ const AreaConteudo = ({ usuario }) => {
                   style={{cursor: 'pointer'}}
                 >
                   {post.usuarioFoto ? (
-                    <img src={post.usuarioFoto} alt={post.usuarioNome} className="avatar-post" />
+                    <img 
+                      src={post.usuarioFoto} 
+                      alt={post.usuarioNome}
+                      className="avatar-post"
+                      onError={handleImageError}
+                    />
                   ) : (
                     <div className="avatar-placeholder-post">
                       {post.usuarioNome ? post.usuarioNome.charAt(0).toUpperCase() : 'U'}
@@ -248,15 +299,12 @@ const AreaConteudo = ({ usuario }) => {
               <div className="acoes-post">
                 <button 
                   onClick={() => handleCurtirPost(post.id)}
-                  className={`botao-acao ${post.curtidas && Array.isArray(post.curtidas) && post.curtidas.includes(usuario.email) ? 'curtido' : ''}`}
+                  className={`botao-acao ${post.curtidas && post.curtidas.includes(usuario.email) ? 'curtido' : ''}`}
                 >
-                  ❤️ <span>{post.curtidas && Array.isArray(post.curtidas) ? post.curtidas.length : 0}</span>
+                  ❤️ {post.curtidas ? post.curtidas.length : 0}
                 </button>
                 <button className="botao-acao">
-                  💬 <span>{post.comentarios && Array.isArray(post.comentarios) ? post.comentarios.length : 0}</span>
-                </button>
-                <button className="botao-acao">
-                  🔄
+                  💬 {post.comentarios ? post.comentarios.length : 0}
                 </button>
               </div>
             </div>

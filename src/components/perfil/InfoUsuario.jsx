@@ -1,10 +1,11 @@
+// src/components/perfil/InfoUsuario.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/perfil/InfoUsuario.css';
 
 const InfoUsuario = () => {
-  const { usuario, atualizarPerfil, logout } = useAuth();
+  const { usuario, atualizarPerfil, logout, adicionarFoto } = useAuth();
   const navigate = useNavigate();
   const [editando, setEditando] = useState(false);
   const [dadosEditados, setDadosEditados] = useState({
@@ -15,6 +16,7 @@ const InfoUsuario = () => {
   const [fotoPerfil, setFotoPerfil] = useState(usuario?.fotoPerfil || null);
   const [fotoCapa, setFotoCapa] = useState(usuario?.fotoCapa || null);
 
+  // Verificação de segurança
   if (!usuario) {
     return (
       <div className="perfil-carregando">
@@ -24,13 +26,17 @@ const InfoUsuario = () => {
     );
   }
 
-  const handleSalvarPerfil = () => {
-    const dadosAtualizados = {
-      ...dadosEditados,
-      ...(fotoPerfil && { fotoPerfil }),
-      ...(fotoCapa && { fotoCapa })
-    };
-    atualizarPerfil(dadosAtualizados);
+  const handleSalvarPerfil = async () => {
+    // Primeiro salva as fotos se houverem
+    if (fotoPerfil && fotoPerfil !== usuario.fotoPerfil) {
+      await adicionarFoto('perfil', fotoPerfil);
+    }
+    if (fotoCapa && fotoCapa !== usuario.fotoCapa) {
+      await adicionarFoto('capa', fotoCapa);
+    }
+    
+    // Depois salva os outros dados
+    atualizarPerfil(dadosEditados);
     setEditando(false);
   };
 
@@ -45,6 +51,7 @@ const InfoUsuario = () => {
     setEditando(false);
   };
 
+  // Função para selecionar arquivo (foto ou capa)
   const selecionarArquivo = (tipo, usarCamera = false) => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -78,6 +85,7 @@ const InfoUsuario = () => {
 
   return (
     <div className="info-usuario">
+      {/* Capa do Perfil */}
       <div className="capa-perfil">
         {fotoCapa ? (
           <img src={fotoCapa} alt="Capa do perfil" />
@@ -98,7 +106,9 @@ const InfoUsuario = () => {
         )}
       </div>
 
+      {/* Conteúdo Principal */}
       <div className="conteudo-perfil">
+        {/* Avatar e Nome */}
         <div className="cabecalho-info">
           <div className="avatar-container">
             {fotoPerfil ? (
@@ -147,7 +157,9 @@ const InfoUsuario = () => {
           </div>
         </div>
 
+        {/* Detalhes do Usuário */}
         <div className="detalhes-usuario">
+          {/* Biografia */}
           {editando ? (
             <textarea
               value={dadosEditados.bio}
@@ -160,6 +172,7 @@ const InfoUsuario = () => {
             <p className="bio">{usuario.bio || 'Este usuário ainda não adicionou uma biografia.'}</p>
           )}
 
+          {/* Estatísticas */}
           <div className="estatisticas">
             <div className="estatistica">
               <span className="numero">{usuario.posts?.length || 0}</span>
@@ -179,6 +192,7 @@ const InfoUsuario = () => {
             </div>
           </div>
 
+          {/* Informações de Contato */}
           <div className="info-contato">
             <div className="info-item">
               <span className="icone">📧</span>
@@ -191,6 +205,7 @@ const InfoUsuario = () => {
             </div>
           </div>
 
+          {/* Redes Sociais (Placeholder) */}
           <div className="redes-sociais">
             <a href="#" className="rede-social">
               <span className="icone-rede">📘</span>
@@ -206,6 +221,7 @@ const InfoUsuario = () => {
             </a>
           </div>
 
+          {/* Ações do Usuário */}
           <div className="acoes-usuario">
             {editando ? (
               <>
@@ -239,6 +255,7 @@ const InfoUsuario = () => {
         </div>
       </div>
 
+      {/* Menu de Opções de Foto (quando em edição) */}
       {editando && (
         <div className="menu-opcoes-avancado">
           <div className="opcoes-foto-avancadas">

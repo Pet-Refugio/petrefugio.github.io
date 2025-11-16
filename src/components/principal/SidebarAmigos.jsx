@@ -1,98 +1,138 @@
 // src/components/principal/SidebarAmigos.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/principal/SidebarAmigos.css';
 
-const SidebarAmigos = ({ usuario }) => {
-  const { usuarios, seguirUsuario, deixarSeguir } = useAuth();
+export default function SidebarAmigos({ usuario }) {
+  const navigate = useNavigate();
+  const { usuarios } = useAuth();
 
-  const estaSeguindo = (emailUsuario) => {
-    return usuario.seguindo.includes(emailUsuario);
+  // Amigos online (usuários que o usuário atual segue)
+  const amigosOnline = usuario?.seguindo?.filter(email => {
+    const amigo = usuarios[email];
+    return amigo && amigo.online;
+  }) || [];
+
+  // Todos os amigos (usuários que o usuário atual segue)
+  const todosAmigos = usuario?.seguindo?.map(email => usuarios[email]).filter(Boolean) || [];
+
+  const handleImageError = (e, nome) => {
+    const parent = e.target.parentNode;
+    const inicial = nome ? nome.charAt(0).toUpperCase() : 'U';
+    
+    const placeholder = document.createElement('div');
+    placeholder.className = 'avatar-placeholder';
+    placeholder.innerHTML = `<span>${inicial}</span>`;
+    
+    e.target.style.display = 'none';
+    parent.appendChild(placeholder);
+  };
+
+  const handleAmigoClick = (email) => {
+    navigate(`/perfil/publico/${email}`);
+  };
+
+  const handleNovoChat = () => {
+    alert('Funcionalidade de novo chat em desenvolvimento!');
   };
 
   return (
-    <div className="sidebar-amigos">
-      {/* Perfil Resumido */}
-      <div className="card-perfil-resumo">
-        <div className="avatar-resumo">
-          <span className="icone-avatar">👤</span>
+    <aside className="sidebar-amigos">
+      
+      <div className="cabecalho-chat">
+        <h3>Conversas</h3>
+        <button className="botao-novo-chat" onClick={handleNovoChat} title="Nova conversa">
+          💬
+        </button>
+      </div>
+
+      {amigosOnline.length > 0 && (
+        <div className="secao-amigos">
+          <h4>Online Agora ({amigosOnline.length})</h4>
+          <div className="lista-amigos">
+            {amigosOnline.map(email => {
+              const amigo = usuarios[email];
+              if (!amigo) return null;
+              
+              return (
+                <div 
+                  key={email} 
+                  className="item-amigo online"
+                  onClick={() => handleAmigoClick(email)}
+                >
+                  <div className="avatar-amigo">
+                    {amigo.fotoPerfil ? (
+                      <img 
+                        src={amigo.fotoPerfil} 
+                        alt={amigo.nome}
+                        onError={(e) => handleImageError(e, amigo.nome)}
+                      />
+                    ) : (
+                      <div className="avatar-placeholder">
+                        <span>{amigo.nome ? amigo.nome.charAt(0).toUpperCase() : 'U'}</span>
+                      </div>
+                    )}
+                    <span className="status-online" title="Online"></span>
+                  </div>
+                  <span className="nome-amigo">{amigo.nome}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div className="info-resumo">
-          <strong>{usuario.nome}</strong>
-          <span>@{usuario.username}</span>
-          <div className="estatisticas-resumo">
-            <div className="estatistica">
-              <span className="numero">{usuario.seguidores.length}</span>
-              <span className="label">seguidores</span>
+      )}
+
+      <div className="secao-amigos">
+        <h4>Todos os Amigos ({todosAmigos.length})</h4>
+        <div className="lista-amigos">
+          {todosAmigos.map(amigo => (
+            <div 
+              key={amigo.email} 
+              className={`item-amigo ${amigo.online ? 'online' : 'offline'}`}
+              onClick={() => handleAmigoClick(amigo.email)}
+            >
+              <div className="avatar-amigo">
+                {amigo.fotoPerfil ? (
+                  <img 
+                    src={amigo.fotoPerfil} 
+                    alt={amigo.nome}
+                    onError={(e) => handleImageError(e, amigo.nome)}
+                  />
+                ) : (
+                  <div className="avatar-placeholder">
+                    <span>{amigo.nome ? amigo.nome.charAt(0).toUpperCase() : 'U'}</span>
+                  </div>
+                )}
+                {amigo.online && <span className="status-online" title="Online"></span>}
+              </div>
+              <span className="nome-amigo">{amigo.nome}</span>
             </div>
-            <div className="estatistica">
-              <span className="numero">{usuario.seguindo.length}</span>
-              <span className="label">seguindo</span>
-            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="secao-amigos">
+        <h4>Grupos de Pets</h4>
+        <div className="lista-grupos">
+          <div className="item-grupo" onClick={() => alert('Grupo em desenvolvimento!')}>
+            <span className="icone-grupo">🐕</span>
+            <span className="nome-grupo">Cachorros da Cidade</span>
+            <span className="contador-grupo">128</span>
+          </div>
+          <div className="item-grupo" onClick={() => alert('Grupo em desenvolvimento!')}>
+            <span className="icone-grupo">🐈</span>
+            <span className="nome-grupo">Amantes de Gatos</span>
+            <span className="contador-grupo">95</span>
+          </div>
+          <div className="item-grupo" onClick={() => alert('Grupo em desenvolvimento!')}>
+            <span className="icone-grupo">🐦</span>
+            <span className="nome-grupo">Pássaros e Aves</span>
+            <span className="contador-grupo">42</span>
           </div>
         </div>
       </div>
 
-      {/* Sugestões para Seguir */}
-      <div className="card-sugestoes">
-        <h3 className="titulo-sugestoes">Quem Seguir</h3>
-        
-        {Object.entries(usuarios)
-          .filter(([email]) => email !== usuario.email && !usuario.seguindo.includes(email))
-          .slice(0, 5)
-          .map(([email, user]) => (
-            <div key={email} className="sugestao-usuario">
-              <div className="info-sugestao">
-                <span className="avatar-sugestao">👤</span>
-                <div className="detalhes-sugestao">
-                  <strong>{user.nome}</strong>
-                  <span>@{user.username}</span>
-                </div>
-              </div>
-              <button 
-                onClick={() => seguirUsuario(email)}
-                className="botao-seguir"
-              >
-                Seguir
-              </button>
-            </div>
-          ))
-        }
-      </div>
-
-      {/* Amigos que você segue */}
-      <div className="card-amigos-seguindo">
-        <h3 className="titulo-amigos">Seguindo</h3>
-        
-        {usuario.seguindo.length === 0 ? (
-          <p className="sem-amigos">Ainda não segue ninguém</p>
-        ) : (
-          usuario.seguindo.slice(0, 5).map(email => {
-            const user = usuarios[email];
-            if (!user) return null;
-            
-            return (
-              <div key={email} className="amigo-seguindo">
-                <div className="info-amigo">
-                  <span className="avatar-amigo">👤</span>
-                  <div className="detalhes-amigo">
-                    <strong>{user.nome}</strong>
-                    <span>@{user.username}</span>
-                  </div>
-                </div>
-                <button 
-                  onClick={() => deixarSeguir(email)}
-                  className="botao-deixar-seguir"
-                >
-                  Seguindo
-                </button>
-              </div>
-            );
-          })
-        )}
-      </div>
-    </div>
+    </aside>
   );
-};
-
-export default SidebarAmigos;
+}

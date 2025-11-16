@@ -11,7 +11,7 @@ export const useAuth = () => {
   return context;
 };
 
-// Usuários pré-cadastrados COMPLETOS e CORRETOS
+// Usuários pré-cadastrados - VERSÃO SIMPLIFICADA E FUNCIONAL
 const usuariosPreCadastrados = {
   "wenderviana@gmail.com": {
     senha: "12345678",
@@ -19,6 +19,7 @@ const usuariosPreCadastrados = {
     username: "wender_viana",
     bio: "Amo animais e tenho 3 gatos resgatados 🐱 | Fotógrafo de pets",
     tipo: "usuario",
+    online: true,
     seguidores: ["danilosilva@gmail.com", "igormiada@gmail.com"],
     seguindo: ["danilosilva@gmail.com"],
     pets: [
@@ -30,37 +31,23 @@ const usuariosPreCadastrados = {
         idade: "2 anos",
         foto: "🐱",
         descricao: "Gatinha preta muito carinhosa"
-      },
-      {
-        id: 2,
-        nome: "Bolinha",
-        tipo: "Cachorro",
-        raca: "Poodle",
-        idade: "5 anos",
-        foto: "🐩",
-        descricao: "Poodle branco cheio de energia"
       }
     ],
     posts: [
       {
         id: 1,
-        conteudo: "A Luna hoje descobriu que as plantas não são brinquedos! 🌿😸 #Gatos #PetRefugio",
-        data: "2024-01-15T10:30:00Z",
+        conteudo: "A Luna hoje descobriu que as plantas não são brinquedos! 🌿😸 #Gatos",
+        data: new Date().toISOString(),
         curtidas: ["danilosilva@gmail.com"],
         comentarios: [
           {
-            usuario: "danilosilva@gmail.com",
+            id: 1,
+            usuarioEmail: "danilosilva@gmail.com",
+            usuarioNome: "Danilo Silva",
             texto: "Haha, a Thor também adora uma plantinha!",
-            data: "2024-01-15T11:00:00Z"
+            data: new Date().toISOString()
           }
         ]
-      },
-      {
-        id: 2,
-        conteudo: "Passeio no parque com a Bolinha hoje! Ela adora correr atrás das borboletas 🦋🐕",
-        data: "2024-01-14T16:45:00Z",
-        curtidas: ["igormiada@gmail.com"],
-        comentarios: []
       }
     ]
   },
@@ -68,8 +55,9 @@ const usuariosPreCadastrados = {
     senha: "12345678",
     nome: "Danilo Silva",
     username: "danilo_silva",
-    bio: "Veterinário especializado em animais silvestres 🦜 | Cuido do seu pet com amor",
+    bio: "Veterinário especializado em animais silvestres 🦜",
     tipo: "veterinario",
+    online: true,
     seguidores: ["wenderviana@gmail.com"],
     seguindo: ["wenderviana@gmail.com", "igormiada@gmail.com"],
     pets: [
@@ -86,16 +74,10 @@ const usuariosPreCadastrados = {
     posts: [
       {
         id: 1,
-        conteudo: "Dica do dia: A hidratação é fundamental para a saúde do seu pet! 💧🐾 #DicasVeterinárias",
-        data: "2024-01-15T08:15:00Z",
+        conteudo: "Dica do dia: A hidratação é fundamental para a saúde do seu pet! 💧🐾",
+        data: new Date().toISOString(),
         curtidas: ["wenderviana@gmail.com", "igormiada@gmail.com"],
-        comentarios: [
-          {
-            usuario: "wenderviana@gmail.com",
-            texto: "Ótima dica! Quantos ml por kg?",
-            data: "2024-01-15T09:20:00Z"
-          }
-        ]
+        comentarios: []
       }
     ]
   },
@@ -103,8 +85,9 @@ const usuariosPreCadastrados = {
     senha: "12345678",
     nome: "Igor Miada",
     username: "igor_miada",
-    bio: "Fotógrafo de animais e voluntário em ONGs 📸 | Ajudo pets a encontrarem um lar",
+    bio: "Fotógrafo de animais e voluntário em ONGs 📸",
     tipo: "usuario",
+    online: false,
     seguidores: ["danilosilva@gmail.com"],
     seguindo: ["wenderviana@gmail.com"],
     pets: [
@@ -121,8 +104,8 @@ const usuariosPreCadastrados = {
     posts: [
       {
         id: 1,
-        conteudo: "Session de fotos com a Mel hoje! Ela é uma modelo natural 📸❤️ #FotografiaPet",
-        data: "2024-01-14T14:20:00Z",
+        conteudo: "Sessão de fotos com a Mel hoje! Ela é uma modelo natural 📸❤️",
+        data: new Date().toISOString(),
         curtidas: ["wenderviana@gmail.com"],
         comentarios: []
       }
@@ -134,14 +117,15 @@ const usuariosPreCadastrados = {
     username: "admin_petrefugio",
     bio: "Administrador do sistema | Aqui para ajudar todos os pets 🐾",
     tipo: "admin",
+    online: true,
     seguidores: [],
     seguindo: ["wenderviana@gmail.com", "danilosilva@gmail.com", "igormiada@gmail.com"],
     pets: [],
     posts: [
       {
         id: 1,
-        conteudo: "Bem-vindos ao PetRefugio! 🎉 A rede social para quem ama animais. #NovoApp #PetRefugio",
-        data: "2024-01-13T09:00:00Z",
+        conteudo: "Bem-vindos ao PetRefugio! 🎉 A rede social para quem ama animais.",
+        data: new Date().toISOString(),
         curtidas: ["wenderviana@gmail.com", "danilosilva@gmail.com", "igormiada@gmail.com"],
         comentarios: []
       }
@@ -152,395 +136,451 @@ const usuariosPreCadastrados = {
 export const AuthProvider = ({ children }) => {
   const [usuario, setUsuario] = useState(null);
   const [carregando, setCarregando] = useState(true);
-  const [posts, setPosts] = useState([]);
   const [usuarios, setUsuarios] = useState({});
 
-  // Carregar dados do localStorage ao inicializar
+  // Carregar dados do localStorage ao inicializar - VERSÃO CORRIGIDA
   useEffect(() => {
+    console.log('🔍 Carregando dados do localStorage...');
+    
     const usuarioSalvo = localStorage.getItem('usuarioPetRefugio');
-    const postsSalvos = localStorage.getItem('postsPetRefugio');
     const usuariosSalvos = localStorage.getItem('usuariosPetRefugio');
 
-    if (usuarioSalvo) {
-      try {
-        setUsuario(JSON.parse(usuarioSalvo));
-      } catch (error) {
-        console.error('Erro ao carregar usuário:', error);
-      }
-    }
-
-    if (postsSalvos) {
-      try {
-        setPosts(JSON.parse(postsSalvos));
-      } catch (error) {
-        console.error('Erro ao carregar posts:', error);
-        setPosts([]);
-      }
-    }
+    let usuariosCarregados = usuariosPreCadastrados;
 
     if (usuariosSalvos) {
       try {
-        setUsuarios(JSON.parse(usuariosSalvos));
+        usuariosCarregados = JSON.parse(usuariosSalvos);
+        console.log('✅ Usuários carregados do localStorage:', Object.keys(usuariosCarregados));
       } catch (error) {
-        console.error('Erro ao carregar usuários:', error);
-        // Se der erro, usar os pré-cadastrados
-        setUsuarios(usuariosPreCadastrados);
-        localStorage.setItem('usuariosPetRefugio', JSON.stringify(usuariosPreCadastrados));
+        console.error('❌ Erro ao carregar usuários:', error);
+        usuariosCarregados = usuariosPreCadastrados;
       }
-    } else {
-      // Salvar usuários pré-cadastrados no localStorage
-      setUsuarios(usuariosPreCadastrados);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(usuariosPreCadastrados));
+    }
+
+    setUsuarios(usuariosCarregados);
+
+    if (usuarioSalvo) {
+      try {
+        const usuarioData = JSON.parse(usuarioSalvo);
+        // Garantir que o usuário tem os dados mais recentes dos usuários
+        if (usuariosCarregados[usuarioData.email]) {
+          const usuarioAtualizado = {
+            ...usuariosCarregados[usuarioData.email],
+            email: usuarioData.email
+          };
+          setUsuario(usuarioAtualizado);
+          console.log('✅ Usuário logado carregado:', usuarioAtualizado.nome);
+        }
+      } catch (error) {
+        console.error('❌ Erro ao carregar usuário:', error);
+      }
     }
 
     setCarregando(false);
   }, []);
 
-  // Login - VERSÃO CORRIGIDA E SEGURA
+  // Função auxiliar para salvar dados - CORRIGIDA
+  const salvarDados = (novosUsuarios, usuarioAtualizado = null) => {
+    try {
+      console.log('💾 Salvando dados...', { 
+        usuarios: Object.keys(novosUsuarios).length,
+        usuario: usuarioAtualizado?.nome 
+      });
+      
+      setUsuarios(novosUsuarios);
+      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
+      
+      if (usuarioAtualizado) {
+        setUsuario(usuarioAtualizado);
+        localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioAtualizado));
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('❌ Erro ao salvar dados:', error);
+      return false;
+    }
+  };
+
+  // Login - VERSÃO CORRIGIDA
   const login = (email, senha) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const usuarioEncontrado = usuarios[email];
         
         if (usuarioEncontrado && usuarioEncontrado.senha === senha) {
-          // GARANTIR QUE TODAS AS PROPRIEDADES EXISTEM
           const usuarioLogado = {
             email,
-            nome: usuarioEncontrado.nome || 'Usuário',
-            username: usuarioEncontrado.username || 'usuario',
-            bio: usuarioEncontrado.bio || '',
-            tipo: usuarioEncontrado.tipo || 'usuario',
-            seguidores: Array.isArray(usuarioEncontrado.seguidores) ? usuarioEncontrado.seguidores : [],
-            seguindo: Array.isArray(usuarioEncontrado.seguindo) ? usuarioEncontrado.seguindo : [],
-            pets: Array.isArray(usuarioEncontrado.pets) ? usuarioEncontrado.pets : [],
-            posts: Array.isArray(usuarioEncontrado.posts) ? usuarioEncontrado.posts : []
+            ...usuarioEncontrado
           };
           
-          setUsuario(usuarioLogado);
-          localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioLogado));
-          resolve({ success: true, usuario: usuarioLogado });
+          // Atualizar status online
+          const novosUsuarios = {
+            ...usuarios,
+            [email]: {
+              ...usuarioEncontrado,
+              online: true
+            }
+          };
+          
+          if (salvarDados(novosUsuarios, usuarioLogado)) {
+            console.log('✅ Login realizado com sucesso:', usuarioLogado.nome);
+            resolve({ success: true, usuario: usuarioLogado });
+          } else {
+            reject({ success: false, message: 'Erro ao salvar dados' });
+          }
         } else {
+          console.log('❌ Login falhou:', email);
           reject({ success: false, message: 'Email ou senha incorretos' });
         }
       }, 500);
     });
   };
 
-  // Logout
+  // Logout - VERSÃO CORRIGIDA
   const logout = () => {
+    if (usuario) {
+      // Atualizar status offline
+      const novosUsuarios = {
+        ...usuarios,
+        [usuario.email]: {
+          ...usuarios[usuario.email],
+          online: false
+        }
+      };
+      salvarDados(novosUsuarios);
+    }
+
     setUsuario(null);
     localStorage.removeItem('usuarioPetRefugio');
+    console.log('🚪 Usuário deslogado');
     window.location.href = '/login';
   };
 
-  // Criar post - VERSÃO CORRIGIDA E SEGURA
-  const criarPost = (conteudo, imagem = null) => {
-    if (!usuario) return null;
-
-    const novoPost = {
-      id: Date.now(),
-      usuarioEmail: usuario.email,
-      usuarioNome: usuario.nome,
-      usuarioUsername: usuario.username,
-      conteudo,
-      imagem,
-      data: new Date().toISOString(),
-      curtidas: [],
-      comentarios: []
-    };
+  // Atualizar perfil - VERSÃO CORRIGIDA E SIMPLIFICADA
+  const atualizarPerfil = (novosDados) => {
+    if (!usuario) {
+      console.error('❌ Nenhum usuário logado para atualizar');
+      return false;
+    }
 
     try {
-      // ATUALIZAR USUÁRIO NO STATE
-      const novosUsuarios = { ...usuarios };
+      console.log('📝 Atualizando perfil:', novosDados);
       
-      // GARANTIR QUE O USUÁRIO TEM UM ARRAY DE POSTS
-      if (!novosUsuarios[usuario.email]) {
-        novosUsuarios[usuario.email] = {};
-      }
-      if (!Array.isArray(novosUsuarios[usuario.email].posts)) {
-        novosUsuarios[usuario.email].posts = [];
-      }
-      
-      novosUsuarios[usuario.email].posts.unshift(novoPost);
-      
-      setUsuarios(novosUsuarios);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
+      const novosUsuarios = {
+        ...usuarios,
+        [usuario.email]: {
+          ...usuarios[usuario.email],
+          ...novosDados
+        }
+      };
 
-      // ATUALIZAR POSTS GLOBAIS
-      const novosPosts = [novoPost, ...posts];
-      setPosts(novosPosts);
-      localStorage.setItem('postsPetRefugio', JSON.stringify(novosPosts));
-
-      // ATUALIZAR USUÁRIO ATUAL
       const usuarioAtualizado = {
         ...usuario,
-        posts: novosUsuarios[usuario.email].posts
+        ...novosDados
       };
-      setUsuario(usuarioAtualizado);
-      localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioAtualizado));
-      
-      return novoPost;
+
+      return salvarDados(novosUsuarios, usuarioAtualizado);
     } catch (error) {
-      console.error('Erro ao criar post:', error);
+      console.error('❌ Erro ao atualizar perfil:', error);
+      return false;
+    }
+  };
+
+  // Adicionar foto - VERSÃO CORRIGIDA
+  const adicionarFoto = async (tipo, base64) => {
+    if (!usuario) return false;
+
+    try {
+      console.log('📸 Adicionando foto:', tipo);
+      
+      // Comprimir imagem se for muito grande
+      let imagemParaSalvar = base64;
+      if (base64.length > 100000) { // ~100KB
+        const img = new Image();
+        img.src = base64;
+        await new Promise((resolve) => {
+          img.onload = resolve;
+        });
+        
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 400;
+        canvas.height = (img.height * 400) / img.width;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        imagemParaSalvar = canvas.toDataURL('image/jpeg', 0.8);
+      }
+
+      const dadosFoto = tipo === 'perfil' 
+        ? { fotoPerfil: imagemParaSalvar }
+        : { fotoCapa: imagemParaSalvar };
+
+      return atualizarPerfil(dadosFoto);
+    } catch (error) {
+      console.error('❌ Erro ao adicionar foto:', error);
+      return false;
+    }
+  };
+
+  // Adicionar pet - VERSÃO CORRIGIDA
+  const adicionarPet = (novoPet) => {
+    if (!usuario) {
+      console.error('❌ Nenhum usuário logado para adicionar pet');
+      return false;
+    }
+
+    try {
+      console.log('🐾 Adicionando pet:', novoPet.nome);
+      
+      const petComId = {
+        id: Date.now(),
+        ...novoPet,
+        // Garantir que tem os campos essenciais
+        foto: novoPet.foto || '🐾',
+        descricao: novoPet.descricao || ''
+      };
+
+      const petsAtuais = Array.isArray(usuarios[usuario.email]?.pets) 
+        ? usuarios[usuario.email].pets 
+        : [];
+
+      const novosUsuarios = {
+        ...usuarios,
+        [usuario.email]: {
+          ...usuarios[usuario.email],
+          pets: [...petsAtuais, petComId]
+        }
+      };
+
+      const usuarioAtualizado = {
+        ...usuario,
+        pets: [...petsAtuais, petComId]
+      };
+
+      const sucesso = salvarDados(novosUsuarios, usuarioAtualizado);
+      
+      if (sucesso) {
+        console.log('✅ Pet adicionado com sucesso:', petComId.nome);
+      } else {
+        console.error('❌ Falha ao adicionar pet');
+      }
+      
+      return sucesso;
+    } catch (error) {
+      console.error('❌ Erro ao adicionar pet:', error);
+      return false;
+    }
+  };
+
+  // Criar post - VERSÃO CORRIGIDA
+  const criarPost = async (conteudo, imagem = null) => {
+    if (!usuario) {
+      console.error('❌ Nenhum usuário logado para criar post');
+      return null;
+    }
+
+    try {
+      console.log('📝 Criando post:', conteudo.substring(0, 50) + '...');
+      
+      const novoPost = {
+        id: Date.now(),
+        usuarioEmail: usuario.email,
+        usuarioNome: usuario.nome,
+        usuarioUsername: usuario.username,
+        usuarioFoto: usuario.fotoPerfil,
+        conteudo: conteudo.trim(),
+        imagem: imagem,
+        data: new Date().toISOString(),
+        curtidas: [],
+        comentarios: []
+      };
+
+      const postsAtuais = Array.isArray(usuarios[usuario.email]?.posts) 
+        ? usuarios[usuario.email].posts 
+        : [];
+
+      const novosUsuarios = {
+        ...usuarios,
+        [usuario.email]: {
+          ...usuarios[usuario.email],
+          posts: [novoPost, ...postsAtuais]
+        }
+      };
+
+      const usuarioAtualizado = {
+        ...usuario,
+        posts: [novoPost, ...postsAtuais]
+      };
+
+      if (salvarDados(novosUsuarios, usuarioAtualizado)) {
+        console.log('✅ Post criado com sucesso');
+        return novoPost;
+      } else {
+        console.error('❌ Falha ao criar post');
+        return null;
+      }
+    } catch (error) {
+      console.error('❌ Erro ao criar post:', error);
       return null;
     }
   };
 
-  // Curtir post - VERSÃO SEGURA
+  // Curtir post - VERSÃO CORRIGIDA
   const curtirPost = (postId) => {
-    if (!usuario || !posts) return;
+    if (!usuario) return;
 
     try {
-      const postIndex = posts.findIndex(post => post.id === postId);
-      if (postIndex === -1) return;
-
-      const novosPosts = [...posts];
-      const curtidas = Array.isArray(novosPosts[postIndex].curtidas) ? novosPosts[postIndex].curtidas : [];
+      console.log('❤️ Curtindo post:', postId);
       
-      if (curtidas.includes(usuario.email)) {
-        // Remover curtida
-        novosPosts[postIndex].curtidas = curtidas.filter(email => email !== usuario.email);
-      } else {
-        // Adicionar curtida
-        novosPosts[postIndex].curtidas = [...curtidas, usuario.email];
+      // Encontrar o post em todos os usuários
+      let postEncontrado = null;
+      let usuarioDono = null;
+
+      Object.keys(usuarios).forEach(email => {
+        const userPosts = usuarios[email]?.posts || [];
+        const postIndex = userPosts.findIndex(post => post.id === postId);
+        if (postIndex !== -1) {
+          postEncontrado = userPosts[postIndex];
+          usuarioDono = email;
+        }
+      });
+
+      if (!postEncontrado || !usuarioDono) {
+        console.error('❌ Post não encontrado:', postId);
+        return;
       }
 
-      setPosts(novosPosts);
-      localStorage.setItem('postsPetRefugio', JSON.stringify(novosPosts));
+      const curtidasAtuais = Array.isArray(postEncontrado.curtidas) ? postEncontrado.curtidas : [];
+      const novasCurtidas = curtidasAtuais.includes(usuario.email)
+        ? curtidasAtuais.filter(email => email !== usuario.email)
+        : [...curtidasAtuais, usuario.email];
 
-      // Atualizar também nos usuários
+      // Atualizar o post específico
       const novosUsuarios = { ...usuarios };
-      Object.keys(novosUsuarios).forEach(email => {
-        if (Array.isArray(novosUsuarios[email].posts)) {
-          const userPostIndex = novosUsuarios[email].posts.findIndex(post => post.id === postId);
-          if (userPostIndex !== -1) {
-            novosUsuarios[email].posts[userPostIndex].curtidas = novosPosts[postIndex].curtidas;
-          }
-        }
-      });
+      const postsUsuario = [...(novosUsuarios[usuarioDono].posts || [])];
+      const postIndex = postsUsuario.findIndex(post => post.id === postId);
       
-      setUsuarios(novosUsuarios);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
+      if (postIndex !== -1) {
+        postsUsuario[postIndex] = {
+          ...postsUsuario[postIndex],
+          curtidas: novasCurtidas
+        };
+        
+        novosUsuarios[usuarioDono] = {
+          ...novosUsuarios[usuarioDono],
+          posts: postsUsuario
+        };
+
+        salvarDados(novosUsuarios);
+        console.log('✅ Post curtido/descurtido com sucesso');
+      }
     } catch (error) {
-      console.error('Erro ao curtir post:', error);
+      console.error('❌ Erro ao curtir post:', error);
     }
   };
 
-  // Adicionar comentário - VERSÃO SEGURA
-  const adicionarComentario = (postId, comentario) => {
-    if (!usuario || !posts) return;
-
-    try {
-      const postIndex = posts.findIndex(post => post.id === postId);
-      if (postIndex === -1) return;
-
-      const novosPosts = [...posts];
-      const comentarios = Array.isArray(novosPosts[postIndex].comentarios) ? novosPosts[postIndex].comentarios : [];
-      
-      novosPosts[postIndex].comentarios = [...comentarios, {
-        id: Date.now(),
-        usuarioEmail: usuario.email,
-        usuarioNome: usuario.nome,
-        texto: comentario,
-        data: new Date().toISOString()
-      }];
-
-      setPosts(novosPosts);
-      localStorage.setItem('postsPetRefugio', JSON.stringify(novosPosts));
-
-      // Atualizar também nos usuários
-      const novosUsuarios = { ...usuarios };
-      Object.keys(novosUsuarios).forEach(email => {
-        if (Array.isArray(novosUsuarios[email].posts)) {
-          const userPostIndex = novosUsuarios[email].posts.findIndex(post => post.id === postId);
-          if (userPostIndex !== -1) {
-            novosUsuarios[email].posts[userPostIndex].comentarios = novosPosts[postIndex].comentarios;
-          }
-        }
-      });
-      
-      setUsuarios(novosUsuarios);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
-    } catch (error) {
-      console.error('Erro ao adicionar comentário:', error);
-    }
-  };
-
-  // Seguir usuário - VERSÃO SEGURA
+  // Seguir usuário - VERSÃO CORRIGIDA
   const seguirUsuario = (usuarioSeguidoEmail) => {
-    if (!usuarios[usuarioSeguidoEmail] || usuarioSeguidoEmail === usuario.email) return;
+    if (!usuario || !usuarios[usuarioSeguidoEmail] || usuarioSeguidoEmail === usuario.email) {
+      console.error('❌ Não é possível seguir este usuário');
+      return;
+    }
 
     try {
-      const novosUsuarios = { ...usuarios };
+      console.log('👤 Seguindo usuário:', usuarioSeguidoEmail);
       
-      // Garantir arrays
-      if (!Array.isArray(novosUsuarios[usuarioSeguidoEmail].seguidores)) {
-        novosUsuarios[usuarioSeguidoEmail].seguidores = [];
-      }
-      if (!Array.isArray(novosUsuarios[usuario.email].seguindo)) {
-        novosUsuarios[usuario.email].seguindo = [];
-      }
+      const novosUsuarios = { ...usuarios };
       
       // Adicionar aos seguidores do usuário seguido
-      if (!novosUsuarios[usuarioSeguidoEmail].seguidores.includes(usuario.email)) {
-        novosUsuarios[usuarioSeguidoEmail].seguidores.push(usuario.email);
-      }
+      const seguidoresAtuais = Array.isArray(novosUsuarios[usuarioSeguidoEmail].seguidores) 
+        ? novosUsuarios[usuarioSeguidoEmail].seguidores 
+        : [];
       
-      // Adicionar aos seguindo do usuário atual
-      if (!novosUsuarios[usuario.email].seguindo.includes(usuarioSeguidoEmail)) {
-        novosUsuarios[usuario.email].seguindo.push(usuarioSeguidoEmail);
+      if (!seguidoresAtuais.includes(usuario.email)) {
+        novosUsuarios[usuarioSeguidoEmail] = {
+          ...novosUsuarios[usuarioSeguidoEmail],
+          seguidores: [...seguidoresAtuais, usuario.email]
+        };
       }
 
-      setUsuarios(novosUsuarios);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
+      // Adicionar aos seguindo do usuário atual
+      const seguindoAtuais = Array.isArray(novosUsuarios[usuario.email].seguindo) 
+        ? novosUsuarios[usuario.email].seguindo 
+        : [];
+      
+      if (!seguindoAtuais.includes(usuarioSeguidoEmail)) {
+        novosUsuarios[usuario.email] = {
+          ...novosUsuarios[usuario.email],
+          seguindo: [...seguindoAtuais, usuarioSeguidoEmail]
+        };
 
-      // Atualizar usuário logado
-      const usuarioAtualizado = {
-        ...usuario,
-        seguindo: novosUsuarios[usuario.email].seguindo
-      };
-      setUsuario(usuarioAtualizado);
-      localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioAtualizado));
+        const usuarioAtualizado = {
+          ...usuario,
+          seguindo: [...seguindoAtuais, usuarioSeguidoEmail]
+        };
+
+        salvarDados(novosUsuarios, usuarioAtualizado);
+        console.log('✅ Usuário seguido com sucesso');
+      }
     } catch (error) {
-      console.error('Erro ao seguir usuário:', error);
+      console.error('❌ Erro ao seguir usuário:', error);
     }
   };
 
-  // Deixar de seguir usuário - VERSÃO SEGURA
+  // Deixar de seguir usuário - VERSÃO CORRIGIDA
   const deixarSeguir = (usuarioSeguidoEmail) => {
+    if (!usuario) return;
+
     try {
-      const novosUsuarios = { ...usuarios };
+      console.log('👤 Deixando de seguir:', usuarioSeguidoEmail);
       
-      // Garantir arrays
-      if (!Array.isArray(novosUsuarios[usuarioSeguidoEmail].seguidores)) {
-        novosUsuarios[usuarioSeguidoEmail].seguidores = [];
-      }
-      if (!Array.isArray(novosUsuarios[usuario.email].seguindo)) {
-        novosUsuarios[usuario.email].seguindo = [];
-      }
+      const novosUsuarios = { ...usuarios };
       
       // Remover dos seguidores do usuário seguido
-      novosUsuarios[usuarioSeguidoEmail].seguidores = 
-        novosUsuarios[usuarioSeguidoEmail].seguidores.filter(email => email !== usuario.email);
-      
+      if (Array.isArray(novosUsuarios[usuarioSeguidoEmail]?.seguidores)) {
+        novosUsuarios[usuarioSeguidoEmail] = {
+          ...novosUsuarios[usuarioSeguidoEmail],
+          seguidores: novosUsuarios[usuarioSeguidoEmail].seguidores.filter(
+            email => email !== usuario.email
+          )
+        };
+      }
+
       // Remover dos seguindo do usuário atual
-      novosUsuarios[usuario.email].seguindo = 
-        novosUsuarios[usuario.email].seguindo.filter(email => email !== usuarioSeguidoEmail);
+      if (Array.isArray(novosUsuarios[usuario.email]?.seguindo)) {
+        novosUsuarios[usuario.email] = {
+          ...novosUsuarios[usuario.email],
+          seguindo: novosUsuarios[usuario.email].seguindo.filter(
+            email => email !== usuarioSeguidoEmail
+          )
+        };
 
-      setUsuarios(novosUsuarios);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
+        const usuarioAtualizado = {
+          ...usuario,
+          seguindo: novosUsuarios[usuario.email].seguindo
+        };
 
-      // Atualizar usuário logado
-      const usuarioAtualizado = {
-        ...usuario,
-        seguindo: novosUsuarios[usuario.email].seguindo
-      };
-      setUsuario(usuarioAtualizado);
-      localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioAtualizado));
-    } catch (error) {
-      console.error('Erro ao deixar de seguir:', error);
-    }
-  };
-
-  // Atualizar perfil - VERSÃO SEGURA
-  const atualizarPerfil = (novosDados) => {
-    if (!usuario) return;
-
-    try {
-      const novosUsuarios = { ...usuarios };
-      novosUsuarios[usuario.email] = {
-        ...novosUsuarios[usuario.email],
-        ...novosDados
-      };
-
-      setUsuarios(novosUsuarios);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
-
-      const usuarioAtualizado = {
-        ...usuario,
-        ...novosDados
-      };
-      setUsuario(usuarioAtualizado);
-      localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioAtualizado));
-    } catch (error) {
-      console.error('Erro ao atualizar perfil:', error);
-    }
-  };
-
-  // Adicionar pet - VERSÃO SEGURA
-  const adicionarPet = (novoPet) => {
-    if (!usuario) return;
-
-    try {
-      const petComId = {
-        ...novoPet,
-        id: Date.now()
-      };
-
-      const novosUsuarios = { ...usuarios };
-      
-      // Garantir array de pets
-      if (!Array.isArray(novosUsuarios[usuario.email].pets)) {
-        novosUsuarios[usuario.email].pets = [];
+        salvarDados(novosUsuarios, usuarioAtualizado);
+        console.log('✅ Deixou de seguir com sucesso');
       }
-      
-      novosUsuarios[usuario.email].pets.push(petComId);
-
-      setUsuarios(novosUsuarios);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
-
-      const usuarioAtualizado = {
-        ...usuario,
-        pets: novosUsuarios[usuario.email].pets
-      };
-      setUsuario(usuarioAtualizado);
-      localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioAtualizado));
     } catch (error) {
-      console.error('Erro ao adicionar pet:', error);
-    }
-  };
-
-  // Remover pet - VERSÃO SEGURA
-  const removerPet = (petId) => {
-    if (!usuario) return;
-
-    try {
-      const novosUsuarios = { ...usuarios };
-      
-      // Garantir array de pets
-      if (Array.isArray(novosUsuarios[usuario.email].pets)) {
-        novosUsuarios[usuario.email].pets = novosUsuarios[usuario.email].pets.filter(pet => pet.id !== petId);
-      }
-
-      setUsuarios(novosUsuarios);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
-
-      const usuarioAtualizado = {
-        ...usuario,
-        pets: novosUsuarios[usuario.email].pets
-      };
-      setUsuario(usuarioAtualizado);
-      localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioAtualizado));
-    } catch (error) {
-      console.error('Erro ao remover pet:', error);
+      console.error('❌ Erro ao deixar de seguir:', error);
     }
   };
 
   const value = {
     usuario,
     carregando,
-    posts,
     usuarios,
     login,
     logout,
     criarPost,
     curtirPost,
-    adicionarComentario,
     seguirUsuario,
     deixarSeguir,
     atualizarPerfil,
-    adicionarPet,
-    removerPet
+    adicionarFoto,
+    adicionarPet
   };
 
   return (

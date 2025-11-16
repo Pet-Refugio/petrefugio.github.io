@@ -1,5 +1,7 @@
+// src/components/perfil/AdicionarPet.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import '../../styles/perfil/AdicionarPet.css';
 
 const AdicionarPet = () => {
@@ -19,6 +21,7 @@ const AdicionarPet = () => {
 
   const [imagemPreview, setImagemPreview] = useState(null);
   const navigate = useNavigate();
+  const { adicionarPet } = useAuth();
 
   const tiposPet = [
     { value: 'cachorro', label: 'Cachorro', icone: '🐕' },
@@ -60,22 +63,40 @@ const AdicionarPet = () => {
   const enviarForm = (e) => {
     e.preventDefault();
     
-    // Simular cadastro do pet
+    // Criar objeto do pet com os dados do formulário
     const novoPet = {
-      id: Date.now(), // ID temporário
-      tutorId: 101, // ID do usuário logado (será dinâmico)
-      ...dadosPet,
-      avatar: imagemPreview || '/assets/pets/pet-default.jpg',
-      capa: '/assets/capas/pet-default.jpg',
-      estatisticas: {
-        posts: 0,
-        seguidores: 0
-      }
+      nome: dadosPet.nome,
+      tipo: dadosPet.tipo,
+      raca: dadosPet.raca,
+      idade: dadosPet.idade,
+      descricao: dadosPet.bio,
+      foto: imagemPreview || this.getEmojiPorTipo(dadosPet.tipo),
+      // Adicionar campos extras que podem ser úteis
+      apelido: dadosPet.apelido,
+      peso: dadosPet.peso,
+      sexo: dadosPet.sexo,
+      vacinado: dadosPet.vacinado,
+      castrado: dadosPet.castrado
     };
 
-    console.log('Novo pet cadastrado:', novoPet);
+    // Adicionar pet usando o AuthContext
+    adicionarPet(novoPet);
+    
     alert('Pet cadastrado com sucesso!');
     navigate('/perfil');
+  };
+
+  // Função auxiliar para obter emoji baseado no tipo
+  const getEmojiPorTipo = (tipo) => {
+    const emojis = {
+      cachorro: '🐕',
+      gato: '🐈',
+      passaro: '🐦',
+      roedor: '🐹',
+      reptil: '🦎',
+      outro: '🐾'
+    };
+    return emojis[tipo] || '🐾';
   };
 
   return (
