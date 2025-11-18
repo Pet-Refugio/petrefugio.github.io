@@ -1,0 +1,72 @@
+{
+    "pets": [
+
+      {
+      "id": 1,
+      "tutorId": 101,
+      "nome": "Luna",
+      "apelido": "luninha",
+      "tipo": "cachorro",
+      "raca": "Border Collier",
+      "idade": 3,
+      "avatar": "/images/pets/luna.jpg",
+      "capa": "/images/pets/luna.jpg",
+      "bio": "Alegre e brincalhona, adora correr no parque! 🎾",
+      "dataNascimento": "2021-02-14",
+      "peso": "28",
+      "sexo": "fêmea",
+      "vacinado": true,
+      "castrado": true,
+      "estatisticas": {
+        "posts": 3, 
+        "seguidores": 456, 
+        "curtidas": 274 
+      }
+    },
+    {
+      "id": 2,
+      "tutorId": 101,
+      "nome": "Bolinha",
+      "apelido": "bolinhas",
+      "tipo": "gato",
+      "raca": "Siamês",
+      "idade": 2,
+      "avatar": "/images/pets/bolinha.jpg",
+      "capa": "/images/pets/bolinha.jpg",
+      "bio": "Gato curioso e carinhoso, adora cochilos no sol e brincar com bolinhas de papel! 🐱✨",
+      "dataNascimento": "2022-05-10",
+      "peso": "4.2",
+      "sexo": "macho",
+      "vacinado": true,
+      "castrado": true,
+      "estatisticas": {
+        "posts": 3,
+        "seguidores": 189,
+        "curtidas": 156
+      }
+    },
+    
+    {
+      "id": 3,
+      "tutorId": 101,
+      "nome": "Thor",
+      "apelido": "thorzinho",
+      "tipo": "cachorro",
+      "raca": "Labrador",
+      "idade": 4,
+      "avatar": "/images/pets/thor.jpg",
+      "capa": "/images/pets/thor.jpg",
+      "bio": "Labrador energético e protetor, adora brincar na água e é o melhor amigo da Luna! 🌊🐕",
+      "dataNascimento": "2020-07-20",
+      "peso": "32",
+      "sexo": "macho",
+      "vacinado": true,
+      "castrado": true,
+      "estatisticas": {
+        "posts": 4,
+        "seguidores": 321,
+        "curtidas": 287
+      }
+    }
+  ]
+}

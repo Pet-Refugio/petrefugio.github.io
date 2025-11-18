@@ -1,0 +1,70 @@
+{
+  "servicos": [
+    {
+      "id": 1,
+      "nome": "Cuidar & Amar PetCare",
+      "tipo": "cuidador",
+      "imagem": "/images/prestadores/cuidador.jpg",
+      "avaliacao": 4.8,
+      "especialidade": "Cuidados Diários",
+      "localizacao": "São Paulo, SP",
+      "descricao": "Cuidamos do seu pet com amor e profissionalismo",
+      "contato": "(11) 99999-9999"
+    },
+    {
+      "id": 2,
+      "nome": "HotelPet Conforto Animal",
+      "tipo": "hotel",
+      "imagem": "/images/prestadores/hotelpet.jpg",
+      "avaliacao": 4.9,
+      "especialidade": "Hospedagem",
+      "localizacao": "Rio de Janeiro, RJ",
+      "descricao": "Hotel 5 estrelas para seu pet",
+      "contato": "(21) 88888-8888"
+    },
+    {
+      "id": 3,
+      "nome": "Treina+Pet Profissional",
+      "tipo": "treinador",
+      "imagem": "/images/prestadores/treinador.jpg",
+      "avaliacao": 4.7,
+      "especialidade": "Adestramento",
+      "localizacao": "Belo Horizonte, MG",
+      "descricao": "Treinamento comportamental especializado",
+      "contato": "(31) 77777-7777"
+    },
+    {
+      "id": 4,
+      "nome": "VetLife Saúde Animal",
+      "tipo": "veterinario",
+      "imagem": "/images/prestadores/veterinario1.jpg",
+      "avaliacao": 5.0,
+      "especialidade": "Clínica Geral",
+      "localizacao": "Curitiba, PR",
+      "descricao": "Cuidados veterinários de excelência",
+      "contato": "(41) 66666-6666"
+    },
+    {
+      "id": 5,
+      "nome": "Clínica VetMaster",
+      "tipo": "veterinario",
+      "imagem": "/images/prestadores/veterinario2.jpg",
+      "avaliacao": 4.9,
+      "especialidade": "Emergências",
+      "localizacao": "Porto Alegre, RS",
+      "descricao": "Atendimento 24 horas",
+      "contato": "(51) 55555-5555"
+    },
+    {
+      "id": 6,
+      "nome": "PetClin Prime",
+      "tipo": "veterinario",
+      "imagem": "/images/prestadores/veterinario3.jpg",
+      "avaliacao": 4.8,
+      "especialidade": "Especialidades",
+      "localizacao": "Salvador, BA",
+      "descricao": "Clínica especializada em diversas áreas",
+      "contato": "(71) 44444-4444"
+    }
+  ]
+}

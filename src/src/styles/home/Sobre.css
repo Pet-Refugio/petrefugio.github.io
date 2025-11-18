@@ -1,0 +1,53 @@
+.cabecalho-secao {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.titulo-secao {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.subtitulo-secao {
+  font-size: 1.1rem;
+  color: var(--texto-claro);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.grade-sobre {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin: 0 auto;
+}
+
+.cartao-sobre {
+  background: var(--branco);
+  padding: 30px 25px;
+  border-radius: var(--borda-arredondada);
+  box-shadow: var(--sombra);
+  text-align: center;
+  position: relative;
+  height: 100%;
+}
+
+.icone-cartao {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--cor-primaria);
+}
+
+.cartao-sobre h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--texto-escuro);
+}
+
+.cartao-sobre p {
+  color: var(--texto-claro);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}

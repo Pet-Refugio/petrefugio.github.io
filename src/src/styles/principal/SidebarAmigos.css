@@ -1,0 +1,211 @@
+/* src/styles/principal/SidebarAmigos.css - ATUALIZADO */
+.sidebar-amigos {
+  width: 280px;
+  background: #FFFFFF;
+  border-right: 1px solid #E0E0E0;
+  height: calc(100vh - 70px);
+  position: fixed;
+  top: 70px;
+  left: 0;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.cabecalho-chat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.cabecalho-chat h3 {
+  color: #3E3E3E;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.botao-novo-chat {
+  background: #F26B38;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.botao-novo-chat:hover {
+  background: #E55A2B;
+  transform: scale(1.1);
+}
+
+.secao-amigos {
+  margin-bottom: 25px;
+}
+
+.secao-amigos h4 {
+  color: #7A7A7A;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.lista-amigos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-amigo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.item-amigo:hover {
+  background: #F8F9FA;
+  transform: translateX(5px);
+}
+
+.item-amigo.online {
+  border-left: 3px solid #4CAF50;
+}
+
+.item-amigo.offline {
+  opacity: 0.7;
+}
+
+.avatar-amigo {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar-amigo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.status-online {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  background: #4CAF50;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.status-offline {
+  width: 8px;
+  height: 8px;
+  background: #ccc;
+  border-radius: 50%;
+  margin-left: auto;
+}
+
+.nome-amigo {
+  font-size: 0.95rem;
+  color: #3E3E3E;
+  font-weight: 500;
+  flex: 1;
+}
+
+.lista-grupos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-grupo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.item-grupo:hover {
+  background: #F8F9FA;
+}
+
+.icone-grupo {
+  font-size: 1.2rem;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F0F0F0;
+  border-radius: 50%;
+}
+
+.nome-grupo {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #3E3E3E;
+  font-weight: 500;
+}
+
+.contador-grupo {
+  background: #F26B38;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* Scrollbar personalizada */
+.sidebar-amigos::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-amigos::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.sidebar-amigos::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.sidebar-amigos::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Responsivo */
+@media (max-width: 1024px) {
+  .sidebar-amigos {
+    width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-amigos {
+    display: none;
+  }
+  
+  .sidebar-amigos.mobile-open {
+    display: block;
+    width: 100%;
+    z-index: 1001;
+  }
+}
+

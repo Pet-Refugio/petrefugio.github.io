@@ -1,0 +1,106 @@
+{
+    "empresas": [
+      {
+        "id": 101,
+        "nome": "Cuidar & Amar PetCare",
+        "avatar": "/images/prestadores/cuidador.jpg",
+        "capa": "/images/capas/default-capa.jpg",
+        "tipo": "cuidador",
+        "categoria": "Cuidador",
+        "bio": "Cuidadores profissionais com amor e dedicação | Atendimento 24h",
+        "localizacao": "São Paulo, SP",
+        "telefone": "(11) 9999-8888",
+        "avaliacao": 4.8,
+        "servicos": ["Hospedagem", "Passeios", "Visitas diárias"],
+        "estatisticas": {
+          "clientes": 234,
+          "avaliacoes": 156
+        }
+      },
+      {
+        "id": 102,
+        "nome": "HotelPet Conforto Animal",
+        "avatar": "/images/prestadores/hotelpet.jpg",
+        "capa": "/images/capas/default-capa.jpg",
+        "tipo": "hotel",
+        "categoria": "Hotel",
+        "bio": "Hotel 5 estrelas para seu pet | Suítes climatizadas e monitoradas",
+        "localizacao": "Rio de Janeiro, RJ",
+        "telefone": "(21) 8888-7777",
+        "avaliacao": 4.9,
+        "servicos": ["Hospedagem", "Spa", "Atividades recreativas"],
+        "estatisticas": {
+          "clientes": 189,
+          "avaliacoes": 134
+        }
+      },
+      {
+        "id": 103,
+        "nome": "Treina+Pet Profissional",
+        "avatar": "/images/prestadores/treinador.jpg",
+        "capa": "/images/capas/default-capa.jpg",
+        "tipo": "treinador",
+        "categoria": "Treinador",
+        "bio": "Adestramento profissional | Comportamento e obediência",
+        "localizacao": "Belo Horizonte, MG",
+        "telefone": "(31) 7777-6666",
+        "avaliacao": 4.7,
+        "servicos": ["Adestramento", "Correção comportamental", "Aulas em grupo"],
+        "estatisticas": {
+          "clientes": 167,
+          "avaliacoes": 98
+        }
+      },
+      {
+        "id": 104,
+        "nome": "VetLife Saúde Animal",
+        "avatar": "/images/prestadores/veterinario1.jpg",
+        "capa": "/images/capas/default-capa.jpg",
+        "tipo": "veterinario",
+        "categoria": "Veterinário",
+        "bio": "Clínica veterinária completa | Emergências 24h | Especialistas",
+        "localizacao": "Porto Alegre, RS",
+        "telefone": "(51) 6666-5555",
+        "avaliacao": 4.9,
+        "servicos": ["Consultas", "Cirurgias", "Exames", "Vacinas"],
+        "estatisticas": {
+          "clientes": 345,
+          "avaliacoes": 278
+        }
+      },
+      {
+        "id": 105,
+        "nome": "Clínica VetMaster",
+        "avatar": "/images/prestadores/veterinario2.jpg",
+        "capa": "/images/capas/default-capa.jpg",
+        "tipo": "veterinario",
+        "categoria": "Veterinário",
+        "bio": "Excelência em medicina veterinária | Equipe especializada",
+        "localizacao": "Curitiba, PR",
+        "telefone": "(41) 5555-4444",
+        "avaliacao": 4.8,
+        "servicos": ["Consultas", "Exames laboratoriais", "Ultrassom", "Dentista"],
+        "estatisticas": {
+          "clientes": 278,
+          "avaliacoes": 189
+        }
+      },
+      {
+        "id": 106,
+        "nome": "PetClin Prime",
+        "avatar": "/images/prestadores/veterinario3.jpg",
+        "capa": "/images/capas/default-capa.jpg",
+        "tipo": "veterinario",
+        "categoria": "Veterinário",
+        "bio": "Atendimento humanizado | Tecnologia de ponta | Amor pelos animais",
+        "localizacao": "Salvador, BA",
+        "telefone": "(71) 4444-3333",
+        "avaliacao": 4.7,
+        "servicos": ["Consultas", "Cirurgias", "Fisioterapia", "Acupuntura"],
+        "estatisticas": {
+          "clientes": 198,
+          "avaliacoes": 145
+        }
+      }
+    ]
+  }

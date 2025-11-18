@@ -1,0 +1,24 @@
+{
+    "usuario": {
+      "id": 101,
+      "nome": "Ana Silva",
+      "apelido": "aninhapets",
+      "email": "ana.silva@email.com",
+      "avatar": "/imgs/mulher1.jpg",
+      "capa": "../perfil/img/capa1.jpg",
+      "bio": "Amante de animais, mãe de 3 pets e voluntária em abrigos. ❤️🐾",
+      "localizacao": "São Paulo, SP",
+      "dataNascimento": "1990-05-15",
+      "telefone": "(11) 99999-9999",
+      "estatisticas": {
+        "seguindo": 245,
+        "seguidores": 1560,
+        "posts": 89
+      },
+      "redesSociais": {
+        "instagram": "@aninhapets",
+        "facebook": "Ana Silva Pets"
+      },
+      "dataCadastro": "2022-03-10"
+    }
+  }
