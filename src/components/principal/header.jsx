@@ -21,12 +21,7 @@ const Header = ({ usuario }) => {
         />
       </div>
 
-      <div className="usuario-header">
-        <div className="info-usuario">
-          <span className="saudacao">Olá, </span>
-          <strong className="nome-usuario">{usuario.nome}</strong>
-        </div>
-        
+      <div className="usuario-header">        
         <div className="acoes-header">
           <button 
             onClick={() => window.location.href = '/perfil'}

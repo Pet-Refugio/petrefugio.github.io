@@ -72,11 +72,6 @@ export default function HeaderPerfil() {
           <div className="acoes-perfil">
             <SinoNotificacoes />
             <button className="botao-config">⚙️</button>
-            <Link to="/perfil">
-            <div className="avatar-perfil-header">
-              <img src={perfil} alt="Perfil" />
-            </div>
-            </Link>
           </div>
 
         </div>
