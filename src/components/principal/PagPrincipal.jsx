@@ -28,7 +28,6 @@ const PagPrincipal = () => {
       <div className="conteudo-principal">
         <SidebarAmigos usuario={usuario} />
         <AreaConteudo usuario={usuario} />
-        <SidebarServicos usuario={usuario} />
       </div>
     </div>
   );
