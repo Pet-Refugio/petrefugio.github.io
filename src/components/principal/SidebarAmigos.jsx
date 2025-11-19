@@ -1,6 +1,6 @@
 // src/components/principal/SidebarAmigos.jsx
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React  from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/principal/SidebarAmigos.css';
 
@@ -115,15 +115,16 @@ export default function SidebarAmigos({ usuario }) {
       <div className="secao-amigos">
         <h4>Grupos de Pets</h4>
         <div className="lista-grupos">
+          <Link to="servicos">
+          <div className="item-grupo">
+            <span className="icone-grupo">🏪</span>
+            <span className="nome-grupo">Serviços</span>
+          </div>
+          </Link>
           <div className="item-grupo" onClick={() => alert('Grupo em desenvolvimento!')}>
             <span className="icone-grupo">🐕</span>
             <span className="nome-grupo">Cachorros da Cidade</span>
             <span className="contador-grupo">128</span>
-          </div>
-          <div className="item-grupo" onClick={() => alert('Grupo em desenvolvimento!')}>
-            <span className="icone-grupo">🐈</span>
-            <span className="nome-grupo">Amantes de Gatos</span>
-            <span className="contador-grupo">95</span>
           </div>
           <div className="item-grupo" onClick={() => alert('Grupo em desenvolvimento!')}>
             <span className="icone-grupo">🐦</span>
