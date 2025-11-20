@@ -1,4 +1,4 @@
-/* src/styles/principal/SidebarAmigos.css - ATUALIZADO */
+/* src/styles/principal/SidebarAmigos.css - CORRETO */
 .sidebar-amigos {
   width: 280px;
   background: #FFFFFF;
@@ -208,4 +208,3 @@
     z-index: 1001;
   }
 }
-

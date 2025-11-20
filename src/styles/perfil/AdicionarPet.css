@@ -22,8 +22,9 @@
 }
 
 /* Lado Esquerdo - Upload e Info Básica */
-.lado-esquerdo {
+.lado-esquerdo_1 {
   color: white;
+  margin-top: 15rem;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -101,6 +102,7 @@
 /* Lado Direito - Formulário */
 .lado-direito {
   padding: 2rem;
+  margin: 2rem;
   background-color: #ffffff;
   overflow-y: auto;
   max-height: 600px;

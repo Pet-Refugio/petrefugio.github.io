@@ -116,17 +116,14 @@ const AdicionarPet = () => {
     <div className="pagina-adicionar-pet">
       <div className="container-adicionar-pet">
         
-        {/* Lado Esquerdo - Uploads e Info Visual */}
-        <div className="lado-esquerdo">
+        <div className="lado-esquerdo_1">
           <div className="cabecalho-adicionar-pet">
             <h1>Adicionar Novo Pet</h1>
             <p>Preencha as informações do seu pet para criar um perfil</p>
           </div>
 
-          {/* Seção de Uploads (Foto de Perfil e Capa) */}
           <div className="secao-uploads-pet">
             
-            {/* Upload de Foto de Perfil */}
             <div className="secao-upload foto-perfil-upload">
               <label className="label-upload">
                 <span className="upload-titulo">Foto de Perfil (Quadrada)</span>
@@ -149,7 +146,6 @@ const AdicionarPet = () => {
               </label>
             </div>
 
-            {/* NOVO: Upload de Foto de Capa */}
             <div className="secao-upload foto-capa-upload">
               <label className="label-upload">
                 <span className="upload-titulo">Foto de Capa (Horizontal)</span>
@@ -175,11 +171,9 @@ const AdicionarPet = () => {
           </div>
         </div>
 
-        {/* Lado Direito - Formulário */}
         <div className="lado-direito">
           <form onSubmit={enviarForm} className="formulario-adicionar-pet">
             
-            {/* Informações Básicas */}
             <div className="grupo-campos">
               <div className="grupo-form">
                 <label htmlFor="nome">Nome do Pet *</label>
@@ -207,7 +201,6 @@ const AdicionarPet = () => {
               </div>
             </div>
 
-            {/* Tipo e Raça */}
             <div className="grupo-campos">
               <div className="grupo-form">
                 <label htmlFor="tipo">Tipo de Pet *</label>

@@ -1,123 +1,123 @@
-// src/components/perfil/PerfilPublico.jsx
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+// src/components/perfil/PerfilPublico.jsx - CÓDIGO FINAL E CORRIGIDO
+
+import React, { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom'; 
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/perfil/PerfilPublico.css';
 
 const PerfilPublico = () => {
-  const { usuarioId } = useParams();
-  const { usuario: usuarioLogado, usuarios, seguirUsuario, deixarSeguir } = useAuth();
-  const navigate = useNavigate();
-  const [usuarioPublico, setUsuarioPublico] = useState(null);
+    const { usuarioId } = useParams();
+    const { usuarios, posts } = useAuth();
+    const navigate = useNavigate(); // Hook para navegação
+    
+    const [perfil, setPerfil] = useState(null);
+    const [postsUsuario, setPostsUsuario] = useState([]);
+    const [petsUsuario, setPetsUsuario] = useState([]);
 
-  useEffect(() => {
-    if (usuarios && usuarioId) {
-      setUsuarioPublico(usuarios[usuarioId]);
-    }
-  }, [usuarios, usuarioId]);
-
-  if (!usuarioPublico) {
-    return (
-      <div className="perfil-publico-carregando">
-        <div className="loading-spinner"></div>
-        <p>Carregando perfil...</p>
-      </div>
-    );
-  }
-
-  const estaSeguindo = usuarioLogado?.seguindo?.includes(usuarioId) || false;
-  const ehMeuPerfil = usuarioLogado?.email === usuarioId;
-
-  const handleSeguir = () => {
-    if (estaSeguindo) {
-      deixarSeguir(usuarioId);
-    } else {
-      seguirUsuario(usuarioId);
-    }
-  };
-
-  if (ehMeuPerfil) {
-    navigate('/perfil');
-    return null;
-  }
-
-  return (
-    <div className="perfil-publico-container">
-      <div className="cabecalho-perfil-publico">
-        <button onClick={() => navigate(-1)} className="botao-voltar">
-          ← Voltar
-        </button>
+    useEffect(() => {
+        // 1. Busca o usuário pelo username (usuarioId)
+        const user = Object.values(usuarios || {}).find(u => u.username === usuarioId);
         
-        <div className="info-perfil-publico">
-          <div className="avatar-perfil-publico">
-            {usuarioPublico.fotoPerfil ? (
-              <img src={usuarioPublico.fotoPerfil} alt={usuarioPublico.nome} />
-            ) : (
-              <div className="avatar-placeholder-publico">
-                {usuarioPublico.nome ? usuarioPublico.nome.charAt(0).toUpperCase() : 'U'}
-              </div>
-            )}
-          </div>
-          
-          <div className="detalhes-perfil-publico">
-            <h1>{usuarioPublico.nome}</h1>
-            <p className="username-publico">@{usuarioPublico.username}</p>
-            <p className="bio-publico">{usuarioPublico.bio || 'Sem biografia ainda...'}</p>
-            
-            <div className="estatisticas-publico">
-              <div className="estatistica-publico">
-                <strong>{usuarioPublico.posts?.length || 0}</strong>
-                <span>Posts</span>
-              </div>
-              <div className="estatistica-publico">
-                <strong>{usuarioPublico.seguidores?.length || 0}</strong>
-                <span>Seguidores</span>
-              </div>
-              <div className="estatistica-publico">
-                <strong>{usuarioPublico.seguindo?.length || 0}</strong>
-                <span>Seguindo</span>
-              </div>
-            </div>
-            
-            <button 
-              onClick={handleSeguir}
-              className={`botao-seguir-publico ${estaSeguindo ? 'seguindo' : ''}`}
-            >
-              {estaSeguindo ? '✅ Seguindo' : '👤 Seguir'}
-            </button>
-          </div>
+        if (user) {
+            setPerfil(user);
+
+            // CORREÇÃO: Usamos (posts || []) para garantir que é um array e evitar o erro "Cannot read properties of undefined (reading 'filter')"
+            const userPosts = (posts || []).filter(post => post.usuario?.username === user.username);
+            setPostsUsuario(userPosts);
+
+            // Assume que o objeto de usuário tem um array 'pets'
+            setPetsUsuario(user.pets || []); 
+        } else {
+            setPerfil(null);
+        }
+    }, [usuarioId, usuarios, posts]);
+
+    if (!perfil) {
+        return <div className="perfil-publico-vazio">Carregando perfil ou usuário não encontrado...</div>;
+    }
+    
+    // URLs de fallback para garantir a exibição, mesmo que os caminhos estejam incorretos
+    const defaultCapa = '/images/capas/default-capa.jpg';
+    const defaultAvatar = '/images/avatars/default.jpg';
+    const defaultPet = '/images/pets/default.jpg';
+
+    // Função auxiliar para renderizar avatar
+    const renderAvatar = (user) => (
+        <div className="perfil-avatar-wrapper">
+            <img 
+                src={user.fotoPerfil || defaultAvatar} 
+                alt={user.nome} 
+                // Fallback caso o caminho da imagem esteja errado ou a imagem não carregue
+                onError={(e) => e.target.src = defaultAvatar} 
+            />
         </div>
-      </div>
+    );
 
-      {/* Posts do usuário público */}
-      <div className="posts-perfil-publico">
-        <h2>Posts de {usuarioPublico.nome}</h2>
-        
-        {usuarioPublico.posts?.length === 0 ? (
-          <div className="sem-posts-publico">
-            <p>Este usuário ainda não fez nenhum post</p>
-          </div>
-        ) : (
-          <div className="lista-posts-publico">
-            {usuarioPublico.posts?.map(post => (
-              <div key={post.id} className="card-post-publico">
-                <div className="conteudo-post-publico">
-                  <p>{post.conteudo}</p>
-                  {post.imagem && (
-                    <img src={post.imagem} alt="Post" className="imagem-post-publico" />
-                  )}
+    return (
+        <div className="perfil-publico-container">
+            {/* NOVO ITEM: BOTÃO VOLTAR */}
+            <button onClick={() => navigate(-1)} className="botao-voltar-perfil">
+                ← Voltar
+            </button>
+            
+            {/* Cabeçalho/Capa do Perfil */}
+            <div 
+                className="perfil-header" 
+                // Garante que a imagem de capa ou o default apareça
+                style={{ 
+                    backgroundImage: `url(${perfil.fotoCapa || defaultCapa})` 
+                }}
+            >
+                <div className="perfil-info-overlay">
+                    {renderAvatar(perfil)}
+                    <h1 className="perfil-nome">{perfil.nome}</h1>
+                    <p className="perfil-username">@{perfil.username}</p>
+                    <p className="perfil-bio">{perfil.bio || 'Sem biografia para exibir.'}</p>
                 </div>
-                <div className="info-post-publico">
-                  <span>{new Date(post.data).toLocaleDateString('pt-BR')}</span>
-                  <span>❤️ {post.curtidas?.length || 0}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+            </div>
+
+            {/* Conteúdo Principal (Pets e Posts) */}
+            <div className="perfil-content">
+                
+                {/* Pets Vinculados */}
+                <section className="perfil-section">
+                    <h2>🐾 Pets de {perfil.nome} ({petsUsuario.length})</h2>
+                    <div className="perfil-publico-pets-grid"> {/* CLASSE RENOMEADA */}
+                        {petsUsuario.length > 0 ? (
+                            petsUsuario.map(pet => (
+                                <Link to={`/pet/${pet.id}`} key={pet.id} className="perfil-publico-pet-card"> {/* CLASSE RENOMEADA */}
+                                    <img src={pet.fotoPerfil || defaultPet} alt={pet.nome} />
+                                    <p>{pet.nome}</p>
+                                </Link>
+                            ))
+                        ) : (
+                            <p className="info-vazio">Nenhum pet cadastrado publicamente.</p>
+                        )}
+                    </div>
+                </section>
+
+                {/* Posts Vinculados */}
+                <section className="perfil-section">
+                    <h2>📸 Posts de {perfil.nome} ({postsUsuario.length})</h2>
+                    <div className="posts-grid">
+                        {postsUsuario.length > 0 ? (
+                            postsUsuario.map(post => (
+                                <div key={post.id} className="post-card-grid">
+                                    <img 
+                                        src={post.conteudo.midia?.url} 
+                                        alt={`Post de ${perfil.nome}`}
+                                        onError={(e) => e.target.src = '/images/placeholder-post.jpg'} 
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <p className="info-vazio">Nenhum post publicado.</p>
+                        )}
+                    </div>
+                </section>
+            </div>
+        </div>
+    );
 };
 
 export default PerfilPublico;
