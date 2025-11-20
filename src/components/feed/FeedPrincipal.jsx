@@ -1,19 +1,34 @@
-// src/components/feed/FeedPrincipal.jsx
-import React, { useState } from 'react';
+// src/components/feed/FeedPrincipal.jsx - VERSÃO SIMPLIFICADA E FUNCIONAL
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/feed/feed.css';
 
 const FeedPrincipal = () => {
-  const { usuario, posts, criarPost, curtirPost, adicionarComentario, seguirUsuario, deixarSeguir, usuarios, logout } = useAuth();
+  const { usuario, criarPost, curtirPost, adicionarComentario, seguirUsuario, deixarSeguir, logout, obterPostsFeed } = useAuth();
   const [novoPost, setNovoPost] = useState('');
   const [comentarioAtivo, setComentarioAtivo] = useState(null);
   const [textoComentario, setTextoComentario] = useState('');
+  const [postsFeed, setPostsFeed] = useState([]);
+
+  // 🔧 CORREÇÃO: Carregar posts quando o componente montar
+  useEffect(() => {
+    if (usuario) {
+      console.log('🔄 Atualizando feed para:', usuario.nome);
+      const posts = obterPostsFeed();
+      setPostsFeed(posts);
+    }
+  }, [usuario, obterPostsFeed]);
 
   const handleCriarPost = (e) => {
     e.preventDefault();
     if (novoPost.trim()) {
       criarPost(novoPost);
       setNovoPost('');
+      // Atualizar feed após criar post
+      setTimeout(() => {
+        const posts = obterPostsFeed();
+        setPostsFeed(posts);
+      }, 500);
     }
   };
 
@@ -22,7 +37,21 @@ const FeedPrincipal = () => {
       adicionarComentario(postId, textoComentario);
       setTextoComentario('');
       setComentarioAtivo(null);
+      // Atualizar feed após comentar
+      setTimeout(() => {
+        const posts = obterPostsFeed();
+        setPostsFeed(posts);
+      }, 500);
     }
+  };
+
+  const handleCurtir = (postId) => {
+    curtirPost(postId);
+    // Atualizar feed após curtir
+    setTimeout(() => {
+      const posts = obterPostsFeed();
+      setPostsFeed(posts);
+    }, 500);
   };
 
   const estaSeguindo = (emailUsuario) => {
@@ -75,20 +104,23 @@ const FeedPrincipal = () => {
 
       {/* Lista de posts */}
       <div className="posts-container">
-        <h3>Feed</h3>
-        {posts.length === 0 ? (
+        <h3>Feed - Posts de Todos os Usuários</h3>
+        {postsFeed.length === 0 ? (
           <div className="sem-posts">
             <p>Nenhum post ainda. Seja o primeiro a postar! 🐾</p>
           </div>
         ) : (
-          posts.map(post => (
-            <div key={post.id} className="post">
+          postsFeed.map(post => (
+            <div key={post.id} className="post"> {/* 🔧 AGORA COM ID ÚNICO */}
               <div className="post-header">
                 <div className="post-usuario">
                   <span className="usuario-foto">👤</span>
                   <div>
                     <strong>{post.usuarioNome}</strong>
                     <span>@{post.usuarioUsername}</span>
+                    {post.usuario?.tipo === 'veterinario' && (
+                      <span className="badge-veterinario">🐾 Veterinário</span>
+                    )}
                   </div>
                 </div>
                 {post.usuarioEmail !== usuario.email && (
@@ -112,7 +144,7 @@ const FeedPrincipal = () => {
 
               <div className="post-acoes">
                 <button 
-                  onClick={() => curtirPost(post.id)}
+                  onClick={() => handleCurtir(post.id)}
                   className={`botao-curtir ${post.curtidas.includes(usuario.email) ? 'curtido' : ''}`}
                 >
                   ❤️ {post.curtidas.length}
