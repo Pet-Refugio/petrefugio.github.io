@@ -2,12 +2,16 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import EditarPerfil from './EditarPerfil';
 import '../../styles/perfil/InfoUsuario.css';
 
 const InfoUsuario = () => {
   const { usuario, atualizarPerfil, logout, adicionarFoto } = useAuth();
   const navigate = useNavigate();
+  
+  // ⚠️ TODOS OS HOOKS DEVEM ESTAR AQUI DENTRO
   const [editando, setEditando] = useState(false);
+  const [mostrarEditarPerfil, setMostrarEditarPerfil] = useState(false);
   const [dadosEditados, setDadosEditados] = useState({
     nome: usuario?.nome || '',
     username: usuario?.username || '',
@@ -16,7 +20,7 @@ const InfoUsuario = () => {
   const [fotoPerfil, setFotoPerfil] = useState(usuario?.fotoPerfil || null);
   const [fotoCapa, setFotoCapa] = useState(usuario?.fotoCapa || null);
 
-  // Verificação de segurança
+  // Verificação de segurança - DEPOIS dos hooks
   if (!usuario) {
     return (
       <div className="perfil-carregando">
@@ -221,39 +225,33 @@ const InfoUsuario = () => {
             </a>
           </div>
 
-          {/* Ações do Usuário */}
+          {/* Ações do Usuário - MODIFICADO */}
           <div className="acoes-usuario">
-            {editando ? (
-              <>
-                <button onClick={handleSalvarPerfil} className="botao-acao-principal">
-                  💾 Salvar Alterações
-                </button>
-                <button onClick={handleCancelarEdicao} className="botao-acao-secundario">
-                  ❌ Cancelar
-                </button>
-              </>
-            ) : (
-              <>
-                <button 
-                  onClick={() => setEditando(true)}
-                  className="botao-acao-principal"
-                >
-                  ✏️ Editar Perfil
-                </button>
-                <button 
-                  onClick={() => navigate('/perfil/adicionar-pet')}
-                  className="botao-acao-secundario"
-                >
-                  🐾 Adicionar Pet
-                </button>
-                <button onClick={logout} className="botao-acao-secundario">
-                  🚪 Sair
-                </button>
-              </>
-            )}
+            <button 
+              onClick={() => setMostrarEditarPerfil(true)}
+              className="botao-acao-principal"
+            >
+              ✏️ Editar Perfil
+            </button>
+            
+            <button 
+              onClick={() => navigate('/perfil/adicionar-pet')}
+              className="botao-acao-secundario"
+            >
+              🐾 Adicionar Pet
+            </button>
+            
+            <button onClick={logout} className="botao-acao-secundario">
+              🚪 Sair
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Modal de Edição - ADICIONADO */}
+      {mostrarEditarPerfil && (
+        <EditarPerfil onClose={() => setMostrarEditarPerfil(false)} />
+      )}
 
       {/* Menu de Opções de Foto (quando em edição) */}
       {editando && (
