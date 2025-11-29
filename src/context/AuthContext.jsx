@@ -755,31 +755,39 @@ const obterPostsFeed = () => {
   return postsOrdenados;
 };
 
-  // 🔧 NOVA FUNÇÃO: Obter usuário por username (para perfil público)
-  const obterUsuarioPorUsername = (username) => {
-    return Object.values(usuarios).find(user => user.username === username);
-  };
+const obterUsuarioPorUsername = (username) => {
+  console.log('🔍 Buscando usuário por username:', username);
+  
+  // Buscar usuário pelo username
+  const usuarioEncontrado = Object.values(usuarios).find(
+    user => user.username === username
+  );
+  
+  console.log('✅ Usuário encontrado:', usuarioEncontrado ? usuarioEncontrado.nome : 'Não encontrado');
+  return usuarioEncontrado || null;
+};
 
-  const value = {
-    usuario,
-    carregando,
-    usuarios,
-    login,
-    logout,
-    criarPost,
-    curtirPost,
-    seguirUsuario,
-    deixarSeguir,
-    atualizarPerfil,
-    adicionarFoto,
-    adicionarPet,
-    // 🔧 NOVAS FUNÇÕES ADICIONADAS:
-    mudarNomeUsuario,
-    mudarUsername,
-    editarPerfil,
-    obterPostsFeed,
-    obterUsuarioPorUsername
-  };
+const value = {
+  usuario,
+  carregando,
+  usuarios,
+  login,
+  logout,
+  criarPost,
+  curtirPost,
+  seguirUsuario,
+  deixarSeguir,
+  atualizarPerfil,
+  adicionarFoto,
+  adicionarPet,
+  // 🔧 ADICIONE ESTAS FUNÇÕES:
+  mudarNomeUsuario,
+  mudarUsername,
+  editarPerfil,
+  obterPostsFeed,
+  obterUsuarioPorUsername
+};
+  
 
   return (
     <AuthContext.Provider value={value}>
