@@ -1,154 +1,170 @@
-import { useState, useEffect, useRef } from 'react';
+// src/components/principal/ChatConversa.jsx - CÓDIGO COMPLETO
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import '../../styles/principal/ChatConversa.css';
-import amigosData from '../../dados/amigos.json';
+
+// Constantes para respostas automáticas
+const RESPOSTAS_AUTOMATICAS = [
+  'Que legal! 🐾',
+  'Vou ver isso!',
+  'Meu pet também adora isso!',
+  'Ótima dica! 💡',
+  'Vamos marcar um encontro dos pets?',
+  'Interessante!',
+  'Conte-me mais!',
+  'Hahaha que fofo! 😄',
+  'Concordo totalmente!',
+  'Que bom saber! 🎉'
+];
 
 export default function ChatConversa() {
   const { amigoId } = useParams();
   const navigate = useNavigate();
+  const { usuarios, usuario: usuarioLogado } = useAuth();
   const [mensagem, setMensagem] = useState('');
   const [conversa, setConversa] = useState([]);
-  const [amigo, setAmigo] = useState(null);
   const [carregando, setCarregando] = useState(true);
+  const [enviando, setEnviando] = useState(false);
   const areaMensagensRef = useRef(null);
 
-  useEffect(() => {
-    carregarAmigo();
-  }, [amigoId]);
+  // Encontrar amigo de forma otimizada
+  const amigo = useMemo(() => {
+    return Object.values(usuarios || {}).find(user => user.username === amigoId);
+  }, [usuarios, amigoId]);
 
+  // Carregar dados iniciais
+  useEffect(() => {
+    const inicializarChat = async () => {
+      setCarregando(true);
+      
+      if (!amigoId || !usuarioLogado) {
+        console.log('❌ Dados insuficientes para carregar chat');
+        navigate('/principal');
+        return;
+      }
+
+      // Verificar se o amigo existe e não é o usuário logado
+      if (!amigo || amigo.email === usuarioLogado.email) {
+        console.log('❌ Amigo não encontrado ou é o próprio usuário');
+        navigate('/principal');
+        return;
+      }
+
+      console.log('✅ Chat carregado com:', amigo.nome);
+      
+      // Carregar conversa existente do localStorage (simulação)
+      const conversaSalva = localStorage.getItem(`chat_${usuarioLogado.username}_${amigo.username}`);
+      if (conversaSalva) {
+        setConversa(JSON.parse(conversaSalva));
+      }
+      
+      setCarregando(false);
+    };
+
+    inicializarChat();
+  }, [amigoId, amigo, usuarioLogado, navigate]);
+
+  // Scroll automático para baixo
   useEffect(() => {
     scrollParaBaixo();
   }, [conversa]);
 
-  const carregarAmigo = () => {
-    if (!amigoId) {
-      console.log('❌ amigoId não encontrado nos parâmetros');
-      navigate('/principal');
-      return;
+  // Salvar conversa no localStorage quando mudar
+  useEffect(() => {
+    if (usuarioLogado && amigo && conversa.length > 0) {
+      localStorage.setItem(`chat_${usuarioLogado.username}_${amigo.username}`, JSON.stringify(conversa));
     }
-    
-    setCarregando(true);
-    
-    // Converter para número e buscar o amigo
-    const id = parseInt(amigoId);
-    
-    if (isNaN(id)) {
-      console.log('❌ amigoId inválido:', amigoId);
-      navigate('/principal');
-      return;
-    }
+  }, [conversa, usuarioLogado, amigo]);
 
-    const amigoEncontrado = amigosData.amigos.find(a => a.id === id);
-    
-    if (amigoEncontrado) {
-      console.log('✅ Amigo encontrado:', amigoEncontrado.nome);
-      setAmigo(amigoEncontrado);
-      
-      // Inicializar conversa vazia
-      setConversa([]);
-    } else {
-      console.log('❌ Amigo não encontrado com ID:', id);
-      navigate('/principal');
-    }
-    
-    setCarregando(false);
-  };
-
-  const scrollParaBaixo = () => {
+  const scrollParaBaixo = useCallback(() => {
     if (areaMensagensRef.current) {
       areaMensagensRef.current.scrollTop = areaMensagensRef.current.scrollHeight;
     }
-  };
+  }, []);
 
-  const voltarParaPrincipal = () => {
+  const voltarParaPrincipal = useCallback(() => {
     navigate('/principal');
-  };
+  }, [navigate]);
 
-  // Serviço de chat simplificado (sem API)
-  const chatService = {
-    enviarMensagem: (amigoId, texto) => {
-      return new Promise((resolve) => {
-        const novaMensagem = {
-          id: Date.now(),
-          texto: texto,
-          remetente: 'eu',
-          tempo: new Date().toLocaleTimeString('pt-BR', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          }),
-          lida: false
-        };
-        
-        resolve({
-          success: true,
-          data: novaMensagem
-        });
-      });
+  // Simular resposta automática do amigo
+  const simularRespostaAmigo = useCallback(() => {
+    const respostaAleatoria = RESPOSTAS_AUTOMATICAS[
+      Math.floor(Math.random() * RESPOSTAS_AUTOMATICAS.length)
+    ];
+    
+    const resposta = {
+      id: Date.now() + 1,
+      texto: respostaAleatoria,
+      remetente: 'amigo',
+      tempo: new Date().toLocaleTimeString('pt-BR', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      }),
+      lida: true,
+      timestamp: new Date().toISOString()
+    };
+    
+    setConversa(prev => [...prev, resposta]);
+  }, []);
+
+  const enviarMensagem = useCallback(async () => {
+    if (!mensagem.trim() || !amigo || enviando) return;
+
+    setEnviando(true);
+    
+    const novaMensagem = {
+      id: Date.now(),
+      texto: mensagem.trim(),
+      remetente: 'eu',
+      tempo: new Date().toLocaleTimeString('pt-BR', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      }),
+      lida: false,
+      timestamp: new Date().toISOString()
+    };
+    
+    setConversa(prev => [...prev, novaMensagem]);
+    setMensagem('');
+    
+    // Simular delay de envio
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Simular resposta automática se o amigo estiver online
+    if (amigo.online) {
+      setTimeout(simularRespostaAmigo, 2000);
     }
-  };
+    
+    setEnviando(false);
+  }, [mensagem, amigo, enviando, simularRespostaAmigo]);
 
-  const enviarMensagem = async () => {
-    if (mensagem.trim() && amigo) {
-      try {
-        const resultado = await chatService.enviarMensagem(amigo.id, mensagem);
-        if (resultado.success) {
-          setConversa(prev => [...prev, resultado.data]);
-          setMensagem('');
-          
-          // Simular resposta automática se o amigo estiver online
-          if (amigo.online) {
-            setTimeout(async () => {
-              const respostas = [
-                'Que legal! 🐾',
-                'Vou ver isso!',
-                'Meu pet também adora isso!',
-                'Ótima dica! 💡',
-                'Vamos marcar um encontro dos pets?',
-                'Interessante!',
-                'Conte-me mais!',
-                'Hahaha que fofo! 😄'
-              ];
-              
-              const respostaAleatoria = respostas[Math.floor(Math.random() * respostas.length)];
-              
-              const resposta = {
-                id: Date.now() + 1,
-                texto: respostaAleatoria,
-                remetente: 'amigo',
-                tempo: new Date().toLocaleTimeString('pt-BR', { 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
-                }),
-                lida: true
-              };
-              
-              setConversa(prev => [...prev, resposta]);
-            }, 2000);
-          }
-        }
-      } catch (error) {
-        console.log('❌ Erro ao enviar mensagem:', error);
-        alert('Erro ao enviar mensagem. Tente novamente.');
-      }
-    }
-  };
-
-  const handleKeyPress = (e) => {
+  const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       enviarMensagem();
     }
-  };
+  }, [enviarMensagem]);
 
-  const handleImageError = (e) => {
-    console.log('❌ Avatar do chat não carregou:', e.target.src);
-    e.target.src = '/images/avatars/default-avatar.jpg';
-  };
+  const handleImageError = useCallback((e) => {
+    console.log('❌ Erro ao carregar avatar, usando placeholder');
+    e.target.style.display = 'none';
+    
+    const parent = e.target.parentNode;
+    if (!parent.querySelector('.avatar-placeholder-chat')) {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'avatar-placeholder-chat';
+      placeholder.innerHTML = `<span>${amigo?.nome?.charAt(0)?.toUpperCase() || 'A'}</span>`;
+      parent.appendChild(placeholder);
+    }
+  }, [amigo]);
 
+  // Componente de loading
   if (carregando) {
     return (
       <div className="pagina-chat carregando">
         <div className="carregando-chat">
+          <div className="spinner-chat"></div>
           <p>Carregando conversa...</p>
           <button onClick={voltarParaPrincipal} className="botao-voltar-carregando">
             ← Voltar
@@ -158,12 +174,16 @@ export default function ChatConversa() {
     );
   }
 
+  // Componente de erro
   if (!amigo) {
     return (
       <div className="pagina-chat erro">
         <div className="erro-chat">
-          <p>Amigo não encontrado</p>
-          <button onClick={voltarParaPrincipal}>Voltar para Principal</button>
+          <h3>😕 Amigo não encontrado</h3>
+          <p>O perfil que você está tentando acessar não existe.</p>
+          <button onClick={voltarParaPrincipal} className="botao-voltar-carregando">
+            Voltar para Principal
+          </button>
         </div>
       </div>
     );
@@ -171,90 +191,172 @@ export default function ChatConversa() {
 
   return (
     <div className="pagina-chat">
-      
       {/* Header do Chat */}
-      <div className="header-chat">
-        <button 
-          className="botao-voltar" 
-          onClick={voltarParaPrincipal}
-          title="Voltar"
-        >
-          ← Voltar
-        </button>
-        <div className="info-amigo-chat">
-          <img 
-            src={amigo.avatar} 
-            alt={amigo.nome}
-            className="avatar-chat"
-            onError={handleImageError}
-          />
-          <div className="detalhes-amigo">
-            <span className="nome-amigo-chat">{amigo.nome}</span>
-            <span className="status-amigo-chat">
-              {amigo.online ? '🟢 Online' : '⚫ Offline'}
-            </span>
-          </div>
-        </div>
-      </div>
+      <HeaderChat 
+        amigo={amigo}
+        onVoltar={voltarParaPrincipal}
+        onImageError={handleImageError}
+      />
 
       {/* Área de Mensagens */}
-      <div className="area-mensagens" ref={areaMensagensRef}>
-        {conversa.length === 0 ? (
-          <div className="sem-mensagens">
-            <p>Nenhuma mensagem ainda</p>
-            <small>
-              {amigo.online 
-                ? 'Envie uma mensagem para iniciar a conversa! 🐾' 
-                : `${amigo.nome} está offline. Sua mensagem será entregue quando ele estiver online.`}
-            </small>
-          </div>
-        ) : (
-          conversa.map((msg) => (
-            <div 
-              key={msg.id} 
-              className={`mensagem ${msg.remetente === 'eu' ? 'minha-mensagem' : 'mensagem-amigo'}`}
-            >
-              <div className="conteudo-mensagem">
-                <p>{msg.texto}</p>
-                <span className="hora-mensagem">{msg.tempo}</span>
-                {msg.remetente === 'eu' && (
-                  <span className="status-envio">
-                    {amigo.online ? '✓' : '⌛'}
-                  </span>
-                )}
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+      <AreaMensagens 
+        ref={areaMensagensRef}
+        conversa={conversa}
+        amigo={amigo}
+      />
 
       {/* Input de Mensagem */}
-      <div className="input-chat">
-        <div className="acoes-rapidas">
-          <button type="button" className="botao-acao-chat" title="Enviar imagem">📷</button>
-          <button type="button" className="botao-acao-chat" title="Emojis">😊</button>
-        </div>
-        <textarea
-          value={mensagem}
-          onChange={(e) => setMensagem(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder={
-            amigo.online 
-              ? "Digite sua mensagem..." 
-              : `${amigo.nome} está offline. Digite uma mensagem...`
-          }
-          className="input-mensagem"
-          rows="1"
-        />
-        <button 
-          onClick={enviarMensagem}
-          disabled={!mensagem.trim()}
-          className="botao-enviar"
-        >
-          {amigo.online ? '➤' : '⏳'}
-        </button>
-      </div>
-
+      <InputChat 
+        mensagem={mensagem}
+        setMensagem={setMensagem}
+        onEnviar={enviarMensagem}
+        onKeyPress={handleKeyPress}
+        amigo={amigo}
+        enviando={enviando}
+      />
     </div>
   );
 }
+
+// Componente Header Separado
+const HeaderChat = React.memo(({ amigo, onVoltar, onImageError }) => (
+  <div className="header-chat">
+    <button 
+      className="botao-voltar" 
+      onClick={onVoltar}
+      title="Voltar para a página principal"
+      aria-label="Voltar"
+    >
+      ← Voltar
+    </button>
+    <div className="info-amigo-chat">
+      {amigo.fotoPerfil ? (
+        <img 
+          src={amigo.fotoPerfil} 
+          alt={`Foto de perfil de ${amigo.nome}`}
+          className="avatar-chat"
+          onError={onImageError}
+          loading="lazy"
+        />
+      ) : (
+        <div className="avatar-placeholder-chat">
+          <span>{amigo.nome.charAt(0).toUpperCase()}</span>
+        </div>
+      )}
+      <div className="detalhes-amigo">
+        <span className="nome-amigo-chat">{amigo.nome}</span>
+        <span className={`status-amigo-chat ${amigo.online ? 'online' : 'offline'}`}>
+          {amigo.online ? '🟢 Online' : '⚫ Offline'}
+          {amigo.ultimoAcesso && !amigo.online && (
+            <small> • Visto por último {amigo.ultimoAcesso}</small>
+          )}
+        </span>
+      </div>
+    </div>
+  </div>
+));
+
+// Componente Área de Mensagens
+const AreaMensagens = React.memo(({ conversa, amigo }) => (
+  <div className="area-mensagens">
+    {conversa.length === 0 ? (
+      <div className="sem-mensagens">
+        <div className="icone-sem-mensagens">💬</div>
+        <p>Nenhuma mensagem ainda</p>
+        <small>
+          {amigo.online 
+            ? 'Envie uma mensagem para iniciar a conversa! 🐾' 
+            : `${amigo.nome} está offline. Sua mensagem será entregue quando ele estiver online.`}
+        </small>
+      </div>
+    ) : (
+      conversa.map((msg) => (
+        <Mensagem 
+          key={msg.id} 
+          mensagem={msg}
+          amigoOnline={amigo.online}
+        />
+      ))
+    )}
+  </div>
+));
+
+// Componente Mensagem Individual
+const Mensagem = React.memo(({ mensagem, amigoOnline }) => (
+  <div 
+    className={`mensagem ${mensagem.remetente === 'eu' ? 'minha-mensagem' : 'mensagem-amigo'}`}
+  >
+    <div className="conteudo-mensagem">
+      <p>{mensagem.texto}</p>
+      <div className="info-mensagem">
+        <span className="hora-mensagem">{mensagem.tempo}</span>
+        {mensagem.remetente === 'eu' && (
+          <span className="status-envio">
+            {amigoOnline ? '✓✓' : '✓'}
+          </span>
+        )}
+      </div>
+    </div>
+  </div>
+));
+
+// Componente Input de Chat
+const InputChat = React.memo(({ mensagem, setMensagem, onEnviar, onKeyPress, amigo, enviando }) => {
+  const textareaRef = useRef(null);
+
+  const handleChange = (e) => {
+    setMensagem(e.target.value);
+    
+    // Auto-ajustar altura do textarea
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 120) + 'px';
+    }
+  };
+
+  const handleEnviarClick = () => {
+    onEnviar();
+    // Resetar altura do textarea após envio
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+    }
+  };
+
+  return (
+    <div className="input-chat">
+      <div className="acoes-rapidas">
+        <button type="button" className="botao-acao-chat" title="Enviar imagem" disabled={enviando}>
+          📷
+        </button>
+        <button type="button" className="botao-acao-chat" title="Emojis" disabled={enviando}>
+          😊
+        </button>
+        <button type="button" className="botao-acao-chat" title="Enviar localização" disabled={enviando}>
+          📍
+        </button>
+      </div>
+      <textarea
+        ref={textareaRef}
+        value={mensagem}
+        onChange={handleChange}
+        onKeyPress={onKeyPress}
+        placeholder={
+          amigo.online 
+            ? "Digite sua mensagem..." 
+            : `${amigo.nome} está offline. Sua mensagem será entregue quando ele estiver online...`
+        }
+        className="input-mensagem"
+        rows="1"
+        disabled={enviando}
+      />
+      <button 
+        onClick={handleEnviarClick}
+        disabled={!mensagem.trim() || enviando}
+        className="botao-enviar"
+        title={enviando ? 'Enviando...' : 'Enviar mensagem'}
+      >
+        {enviando ? '⏳' : (amigo.online ? '➤' : '📨')}
+      </button>
+    </div>
+  );
+});
