@@ -10,7 +10,6 @@ export const useAuth = () => {
   return context;
 };
 
-// Usuários pré-cadastrados - VERSÃO ATUALIZADA COM FUNCIONALIDADES COMPLETAS
 const usuariosPreCadastrados = {
   "wenderviana@gmail.com": {
     senha: "12345678",
@@ -19,6 +18,8 @@ const usuariosPreCadastrados = {
     bio: "Amo animais e tenho 3 gatos resgatados 🐱 | Fotógrafo de pets",
     tipo: "usuario",
     online: true,
+    fotoPerfil: null,
+    fotoCapa: null,
     seguidores: ["danilosilva@gmail.com", "igormiada@gmail.com"],
     seguindo: ["danilosilva@gmail.com"],
     pets: [
@@ -58,6 +59,8 @@ const usuariosPreCadastrados = {
     bio: "Veterinário especializado em animais silvestres 🦜",
     tipo: "veterinario",
     online: true,
+    fotoPerfil: null,
+    fotoCapa: null,
     seguidores: ["wenderviana@gmail.com"],
     seguindo: ["wenderviana@gmail.com", "igormiada@gmail.com"],
     pets: [
@@ -89,6 +92,8 @@ const usuariosPreCadastrados = {
     bio: "Fotógrafo de animais e voluntário em ONGs 📸",
     tipo: "usuario",
     online: false,
+    fotoPerfil: null,
+    fotoCapa: null,
     seguidores: ["danilosilva@gmail.com"],
     seguindo: ["wenderviana@gmail.com"],
     pets: [
@@ -112,26 +117,6 @@ const usuariosPreCadastrados = {
         comentarios: []
       }
     ]
-  },
-  "admin@admin": {
-    senha: "senhaadmin123",
-    nome: "Administrador PetRefugio",
-    username: "admin_petrefugio",
-    bio: "Administrador do sistema | Aqui para ajudar todos os pets 🐾",
-    tipo: "admin",
-    online: true,
-    seguidores: [],
-    seguindo: ["wenderviana@gmail.com", "danilosilva@gmail.com", "igormiada@gmail.com"],
-    pets: [],
-    posts: [
-      {
-        id: 1,
-        conteudo: "Bem-vindos ao PetRefugio! 🎉 A rede social para quem ama animais.",
-        data: new Date().toISOString(),
-        curtidas: ["wenderviana@gmail.com", "danilosilva@gmail.com", "igormiada@gmail.com"],
-        comentarios: []
-      }
-    ]
   }
 };
 
@@ -139,160 +124,9 @@ export const AuthProvider = ({ children }) => {
   const [usuario, setUsuario] = useState(null);
   const [carregando, setCarregando] = useState(true);
   const [usuarios, setUsuarios] = useState({});
+  const [posts, setPosts] = useState([]);
 
-  // 🔧 NOVA FUNÇÃO: Mudar nome de usuário
-  const mudarNomeUsuario = (novoNome, novaBio = null) => {
-    if (!usuario) {
-      console.error('❌ Nenhum usuário logado para mudar nome');
-      return false;
-    }
-
-    try {
-      console.log('✏️ Mudando nome do usuário:', { de: usuario.nome, para: novoNome });
-      
-      const novosUsuarios = {
-        ...usuarios,
-        [usuario.email]: {
-          ...usuarios[usuario.email],
-          nome: novoNome,
-          bio: novaBio !== null ? novaBio : usuarios[usuario.email].bio
-        }
-      };
-
-      const usuarioAtualizado = {
-        ...usuario,
-        nome: novoNome,
-        bio: novaBio !== null ? novaBio : usuario.bio
-      };
-
-      // Atualiza posts com novo nome
-      const postsAtualizados = novosUsuarios[usuario.email].posts.map(post => ({
-        ...post,
-        usuarioNome: novoNome
-      }));
-
-      novosUsuarios[usuario.email].posts = postsAtualizados;
-
-      const sucesso = salvarDados(novosUsuarios, usuarioAtualizado);
-      
-      if (sucesso) {
-        console.log('✅ Nome do usuário alterado com sucesso');
-      }
-      
-      return sucesso;
-    } catch (error) {
-      console.error('❌ Erro ao mudar nome do usuário:', error);
-      return false;
-    }
-  };
-
-  // 🔧 NOVA FUNÇÃO: Mudar username
-  const mudarUsername = (novoUsername) => {
-    if (!usuario) {
-      throw new Error('Nenhum usuário logado');
-    }
-
-    // Verifica se o username já existe
-    const usernameExists = Object.values(usuarios).some(user => 
-      user.username === novoUsername && user.email !== usuario.email
-    );
-
-    if (usernameExists) {
-      throw new Error('Este username já está em uso');
-    }
-
-    try {
-      console.log('✏️ Mudando username:', { de: usuario.username, para: novoUsername });
-      
-      const novosUsuarios = {
-        ...usuarios,
-        [usuario.email]: {
-          ...usuarios[usuario.email],
-          username: novoUsername
-        }
-      };
-
-      const usuarioAtualizado = {
-        ...usuario,
-        username: novoUsername
-      };
-
-      // Atualiza posts com novo username
-      const postsAtualizados = novosUsuarios[usuario.email].posts.map(post => ({
-        ...post,
-        usuarioUsername: novoUsername
-      }));
-
-      novosUsuarios[usuario.email].posts = postsAtualizados;
-
-      const sucesso = salvarDados(novosUsuarios, usuarioAtualizado);
-      
-      if (sucesso) {
-        console.log('✅ Username alterado com sucesso');
-      }
-      
-      return sucesso;
-    } catch (error) {
-      console.error('❌ Erro ao mudar username:', error);
-      throw error;
-    }
-  };
-
-  // 🔧 NOVA FUNÇÃO: Editar perfil completo
-  const editarPerfil = (dadosEditados) => {
-    return new Promise((resolve, reject) => {
-      if (!usuario) {
-        reject(new Error('Nenhum usuário logado'));
-        return;
-      }
-
-      try {
-        console.log('📝 Editando perfil completo:', dadosEditados);
-        
-        const novosUsuarios = { ...usuarios };
-        const usuarioAtual = novosUsuarios[usuario.email];
-        
-        // Aplica as mudanças
-        const usuarioAtualizado = {
-          ...usuarioAtual,
-          ...dadosEditados
-        };
-
-        novosUsuarios[usuario.email] = usuarioAtualizado;
-
-        // Atualiza posts se nome ou username mudaram
-        if (dadosEditados.nome || dadosEditados.username) {
-          const postsAtualizados = usuarioAtualizado.posts.map(post => ({
-            ...post,
-            usuarioNome: dadosEditados.nome || usuarioAtualizado.nome,
-            usuarioUsername: dadosEditados.username || usuarioAtualizado.username
-          }));
-          
-          novosUsuarios[usuario.email].posts = postsAtualizados;
-        }
-
-        const sucesso = salvarDados(novosUsuarios, {
-          ...usuario,
-          ...dadosEditados
-        });
-
-        if (sucesso) {
-          console.log('✅ Perfil editado com sucesso');
-          resolve({ success: true });
-        } else {
-          reject(new Error('Erro ao salvar dados'));
-        }
-      } catch (error) {
-        console.error('❌ Erro ao editar perfil:', error);
-        reject(error);
-      }
-    });
-  };
-
-  // Carregar dados do localStorage ao inicializar - VERSÃO MELHORADA
   useEffect(() => {
-    console.log('🔍 Carregando dados do localStorage...');
-    
     const usuarioSalvo = localStorage.getItem('usuarioPetRefugio');
     const usuariosSalvos = localStorage.getItem('usuariosPetRefugio');
 
@@ -301,9 +135,18 @@ export const AuthProvider = ({ children }) => {
     if (usuariosSalvos) {
       try {
         usuariosCarregados = JSON.parse(usuariosSalvos);
-        console.log('✅ Usuários carregados do localStorage:', Object.keys(usuariosCarregados));
+        
+        Object.keys(usuariosPreCadastrados).forEach(email => {
+          if (usuariosCarregados[email]) {
+            usuariosCarregados[email] = {
+              ...usuariosPreCadastrados[email],
+              ...usuariosCarregados[email],
+              fotoPerfil: usuariosCarregados[email].fotoPerfil || null,
+              fotoCapa: usuariosCarregados[email].fotoCapa || null,
+            };
+          }
+        });
       } catch (error) {
-        console.error('❌ Erro ao carregar usuários:', error);
         usuariosCarregados = usuariosPreCadastrados;
       }
     }
@@ -313,47 +156,141 @@ export const AuthProvider = ({ children }) => {
     if (usuarioSalvo) {
       try {
         const usuarioData = JSON.parse(usuarioSalvo);
-        // Garantir que o usuário tem os dados mais recentes dos usuários
         if (usuariosCarregados[usuarioData.email]) {
           const usuarioAtualizado = {
             ...usuariosCarregados[usuarioData.email],
             email: usuarioData.email
           };
           setUsuario(usuarioAtualizado);
-          console.log('✅ Usuário logado carregado:', usuarioAtualizado.nome);
         }
       } catch (error) {
-        console.error('❌ Erro ao carregar usuário:', error);
+        console.error('Erro ao carregar usuário:', error);
       }
     }
+
+    const todosPosts = Object.values(usuariosCarregados).flatMap(user => 
+      (user.posts || []).map(post => ({
+        ...post,
+        usuario: {
+          username: user.username,
+          nome: user.nome,
+          foto: user.fotoPerfil
+        }
+      }))
+    );
+    setPosts(todosPosts);
 
     setCarregando(false);
   }, []);
 
-  // Função auxiliar para salvar dados - CORRIGIDA
-  const salvarDados = (novosUsuarios, usuarioAtualizado = null) => {
-    try {
-      console.log('💾 Salvando dados...', { 
-        usuarios: Object.keys(novosUsuarios).length,
-        usuario: usuarioAtualizado?.nome 
-      });
-      
-      setUsuarios(novosUsuarios);
-      localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
-      
-      if (usuarioAtualizado) {
-        setUsuario(usuarioAtualizado);
-        localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioAtualizado));
+  useEffect(() => {
+    const todosPosts = Object.values(usuarios).flatMap(user => 
+      (user.posts || []).map(post => ({
+        ...post,
+        usuario: {
+          username: user.username,
+          nome: user.nome,
+          foto: user.fotoPerfil
+        }
+      }))
+    );
+    setPosts(todosPosts);
+  }, [usuarios]);
+
+  // Atualize a função salvarDados para garantir que as imagens sejam sempre base64
+const salvarDados = (novosUsuarios, usuarioAtualizado = null) => {
+  try {
+    // Garantir que todas as imagens sejam strings válidas
+    Object.keys(novosUsuarios).forEach(email => {
+      const user = novosUsuarios[email];
+      if (user) {
+        if (user.fotoPerfil && !user.fotoPerfil.startsWith('data:image')) {
+          novosUsuarios[email] = {
+            ...user,
+            fotoPerfil: null
+          };
+        }
+        if (user.fotoCapa && !user.fotoCapa.startsWith('data:image')) {
+          novosUsuarios[email] = {
+            ...user,
+            fotoCapa: null
+          };
+        }
       }
-      
-      return true;
-    } catch (error) {
-      console.error('❌ Erro ao salvar dados:', error);
-      return false;
+    });
+    
+    setUsuarios(novosUsuarios);
+    localStorage.setItem('usuariosPetRefugio', JSON.stringify(novosUsuarios));
+    
+    if (usuarioAtualizado) {
+      setUsuario(usuarioAtualizado);
+      localStorage.setItem('usuarioPetRefugio', JSON.stringify(usuarioAtualizado));
     }
+
+    const todosPosts = Object.values(novosUsuarios).flatMap(user => 
+      (user.posts || []).map(post => ({
+        ...post,
+        usuario: {
+          username: user.username,
+          nome: user.nome,
+          foto: user.fotoPerfil
+        }
+      }))
+    );
+    setPosts(todosPosts);
+    
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+  const cadastrar = (email, senha, nome, username, tipo = 'usuario') => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (Object.values(usuarios).some(u => u.username === username)) {
+          reject({ success: false, message: 'Nome de usuário já existe' });
+          return;
+        }
+        
+        if (usuarios[email]) {
+          reject({ success: false, message: 'Email já cadastrado' });
+          return;
+        }
+
+        const novoUsuario = {
+          senha,
+          nome,
+          username,
+          tipo,
+          online: true,
+          fotoPerfil: null,
+          fotoCapa: null,
+          bio: '',
+          seguidores: [],
+          seguindo: [],
+          pets: [],
+          posts: []
+        };
+
+        const novosUsuarios = {
+          ...usuarios,
+          [email]: novoUsuario
+        };
+
+        const usuarioLogado = {
+          email,
+          ...novoUsuario
+        };
+
+        if (salvarDados(novosUsuarios, usuarioLogado)) {
+          resolve({ success: true, usuario: usuarioLogado });
+        } else {
+          reject({ success: false, message: 'Erro ao salvar dados' });
+        }
+      }, 500);
+    });
   };
 
-  // Login - VERSÃO CORRIGIDA
   const login = (email, senha) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -365,7 +302,6 @@ export const AuthProvider = ({ children }) => {
             ...usuarioEncontrado
           };
           
-          // Atualizar status online
           const novosUsuarios = {
             ...usuarios,
             [email]: {
@@ -375,23 +311,19 @@ export const AuthProvider = ({ children }) => {
           };
           
           if (salvarDados(novosUsuarios, usuarioLogado)) {
-            console.log('✅ Login realizado com sucesso:', usuarioLogado.nome);
             resolve({ success: true, usuario: usuarioLogado });
           } else {
             reject({ success: false, message: 'Erro ao salvar dados' });
           }
         } else {
-          console.log('❌ Login falhou:', email);
           reject({ success: false, message: 'Email ou senha incorretos' });
         }
       }, 500);
     });
   };
 
-  // Logout - VERSÃO CORRIGIDA
   const logout = () => {
     if (usuario) {
-      // Atualizar status offline
       const novosUsuarios = {
         ...usuarios,
         [usuario.email]: {
@@ -404,20 +336,15 @@ export const AuthProvider = ({ children }) => {
 
     setUsuario(null);
     localStorage.removeItem('usuarioPetRefugio');
-    console.log('🚪 Usuário deslogado');
     window.location.href = '/login';
   };
 
-  // Atualizar perfil - VERSÃO CORRIGIDA E SIMPLIFICADA
   const atualizarPerfil = (novosDados) => {
     if (!usuario) {
-      console.error('❌ Nenhum usuário logado para atualizar');
       return false;
     }
 
     try {
-      console.log('📝 Atualizando perfil:', novosDados);
-      
       const novosUsuarios = {
         ...usuarios,
         [usuario.email]: {
@@ -433,21 +360,16 @@ export const AuthProvider = ({ children }) => {
 
       return salvarDados(novosUsuarios, usuarioAtualizado);
     } catch (error) {
-      console.error('❌ Erro ao atualizar perfil:', error);
       return false;
     }
   };
 
-  // Adicionar foto - VERSÃO CORRIGIDA
   const adicionarFoto = async (tipo, base64) => {
     if (!usuario) return false;
 
     try {
-      console.log('📸 Adicionando foto:', tipo);
-      
-      // Comprimir imagem se for muito grande
       let imagemParaSalvar = base64;
-      if (base64.length > 100000) { // ~100KB
+      if (base64.length > 100000) {
         const img = new Image();
         img.src = base64;
         await new Promise((resolve) => {
@@ -468,25 +390,19 @@ export const AuthProvider = ({ children }) => {
 
       return atualizarPerfil(dadosFoto);
     } catch (error) {
-      console.error('❌ Erro ao adicionar foto:', error);
       return false;
     }
   };
 
-  // Adicionar pet - VERSÃO ATUALIZADA PARA INCLUIR A CAPA
   const adicionarPet = (novoPet) => {
     if (!usuario) {
-      console.error('❌ Nenhum usuário logado para adicionar pet');
       return false;
     }
 
     try {
-      console.log('🐾 Adicionando pet:', novoPet.nome);
-      
       const petComId = {
         id: Date.now(),
         ...novoPet,
-        // Garantir que tem os campos essenciais, incluindo a capa
         foto: novoPet.foto || '🐾',
         capa: novoPet.capa || null,
         descricao: novoPet.descricao || ''
@@ -510,30 +426,18 @@ export const AuthProvider = ({ children }) => {
       };
 
       const sucesso = salvarDados(novosUsuarios, usuarioAtualizado);
-      
-      if (sucesso) {
-        console.log('✅ Pet adicionado com sucesso:', petComId.nome);
-      } else {
-        console.error('❌ Falha ao adicionar pet');
-      }
-      
       return sucesso;
     } catch (error) {
-      console.error('❌ Erro ao adicionar pet:', error);
       return false;
     }
   };
 
-  // Criar post - VERSÃO CORRIGIDA
   const criarPost = async (conteudo, imagem = null) => {
     if (!usuario) {
-      console.error('❌ Nenhum usuário logado para criar post');
       return null;
     }
 
     try {
-      console.log('📝 Criando post:', conteudo.substring(0, 50) + '...');
-      
       const novoPost = {
         id: Date.now(),
         usuarioEmail: usuario.email,
@@ -565,26 +469,19 @@ export const AuthProvider = ({ children }) => {
       };
 
       if (salvarDados(novosUsuarios, usuarioAtualizado)) {
-        console.log('✅ Post criado com sucesso');
         return novoPost;
       } else {
-        console.error('❌ Falha ao criar post');
         return null;
       }
     } catch (error) {
-      console.error('❌ Erro ao criar post:', error);
       return null;
     }
   };
 
-  // Curtir post - VERSÃO CORRIGIDA
   const curtirPost = (postId) => {
     if (!usuario) return;
 
     try {
-      console.log('❤️ Curtindo post:', postId);
-      
-      // Encontrar o post em todos os usuários
       let postEncontrado = null;
       let usuarioDono = null;
 
@@ -598,7 +495,6 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (!postEncontrado || !usuarioDono) {
-        console.error('❌ Post não encontrado:', postId);
         return;
       }
 
@@ -607,7 +503,6 @@ export const AuthProvider = ({ children }) => {
         ? curtidasAtuais.filter(email => email !== usuario.email)
         : [...curtidasAtuais, usuario.email];
 
-      // Atualizar o post específico
       const novosUsuarios = { ...usuarios };
       const postsUsuario = [...(novosUsuarios[usuarioDono].posts || [])];
       const postIndex = postsUsuario.findIndex(post => post.id === postId);
@@ -624,26 +519,20 @@ export const AuthProvider = ({ children }) => {
         };
 
         salvarDados(novosUsuarios);
-        console.log('✅ Post curtido/descurtido com sucesso');
       }
     } catch (error) {
-      console.error('❌ Erro ao curtir post:', error);
+      console.error('Erro ao curtir post:', error);
     }
   };
 
-  // Seguir usuário - VERSÃO CORRIGIDA
   const seguirUsuario = (usuarioSeguidoEmail) => {
     if (!usuario || !usuarios[usuarioSeguidoEmail] || usuarioSeguidoEmail === usuario.email) {
-      console.error('❌ Não é possível seguir este usuário');
       return;
     }
 
     try {
-      console.log('👤 Seguindo usuário:', usuarioSeguidoEmail);
-      
       const novosUsuarios = { ...usuarios };
       
-      // Adicionar aos seguidores do usuário seguido
       const seguidoresAtuais = Array.isArray(novosUsuarios[usuarioSeguidoEmail].seguidores) 
         ? novosUsuarios[usuarioSeguidoEmail].seguidores 
         : [];
@@ -655,7 +544,6 @@ export const AuthProvider = ({ children }) => {
         };
       }
 
-      // Adicionar aos seguindo do usuário atual
       const seguindoAtuais = Array.isArray(novosUsuarios[usuario.email].seguindo) 
         ? novosUsuarios[usuario.email].seguindo 
         : [];
@@ -672,23 +560,18 @@ export const AuthProvider = ({ children }) => {
         };
 
         salvarDados(novosUsuarios, usuarioAtualizado);
-        console.log('✅ Usuário seguido com sucesso');
       }
     } catch (error) {
-      console.error('❌ Erro ao seguir usuário:', error);
+      console.error('Erro ao seguir usuário:', error);
     }
   };
 
-  // Deixar de seguir usuário - VERSÃO CORRIGIDA
   const deixarSeguir = (usuarioSeguidoEmail) => {
     if (!usuario) return;
 
     try {
-      console.log('👤 Deixando de seguir:', usuarioSeguidoEmail);
-      
       const novosUsuarios = { ...usuarios };
       
-      // Remover dos seguidores do usuário seguido
       if (Array.isArray(novosUsuarios[usuarioSeguidoEmail]?.seguidores)) {
         novosUsuarios[usuarioSeguidoEmail] = {
           ...novosUsuarios[usuarioSeguidoEmail],
@@ -698,7 +581,6 @@ export const AuthProvider = ({ children }) => {
         };
       }
 
-      // Remover dos seguindo do usuário atual
       if (Array.isArray(novosUsuarios[usuario.email]?.seguindo)) {
         novosUsuarios[usuario.email] = {
           ...novosUsuarios[usuario.email],
@@ -713,85 +595,42 @@ export const AuthProvider = ({ children }) => {
         };
 
         salvarDados(novosUsuarios, usuarioAtualizado);
-        console.log('✅ Deixou de seguir com sucesso');
       }
     } catch (error) {
-      console.error('❌ Erro ao deixar de seguir:', error);
+      console.error('Erro ao deixar de seguir:', error);
     }
   };
 
-// No AuthContext.jsx - FUNÇÃO obterPostsFeed CORRIGIDA
-const obterPostsFeed = () => {
-  console.log('🔍 Coletando posts para feed...');
-  
-  const todosPosts = [];
-  
-  Object.entries(usuarios).forEach(([email, user]) => {
-    if (Array.isArray(user.posts)) {
-      user.posts.forEach(post => {
-        // 🔧 CORREÇÃO: Criar ID único combinando email + id do post
-        const postIdUnico = `${email}-${post.id}`;
-        
-        todosPosts.push({
-          ...post,
-          id: postIdUnico, // 🔧 ID ÚNICO
-          usuarioEmail: email,
-          usuario: {
-            nome: user.nome,
-            username: user.username,
-            email: email,
-            fotoPerfil: user.fotoPerfil,
-            tipo: user.tipo
-          }
-        });
-      });
-    }
-  });
-  
-  // Ordenar por data (mais recente primeiro)
-  const postsOrdenados = todosPosts.sort((a, b) => new Date(b.data) - new Date(a.data));
-  
-  console.log('✅ Posts coletados:', postsOrdenados.length, 'de', Object.keys(usuarios).length, 'usuários');
-  return postsOrdenados;
-};
-
-const obterUsuarioPorUsername = (username) => {
-  console.log('🔍 Buscando usuário por username:', username);
-  
-  // Buscar usuário pelo username
-  const usuarioEncontrado = Object.values(usuarios).find(
-    user => user.username === username
-  );
-  
-  console.log('✅ Usuário encontrado:', usuarioEncontrado ? usuarioEncontrado.nome : 'Não encontrado');
-  return usuarioEncontrado || null;
-};
-
-const value = {
-  usuario,
-  carregando,
-  usuarios,
-  login,
-  logout,
-  criarPost,
-  curtirPost,
-  seguirUsuario,
-  deixarSeguir,
-  atualizarPerfil,
-  adicionarFoto,
-  adicionarPet,
-  // 🔧 ADICIONE ESTAS FUNÇÕES:
-  mudarNomeUsuario,
-  mudarUsername,
-  editarPerfil,
-  obterPostsFeed,
-  obterUsuarioPorUsername
-};
-  
+  const value = {
+    usuario,
+    carregando,
+    usuarios,
+    posts,
+    cadastrar,
+    login,
+    logout,
+    criarPost,
+    curtirPost,
+    seguirUsuario,
+    deixarSeguir,
+    atualizarPerfil,
+    adicionarFoto,
+    adicionarPet
+  };
 
   return (
     <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const ProtectedRoute = ({ children }) => {
+  const { usuario, carregando } = useAuth();
+  
+  if (carregando) {
+    return <div>Carregando...</div>;
+  }
+
+  return usuario ? children : null;
 };
