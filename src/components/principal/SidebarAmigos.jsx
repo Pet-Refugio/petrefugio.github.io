@@ -1,36 +1,32 @@
-// src/components/principal/SidebarAmigos.jsx
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext'; 
-import '../../styles/principal/SidebarAmigos.css'; 
-
-// Função auxiliar para evitar erros de imagem
-const handleImageError = (e, nome) => {
-    const target = e.target;
-    target.style.display = 'none';
-
-    const parent = target.parentNode;
-    const initial = nome ? nome.charAt(0).toUpperCase() : '👤';
-
-    let placeholder = parent.querySelector('.avatar-placeholder-amigo');
-    if (!placeholder) {
-        placeholder = document.createElement('div');
-        placeholder.className = 'avatar-placeholder-amigo';
-        placeholder.innerHTML = `<span>${initial}</span>`;
-        parent.appendChild(placeholder);
-    }
-};
 
 const SidebarAmigos = () => {
     const { usuarios, usuario: usuarioLogado } = useAuth();
     
-    // 🔧 CORREÇÃO: Usar dados REAIS dos usuários do sistema
     const listaAmigosChat = Object.values(usuarios || {})
-        .filter(user => user.email !== usuarioLogado?.email) // Filtrar por email, não username
-        .filter(user => user.tipo !== 'admin') // Filtrar admin
+        .filter(user => user.email !== usuarioLogado?.email)
+        .filter(user => user.tipo !== 'admin')
         .sort((a, b) => (b.online === a.online ? 0 : b.online ? 1 : -1)) 
         .slice(0, 10); 
 
-    // Helper para renderizar avatar - CORRIGIDO
+    const handleImageError = (e, nome) => {
+        const target = e.target;
+        target.style.display = 'none';
+
+        const parent = target.parentNode;
+        const initial = nome ? nome.charAt(0).toUpperCase() : '👤';
+
+        let placeholder = parent.querySelector('.avatar-placeholder-amigo');
+        if (!placeholder) {
+            placeholder = document.createElement('div');
+            placeholder.className = 'avatar-placeholder-amigo';
+            placeholder.innerHTML = `<span>${initial}</span>`;
+            parent.appendChild(placeholder);
+        }
+    };
+
     const renderAvatar = (user) => (
         <div className="avatar-amigo">
             {user.fotoPerfil ? (
@@ -51,7 +47,6 @@ const SidebarAmigos = () => {
     return (
         <aside className="sidebar-amigos">
             
-            {/* Cabeçalho do Chat */}
             <div className="cabecalho-chat">
                 <h3>Chats e Contatos</h3>
                 <button className="botao-novo-chat" title="Novo Chat">
@@ -59,7 +54,6 @@ const SidebarAmigos = () => {
                 </button>
             </div>
 
-            {/* Seção de Amigos - CORRIGIDO */}
             <div className="secao-amigos">
                 <h4>AMIGOS ({listaAmigosChat.length})</h4>
                 <div className="lista-amigos">
@@ -72,7 +66,7 @@ const SidebarAmigos = () => {
                             <Link 
                                 to={`/perfil/publico/${amigo.username}`} 
                                 className={`item-amigo ${amigo.online ? 'online' : 'offline'}`} 
-                                key={amigo.email} // 🔧 KEY única por email
+                                key={amigo.email}
                             >
                                 {renderAvatar(amigo)}
                                 <span className="nome-amigo">{amigo.nome}</span>
@@ -83,12 +77,10 @@ const SidebarAmigos = () => {
                 </div>
             </div>
 
-            {/* Seção de Grupos e Serviços */}
             <div className="secao-amigos">
                 <h4>GRUPOS E SERVIÇOS</h4>
                 <div className="lista-grupos">
                     
-                    {/* LINK DE SERVIÇOS */}
                     <Link to="/principal/servicos" key="servicos-link"> 
                         <div className="item-grupo">
                             <span className="icone-grupo">🏪</span>
@@ -96,7 +88,6 @@ const SidebarAmigos = () => {
                         </div>
                     </Link>
 
-                    {/* Grupos placeholder */}
                     {[
                         { id: 1, nome: "Adoção SP", icone: "🐶", membros: 203 },
                         { id: 2, nome: "Treinamento Cães", icone: "🦴", membros: 45 },
