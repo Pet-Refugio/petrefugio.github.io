@@ -3,7 +3,6 @@ import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import Header from './header';
 import SidebarAmigos from './SidebarAmigos';
-import SidebarServicos from './SidebarServicos';
 import AreaConteudo from './AreaConteudo';
 import '../../styles/principal/header.css';
 import '../../styles/principal/SidebarAmigos.css';

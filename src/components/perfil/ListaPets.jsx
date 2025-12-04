@@ -8,7 +8,6 @@ import '../../styles/perfil/ListaPets.css';
 const ListaPets = () => {
   const { usuario } = useAuth();
 
-  // Se não tiver usuário ou pets, mostrar estado vazio
   if (!usuario) {
     return (
       <div className="lista-pets">

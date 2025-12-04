@@ -12,15 +12,6 @@ const Header = ({ usuario }) => {
         <span className="logo-icone">🐾</span>
         <span className="logo-texto">PetRefugio</span>
       </div>
-      
-      <div className="buscador-header">
-        <input 
-          type="text" 
-          placeholder="Buscar no PetRefugio..."
-          className="input-busca"
-        />
-      </div>
-
       <div className="usuario-header">        
         <div className="acoes-header">
           <button 

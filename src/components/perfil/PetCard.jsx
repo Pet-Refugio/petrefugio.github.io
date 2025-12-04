@@ -1,6 +1,3 @@
-// src/components/pets/PetCard.jsx
-
-import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/perfil/PetCard.css';
 
@@ -9,13 +6,10 @@ const PetCard = ({ pet }) => {
         return null;
     }
 
-    // --- LÓGICA DE TRATAMENTO DE FOTO (Avatar) ---
-    // O campo 'foto' do pet é o Avatar (pode ser Base64, URL ou Emoji)
     const fotoAvatar = pet.foto || '🐾';
-    const fotoCapa = pet.capa || '/images/capas/default-capa.jpg'; // Capa ainda é uma URL padrão
+    const fotoCapa = pet.capa || '/images/capas/default-capa.jpg';
     
     const isBase64 = fotoAvatar.startsWith('data:');
-    // Verifica se é um Emoji (não Base64, curto e sem barras de URL)
     const isEmoji = !isBase64 && fotoAvatar.length <= 5 && !fotoAvatar.includes('/');
 
     const handleImageError = (e) => {
@@ -23,35 +17,27 @@ const PetCard = ({ pet }) => {
         const src = target.src;
         console.log('❌ Imagem do pet não carregou:', src);
         
-        // Se a falha for na capa, usa um fallback de URL
         if (target.className.includes('capa-pet-img')) {
             target.src = '/images/capas/default-capa.jpg'; 
             return;
         }
 
-        // Se a falha for no avatar/foto
         if (target.className.includes('avatar-pet')) {
-            // Se falhar, substitui o <img> pelo placeholder do emoji '🐾' ou fotoAvatar
             const container = target.parentElement;
             if (container) {
-                // Remove a tag <img>
                 target.style.display = 'none'; 
                 
-                // Cria e insere o placeholder do emoji/texto
                 const placeholder = document.createElement('div');
                 placeholder.className = 'avatar-placeholder-card';
                 placeholder.innerHTML = `<span class="avatar-inicial-card">${isEmoji ? fotoAvatar : '🐾'}</span>`;
 
-                // Verifica se já existe um placeholder para evitar duplicação
                 if (!container.querySelector('.avatar-placeholder-card')) {
                      container.appendChild(placeholder);
                 }
             }
         }
     };
-    // ---------------------------------------------
     
-    // Preparação dos dados
     const petData = {
         id: pet.id || 0,
         nome: pet.nome || 'Pet sem nome',
@@ -87,14 +73,10 @@ const PetCard = ({ pet }) => {
                     />
                 </div>
 
-                {/* Informações do Pet */}
                 <div className="info-pet">
                     
-                    {/* Avatar e Nome (Usando o layout do seu CSS) */}
                     <div className="cabecalho-pet">
-                        {/* Lógica de exibição do Avatar (Foto/Base64/Emoji) */}
                         
-                        {/* 1. Tenta carregar a imagem (URL ou Base64) */}
                         {!isEmoji ? (
                             <img 
                                 src={petData.avatar} 
@@ -103,7 +85,6 @@ const PetCard = ({ pet }) => {
                                 onError={handleImageError}
                             />
                         ) : (
-                            // 2. Se for Emoji, exibe o placeholder imediatamente
                              <div className="avatar-placeholder-card avatar-pet is-emoji">
                                 <span className="avatar-inicial-card">{petData.avatar}</span>
                             </div>
@@ -118,7 +99,6 @@ const PetCard = ({ pet }) => {
                         </div>
                     </div>
 
-                    {/* Detalhes */}
                     <div className="detalhes-pet">
                         <div className="caracteristica">
                             <span className="rotulo">Idade:</span>
@@ -132,7 +112,6 @@ const PetCard = ({ pet }) => {
                             <span className="rotulo">Tipo:</span>
                             <span className="valor">{petData.tipo}</span>
                         </div>
-                        {/* Adicionando saúde para ter onde estilizá-los */}
                         <div className="caracteristica">
                             <span className="rotulo">Saúde:</span>
                             <span className="valor saude-icones">
@@ -143,10 +122,8 @@ const PetCard = ({ pet }) => {
                         </div>
                     </div>
 
-                    {/* Bio */}
                     <p className="bio-pet">{petData.bio}</p>
 
-                    {/* Estatísticas */}
                     <div className="estatisticas-pet">
                         <span className="estatistica">⭐ {petData.estatisticas.posts} posts</span>
                         <span className="estatistica">👤 {petData.estatisticas.seguidores} seguidores</span>
@@ -155,11 +132,6 @@ const PetCard = ({ pet }) => {
                 </div>
 
             </Link>
-            
-            {/* Botão de Ação */}
-            <button className="botao-gerenciar">
-                ⚙️ Gerenciar
-            </button>
         </div>
     );
 };

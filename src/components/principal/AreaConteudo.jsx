@@ -1,5 +1,5 @@
 // src/components/principal/AreaConteudo.jsx
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/principal/AreaConteudo.css';
@@ -10,20 +10,26 @@ const AreaConteudo = ({ usuario }) => {
   const [novoPost, setNovoPost] = useState('');
   const [imagemPost, setImagemPost] = useState(null);
   const [mostrarOpcoesFoto, setMostrarOpcoesFoto] = useState(false);
+  const [mostrarCamera, setMostrarCamera] = useState(false);
+  const [imagemCapturada, setImagemCapturada] = useState(null);
+  
+  // Refs para a câmera
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const streamRef = useRef(null);
 
-  //MOSTRAR TODOS OS POSTS DE TODOS OS USUÁRIOS
+  // FUNÇÃO CORRIGIDA: Buscar posts de todos os usuários
   const getTodosPosts = () => {
     if (!usuarios || !usuario) return [];
     
     try {
-      const postsMap = new Map(); // Usar Map para garantir unicidade
+      const postsMap = new Map();
       
-      // 🔧 MUDANÇA: Coletar posts de TODOS os usuários
+      // Coletar posts de TODOS os usuários
       Object.entries(usuarios).forEach(([email, user]) => {
         if (user.posts && Array.isArray(user.posts)) {
           user.posts.forEach(post => {
             const chaveUnica = `${email}-${post.id}`;
-            // Só adiciona se não existir ainda
             if (!postsMap.has(chaveUnica)) {
               postsMap.set(chaveUnica, {
                 ...post,
@@ -31,14 +37,16 @@ const AreaConteudo = ({ usuario }) => {
                 usuarioUsername: user.username,
                 usuarioEmail: email,
                 usuarioFoto: user.fotoPerfil,
-                usuarioTipo: user.tipo
+                usuarioTipo: user.tipo,
+                // Garantir que temos o username para navegação
+                username: user.username
               });
             }
           });
         }
       });
 
-      // Converter Map para array e ordenar por data (mais recente primeiro)
+      // Converter Map para array e ordenar por data
       const postsArray = Array.from(postsMap.values());
       return postsArray.sort((a, b) => {
         try {
@@ -55,14 +63,26 @@ const AreaConteudo = ({ usuario }) => {
 
   const todosPosts = getTodosPosts();
 
-  // DEBUG: Verificar posts
-  console.log('🔍 AreaConteudo - Posts totais:', todosPosts.length);
-  console.log('📊 Distribuição por usuário:');
-  const contagemPorUsuario = {};
-  todosPosts.forEach(post => {
-    contagemPorUsuario[post.usuarioNome] = (contagemPorUsuario[post.usuarioNome] || 0) + 1;
-  });
-  console.log('👥', contagemPorUsuario);
+  // FUNÇÃO CORRIGIDA: Navegar para perfil correto
+  const irParaPerfil = (postUsername, postEmail) => {
+    console.log('Navegando para perfil:', { postUsername, postEmail, usuarioEmail: usuario.email });
+    
+    if (postEmail === usuario.email) {
+      // É o próprio usuário
+      navigate('/perfil');
+    } else if (postUsername) {
+      // Usar o username para navegação (forma correta)
+      navigate(`/perfil/publico/${postUsername}`);
+    } else {
+      // Fallback: usar email se não tiver username
+      const user = Object.values(usuarios || {}).find(u => u.email === postEmail);
+      if (user && user.username) {
+        navigate(`/perfil/publico/${user.username}`);
+      } else {
+        console.error('Não foi possível encontrar o perfil');
+      }
+    }
+  };
 
   const handleCriarPost = async (e) => {
     e.preventDefault();
@@ -80,25 +100,60 @@ const AreaConteudo = ({ usuario }) => {
     }
   };
 
-  const tirarFoto = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.capture = 'camera';
-    
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          setImagemPost(event.target.result);
-          setMostrarOpcoesFoto(false);
-        };
-        reader.readAsDataURL(file);
+  // ===== FUNÇÕES DA CÂMERA =====
+  const iniciarCamera = async () => {
+    try {
+      setMostrarCamera(true);
+      setMostrarOpcoesFoto(false);
+      
+      // Pedir permissão para usar a câmera
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: 'environment', // Usar câmera traseira se disponível
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        } 
+      });
+      
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
       }
-    };
-    
-    input.click();
+    } catch (error) {
+      console.error('Erro ao acessar a câmera:', error);
+      alert('Não foi possível acessar a câmera. Verifique as permissões do navegador.');
+      setMostrarCamera(false);
+    }
+  };
+
+  const tirarFotoCamera = () => {
+    if (videoRef.current && canvasRef.current) {
+      const context = canvasRef.current.getContext('2d');
+      
+      // Configurar canvas com as dimensões do vídeo
+      canvasRef.current.width = videoRef.current.videoWidth;
+      canvasRef.current.height = videoRef.current.videoHeight;
+      
+      // Desenhar o frame atual do vídeo no canvas
+      context.drawImage(videoRef.current, 0, 0);
+      
+      // Converter para base64
+      const imageDataURL = canvasRef.current.toDataURL('image/jpeg', 0.8);
+      setImagemCapturada(imageDataURL);
+      setImagemPost(imageDataURL); // Definir como imagem do post
+      pararCamera();
+    }
+  };
+
+  const pararCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => {
+        track.stop();
+      });
+      streamRef.current = null;
+    }
+    setMostrarCamera(false);
   };
 
   const escolherFoto = () => {
@@ -133,14 +188,6 @@ const AreaConteudo = ({ usuario }) => {
     return usuario.seguindo && Array.isArray(usuario.seguindo) && usuario.seguindo.includes(emailUsuario);
   };
 
-  const irParaPerfil = (emailUsuario) => {
-    if (emailUsuario === usuario.email) {
-      navigate('/perfil');
-    } else {
-      navigate(`/perfil/publico/${emailUsuario}`);
-    }
-  };
-
   const handleImageError = (e) => {
     e.target.style.display = 'none';
     const parent = e.target.parentNode;
@@ -157,7 +204,7 @@ const AreaConteudo = ({ usuario }) => {
         <div className="cabecalho-criar-post">
           <div 
             className="usuario-criar-post"
-            onClick={() => irParaPerfil(usuario.email)}
+            onClick={() => irParaPerfil(usuario.username, usuario.email)}
             style={{cursor: 'pointer'}}
           >
             {usuario.fotoPerfil ? (
@@ -211,8 +258,8 @@ const AreaConteudo = ({ usuario }) => {
               
               {mostrarOpcoesFoto && (
                 <div className="menu-opcoes-foto">
-                  <button type="button" onClick={tirarFoto} className="opcao-foto">
-                    📸 Tirar Foto
+                  <button type="button" onClick={iniciarCamera} className="opcao-foto">
+                    📸 Usar Câmera
                   </button>
                   <button type="button" onClick={escolherFoto} className="opcao-foto">
                     🖼️ Escolher da Galeria
@@ -258,7 +305,7 @@ const AreaConteudo = ({ usuario }) => {
                 <div className="cabecalho-post">
                   <div 
                     className="usuario-post"
-                    onClick={() => irParaPerfil(post.usuarioEmail)}
+                    onClick={() => irParaPerfil(post.usuarioUsername || post.username, post.usuarioEmail)}
                     style={{cursor: 'pointer'}}
                   >
                     {post.usuarioFoto ? (
@@ -322,6 +369,38 @@ const AreaConteudo = ({ usuario }) => {
           </>
         )}
       </div>
+
+      {/* Modal da Câmera */}
+      {mostrarCamera && (
+        <div className="modal-camera-overlay">
+          <div className="modal-camera">
+            <div className="cabecalho-camera">
+              <h3>Tirar Foto</h3>
+              <button className="botao-fechar-camera" onClick={pararCamera}>
+                ✕
+              </button>
+            </div>
+            <div className="area-camera">
+              <video 
+                ref={videoRef} 
+                autoPlay 
+                playsInline
+                muted
+                className="video-camera"
+              />
+              <canvas ref={canvasRef} style={{ display: 'none' }} />
+            </div>
+            <div className="controles-camera">
+              <button className="botao-tirar-foto" onClick={tirarFotoCamera}>
+                📷
+              </button>
+              <button className="botao-cancelar-camera" onClick={pararCamera}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,26 +1,20 @@
 import { useState, useEffect } from 'react'; 
 import { useParams, useNavigate, Link } from 'react-router-dom';
-// Importe seu HeaderPerfil real
 import HeaderPerfil from './HeaderPerfil'; 
-// Importe seu AuthContext real
 import { useAuth } from '../../context/AuthContext'; 
 import '../../styles/perfil/PerfilPet.css';
 
-// SIMULAÇÃO DE POSTS (Remova e use sua API de Posts real)
 const postsData = {
     posts: [
         { id: 1, petId: 1000, usuario: { nome: "Danilo" }, data: new Date(Date.now() - 3600000).toISOString(), conteudo: { texto: "Primeiro dia de sol!", midia: { url: '/images/posts/exemplo1.jpg', alt: 'sol' } }, engajamento: { curtidas: 10, comentarios: 2, compartilhamentos: 0 } },
         { id: 2, petId: 1000, usuario: { nome: "Danilo" }, data: new Date(Date.now() - 7200000).toISOString(), conteudo: { texto: "Caminhada matinal" }, engajamento: { curtidas: 5, comentarios: 1, compartilhamentos: 0 } },
-        // Adicione mais posts aqui se quiser testar a funcionalidade
     ]
 };
-// FIM DA SIMULAÇÃO
 
 const PerfilPet = () => {
     const { petId } = useParams();
     const navigate = useNavigate();
     
-    // Utilize o useAuth REAL, que deve fornecer os usuários carregados
     const { usuarios } = useAuth(); 
     
     const [pet, setPet] = useState(null);
@@ -36,13 +30,12 @@ const PerfilPet = () => {
         let tutorPet = null;
 
         if (usuarios) {
-            // Itera sobre todos os usuários para encontrar o pet pelo ID
             for (const user of Object.values(usuarios)) {
                 const found = user.pets?.find(p => p.id === idPet);
                 if (found) {
                     petEncontrado = found;
                     tutorPet = {
-                        username: user.username, // Usado para linkar ao PerfilPublico
+                        username: user.username, 
                         nome: user.nome,
                         avatar: user.fotoPerfil,
                     };
@@ -51,7 +44,6 @@ const PerfilPet = () => {
             }
         }
         
-        // CORREÇÃO CRÍTICA: Remove o setTimeout e atualiza o estado imediatamente
         if (petEncontrado) {
             setPet(petEncontrado);
             setTutor(tutorPet);
@@ -70,8 +62,7 @@ const PerfilPet = () => {
 
     useEffect(() => {
         carregarPet();
-    }, [petId, usuarios]); // Recarrega se o ID do pet ou a lista de usuários mudar
-
+    }, [petId, usuarios]); 
     const handleImageError = (e, isAvatar) => {
         const target = e.target;
         
@@ -80,7 +71,6 @@ const PerfilPet = () => {
             return;
         }
 
-        // Lógica de Placeholder para Avatar (mantida)
         const parent = target.parentNode;
         
         const fotoOuNome = pet?.foto || pet?.nome || 'Pet';
@@ -201,7 +191,6 @@ const PerfilPet = () => {
                 </div>
                 </div>
 
-                {/* Informações do Pet */}
                 <div className="info-pet-perfil">
                     <div className="cabecalho-info-pet">
                         <div className="nomes-pet-perfil">
@@ -211,7 +200,6 @@ const PerfilPet = () => {
                             )}
                         </div>
                         
-                        {/* Tutor - Link para o perfil público */}
                         {tutor && (
                         <div className="info-tutor">
                             <span className="rotulo-tutor">Tutor:</span>
@@ -230,7 +218,6 @@ const PerfilPet = () => {
 
                     <p className="bio-pet-perfil">{pet.bio || 'Este pet ainda não tem uma descrição.'}</p>
 
-                    {/* Estatísticas */}
                     <div className="estatisticas-pet-perfil">
                         <div className="estatistica-item-pet">
                             <span className="numero-pet">{posts.length || 0}</span>
@@ -246,7 +233,6 @@ const PerfilPet = () => {
                         </div>
                     </div>
 
-                    {/* Detalhes do Pet */}
                     <div className="detalhes-pet-perfil">
                         <div className="grid-detalhes">
                             <div className="detalhe-item">
@@ -282,7 +268,6 @@ const PerfilPet = () => {
                             </div>
                         </div>
 
-                        {/* Informações de Saúde */}
                         <div className="info-saude-pet">
                             <h4>Saúde</h4>
                             <div className="status-saude">
@@ -299,10 +284,8 @@ const PerfilPet = () => {
                         </div>
                     </div>
 
-                    {/* Ações */}
                     <div className="acoes-pet-perfil">
                         <button className="botao-acao-pet seguir">
-                            {/* Assumindo que pet.seguindo é uma propriedade que viria da API/Contexto */}
                             {pet.seguindo ? '✅ Seguindo' : '👤 Seguir Pet'}
                         </button>
                         <button className="botao-acao-pet secundario">
@@ -314,7 +297,6 @@ const PerfilPet = () => {
                     </div>
                 </div>
 
-                {/* Posts do Pet */}
                 <div className="secao-posts-pet">
                     <h3>Posts de {pet.nome}</h3>
                     

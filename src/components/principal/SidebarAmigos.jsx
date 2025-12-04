@@ -1,3 +1,4 @@
+// src/components/principal/SidebarAmigos.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext'; 
@@ -11,38 +12,18 @@ const SidebarAmigos = () => {
         .sort((a, b) => (b.online === a.online ? 0 : b.online ? 1 : -1)) 
         .slice(0, 10); 
 
-    const handleImageError = (e, nome) => {
-        const target = e.target;
-        target.style.display = 'none';
-
-        const parent = target.parentNode;
-        const initial = nome ? nome.charAt(0).toUpperCase() : '👤';
-
-        let placeholder = parent.querySelector('.avatar-placeholder-amigo');
-        if (!placeholder) {
-            placeholder = document.createElement('div');
-            placeholder.className = 'avatar-placeholder-amigo';
-            placeholder.innerHTML = `<span>${initial}</span>`;
-            parent.appendChild(placeholder);
-        }
+    const getInicialNome = (nome) => {
+        return nome ? nome.charAt(0).toUpperCase() : 'U';
     };
 
-    const renderAvatar = (user) => (
-        <div className="avatar-amigo">
-            {user.fotoPerfil ? (
-                <img 
-                    src={user.fotoPerfil} 
-                    alt={user.nome}
-                    onError={(e) => handleImageError(e, user.nome)}
-                />
-            ) : (
-                <div className="avatar-placeholder-amigo">
-                    <span>{user.nome ? user.nome.charAt(0).toUpperCase() : '👤'}</span>
-                </div>
-            )}
-            {user.online && <div className="status-online"></div>}
-        </div>
-    );
+    const getCorAvatar = (nome) => {
+        const cores = [
+            '#FF6B35', '#4ECDC4', '#45B7D1', '#96CEB4', 
+            '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'
+        ];
+        const index = nome ? nome.charCodeAt(0) % cores.length : 0;
+        return cores[index];
+    };
     
     return (
         <aside className="sidebar-amigos">
@@ -68,9 +49,64 @@ const SidebarAmigos = () => {
                                 className={`item-amigo ${amigo.online ? 'online' : 'offline'}`} 
                                 key={amigo.email}
                             >
-                                {renderAvatar(amigo)}
+                                <div className="avatar-amigo" style={{
+                                    width: '40px',
+                                    height: '40px',
+                                    borderRadius: '50%',
+                                    background: getCorAvatar(amigo.nome),
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                    fontSize: '1.2rem',
+                                    position: 'relative'
+                                }}>
+                                    {amigo.fotoPerfil ? (
+                                        <img 
+                                            src={amigo.fotoPerfil} 
+                                            alt={amigo.nome}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                borderRadius: '50%',
+                                                objectFit: 'cover'
+                                            }}
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                                const parent = e.target.parentNode;
+                                                parent.innerHTML = getInicialNome(amigo.nome);
+                                                parent.style.display = 'flex';
+                                                parent.style.alignItems = 'center';
+                                                parent.style.justifyContent = 'center';
+                                            }}
+                                        />
+                                    ) : (
+                                        getInicialNome(amigo.nome)
+                                    )}
+                                    {amigo.online && (
+                                        <div style={{
+                                            position: 'absolute',
+                                            bottom: '2px',
+                                            right: '2px',
+                                            width: '10px',
+                                            height: '10px',
+                                            borderRadius: '50%',
+                                            backgroundColor: '#4CAF50',
+                                            border: '2px solid white'
+                                        }}></div>
+                                    )}
+                                </div>
                                 <span className="nome-amigo">{amigo.nome}</span>
-                                {!amigo.online && <div className="status-offline" title="Offline"></div>} 
+                                {!amigo.online && (
+                                    <div style={{
+                                        width: '8px',
+                                        height: '8px',
+                                        borderRadius: '50%',
+                                        backgroundColor: '#ccc',
+                                        marginLeft: 'auto'
+                                    }} title="Offline"></div>
+                                )}
                             </Link>
                         ))
                     )}
