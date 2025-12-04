@@ -27,7 +27,6 @@ export default function ModalServicos({ onFechar }) {
   return (
     <div className="modal-servicos">
       
-      {/* Cabeçalho do Modal */}
       <div className="modal-cabecalho">
         <h2>🏥 Serviços para seu Pet</h2>
         <button 
@@ -39,7 +38,6 @@ export default function ModalServicos({ onFechar }) {
         </button>
       </div>
 
-      {/* Lista de Serviços */}
       <div className="modal-lista-servicos">
         {servicosData.servicos.map((servico) => (
           <div key={servico.id} className="modal-card-servico">

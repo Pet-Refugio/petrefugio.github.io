@@ -1,5 +1,3 @@
-// src/components/principal/PagPrincipal.jsx
-import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import Header from './header';
 import SidebarAmigos from './SidebarAmigos';
