@@ -1,14 +1,33 @@
-import React from 'react';
-import HeaderPrincipal from './header.jsx';
-import SidebarAmigos from './SidebarAmigos.jsx';
-import AreaConteudo from './AreaConteudo.jsx';
+import { useAuth } from '../../context/AuthContext';
+import Header from './header';
+import SidebarAmigos from './SidebarAmigos';
+import AreaConteudo from './AreaConteudo';
+import '../../styles/principal/header.css';
+import '../../styles/principal/SidebarAmigos.css';
+import '../../styles/principal/SidebarServicos.css';
+import '../../styles/principal/AreaConteudo.css';
 
-export default function PaginaPrincipal(){
+const PagPrincipal = () => {
+  const { usuario } = useAuth();
+
+  if (!usuario) {
+    return (
+      <div className="pagina-carregando">
+        <p>Carregando...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="pagina-principal">
-      <HeaderPrincipal />
-      <SidebarAmigos />
-      <AreaConteudo />
+      <Header usuario={usuario} />
+      
+      <div className="conteudo-principal">
+        <SidebarAmigos usuario={usuario} />
+        <AreaConteudo usuario={usuario} />
+      </div>
     </div>
   );
 };
+
+export default PagPrincipal;

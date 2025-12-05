@@ -3,7 +3,6 @@ import '../../styles/perfil/HeaderPerfil.css';
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import SinoNotificacoes from '../notificacoes/notificacao';
-import perfil from "./img/anasilva.jpg";
 
 export default function HeaderPerfil() {
   const [headerVisivel, setHeaderVisivel] = useState(true);
@@ -30,10 +29,6 @@ export default function HeaderPerfil() {
     };
   }, [ultimoScrollY]);
 
-  const voltarParaHome = () => {
-    window.location.href = '/';
-  };
-
   // Determinar qual página está ativa
   const paginaAtiva = location.pathname;
 
@@ -41,15 +36,15 @@ export default function HeaderPerfil() {
     <header className={`header-perfil ${!headerVisivel ? 'header-escondido' : ''}`}>
       <nav className="nav-perfil">
         <div className="nav-container-perfil">
-          
-          {/* Logo - Clique volta para Home */}
-          <div className="logo-perfil" onClick={voltarParaHome}>
+          <Link to="/principal">       
+          <div className="logo-perfil">
             <span className="logo-icone">🐾</span>
             <span className="logo-texto">PetRefugio</span>
             <span className="status-pagina">
               {paginaAtiva.includes('publico') ? 'Perfil Público' : 'Meu Perfil'}
             </span>
           </div>
+          </Link>
 
           {/* Menu Central Dinâmico */}
           <div className="menu-central">
@@ -60,10 +55,10 @@ export default function HeaderPerfil() {
               </button>
             </Link>
             
-            <Link to="/principal/amigos">
+            <Link to="/principal/usuarios">
               <button className={`menu-item ${paginaAtiva.includes('amigos') ? 'active' : ''}`}>
                 <span className="menu-icone">👥</span>
-                <span className="menu-texto">Amigos</span>
+                <span className="menu-texto">usuarios</span>
               </button>
             </Link>
           </div>
@@ -71,12 +66,6 @@ export default function HeaderPerfil() {
           {/* Ações */}
           <div className="acoes-perfil">
             <SinoNotificacoes />
-            <button className="botao-config">⚙️</button>
-            <Link to="/perfil">
-            <div className="avatar-perfil-header">
-              <img src={perfil} alt="Perfil" />
-            </div>
-            </Link>
           </div>
 
         </div>

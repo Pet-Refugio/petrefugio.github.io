@@ -1,8 +1,10 @@
+// src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext'; // ← ADICIONE ESTA LINHA
 import PaginaCadastro from './components/cadastro/PaginaCadastro.jsx';
 import PaginaLogin from './components/login/PaginaLogin.jsx';
 import Principal from './components/principal/PagPrincipal.jsx';
@@ -12,6 +14,8 @@ import ChatConversa from './components/principal/ChatConversa.jsx';
 import ListaAmigos from './components/amigos/ListaAmigos.jsx';
 import PerfilPublico from './components/perfil/PerfilPublico.jsx';
 import PerfilPet from './components/perfil/PerfilPet.jsx';
+import Servicos from './components/principal/Servicos.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -53,11 +57,17 @@ const router = createBrowserRouter([
   { 
     path: "/pet/:petId",
     element: <PerfilPet /> 
-  }
+  },
+  {
+    path:"/principal/servicos",
+    element : <Servicos />
+    }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider> {/* ← ENVOLVA TUDO COM AuthProvider */}
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

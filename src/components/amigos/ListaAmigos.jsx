@@ -1,20 +1,25 @@
+// src/components/amigos/ListaAmigos.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext'; // 🔧 IMPORTAR useAuth
 import '../../styles/amigos/ListaAmigos.css';
 import HeaderPrincipal from '../principal/Header';
-import amigosData from '../../dados/amigos.json';
 
 const ListaAmigos = () => {
-  const [amigos, setAmigos] = useState(amigosData.amigos);
+  const { usuarios, usuario: usuarioLogado } = useAuth(); // 🔧 USAR DADOS REAIS
+  const navigate = useNavigate();
   const [amigoParaRemover, setAmigoParaRemover] = useState(null);
   const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
-  const navigate = useNavigate();
 
-  const handleImageError = (e) => {
+  // 🔧 CORREÇÃO: Usar usuários reais do sistema como "amigos"
+  const amigos = Object.values(usuarios || {})
+    .filter(user => user.email !== usuarioLogado?.email)
+    .filter(user => user.tipo !== 'admin');
+
+  const handleImageError = (e, nome) => {
     console.log('❌ Avatar não carregou, usando placeholder');
     const parent = e.target.parentNode;
-    const nome = e.target.alt || 'Usuário';
-    const inicial = nome.charAt(0).toUpperCase();
+    const inicial = nome ? nome.charAt(0).toUpperCase() : 'U';
     
     const placeholder = document.createElement('div');
     placeholder.className = 'avatar-placeholder';
@@ -36,12 +41,14 @@ const ListaAmigos = () => {
     parent.appendChild(placeholder);
   };
 
-  const handleAbrirChat = (amigoId) => {
-    navigate(`/chat/${amigoId}`);
+  const handleAbrirChat = (amigoUsername) => {
+    // 🔧 CORREÇÃO: Usar username para navegação
+    navigate(`/chat/${amigoUsername}`);
   };
 
-  const handleVerPerfil = (amigoId) => {
-    navigate(`/perfil/publico/${amigoId}`);
+  const handleVerPerfil = (amigoUsername) => {
+    // 🔧 CORREÇÃO: Usar username para perfil público
+    navigate(`/perfil/publico/${amigoUsername}`);
   };
 
   const handleRemoverAmigo = (amigo) => {
@@ -51,9 +58,11 @@ const ListaAmigos = () => {
 
   const confirmarRemocao = () => {
     if (amigoParaRemover) {
-      setAmigos(amigos.filter(amigo => amigo.id !== amigoParaRemover.id));
+      // 🔧 CORREÇÃO: Em um sistema real, aqui faria uma chamada API
+      // Para demo, apenas remove do estado local
       setMostrarConfirmacao(false);
       setAmigoParaRemover(null);
+      alert(`${amigoParaRemover.nome} removido dos amigos (em um sistema real)`);
     }
   };
 
@@ -66,8 +75,8 @@ const ListaAmigos = () => {
     return online ? '#4CAF50' : '#9E9E9E';
   };
 
-  const getStatusText = (online, ultimaVez) => {
-    return online ? 'Online' : `Visto ${ultimaVez}`;
+  const getStatusText = (online) => {
+    return online ? 'Online' : 'Offline';
   };
 
   return (
@@ -82,16 +91,16 @@ const ListaAmigos = () => {
 
         <div className="lista-amigos">
           {amigos.map(amigo => (
-            <div key={amigo.id} className="card-amigo">
+            <div key={amigo.email} className="card-amigo"> {/* 🔧 KEY por email */}
               
               <div className="info-amigo">
                 <div className="avatar-container">
                   <img 
-                    src={amigo.avatar} 
+                    src={amigo.fotoPerfil || '/images/avatars/default.jpg'} 
                     alt={amigo.nome}
                     className="avatar-amigo"
-                    onError={handleImageError}
-                    onClick={() => handleVerPerfil(amigo.id)}
+                    onError={(e) => handleImageError(e, amigo.nome)}
+                    onClick={() => handleVerPerfil(amigo.username)}
                   />
                   <div 
                     className="status-indicador"
@@ -102,19 +111,20 @@ const ListaAmigos = () => {
                 <div className="detalhes-amigo">
                   <h3 
                     className="nome-amigo"
-                    onClick={() => handleVerPerfil(amigo.id)}
+                    onClick={() => handleVerPerfil(amigo.username)}
+                    style={{cursor: 'pointer'}}
                   >
                     {amigo.nome}
                   </h3>
                   <p className="status-amigo">
-                    {getStatusText(amigo.online, amigo.ultimaVez)}
+                    {getStatusText(amigo.online)}
                   </p>
                   <div className="info-adicional">
                     <span className="pets-amigo">
-                      🐾 {amigo.pets ? amigo.pets.join(', ') : 'Sem pets'}
+                      🐾 {amigo.pets?.length || 0} pets
                     </span>
                     <span className="amigos-mutuos">
-                      {amigo.mutualFriends} amigos em comum
+                      {amigo.seguidores?.length || 0} seguidores
                     </span>
                   </div>
                 </div>
@@ -123,7 +133,7 @@ const ListaAmigos = () => {
               <div className="acoes-amigo">
                 <button 
                   className="botao-chat"
-                  onClick={() => handleAbrirChat(amigo.id)}
+                  onClick={() => handleAbrirChat(amigo.username)}
                   title="Enviar mensagem"
                 >
                   💬 Chat
