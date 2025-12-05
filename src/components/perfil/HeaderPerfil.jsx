@@ -55,13 +55,7 @@ export default function HeaderPerfil() {
               </button>
             </Link>
             
-            <Link to="/principal/usuarios">
-              <button className={`menu-item ${paginaAtiva.includes('amigos') ? 'active' : ''}`}>
-                <span className="menu-icone">👥</span>
-                <span className="menu-texto">usuarios</span>
-              </button>
-            </Link>
-          </div>
+            </div>
 
           {/* Ações */}
           <div className="acoes-perfil">
@@ -72,4 +66,5 @@ export default function HeaderPerfil() {
       </nav>
     </header>
   );
+
 }
