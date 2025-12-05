@@ -54,17 +54,6 @@ const FormLogin = () => {
   return (
     <form className="formulario-login" onSubmit={handleSubmit}>
       <h1>Entre na sua conta</h1>
-      
-      {/* Botões de teste rápido */}
-      <div className="teste-rapido">
-        <p>Teste rápido:</p>
-        <div className="botoes-teste">
-          <button type="button" onClick={() => preencherTeste('danilosilva@gmail.com', '12345678')} className="botao-teste">
-            Danilo
-          </button>
-        </div>
-      </div>
-
       {erro && <div className="erro-mensagem">{erro}</div>}
 
       <div className="grupo-form">
@@ -115,5 +104,6 @@ const FormLogin = () => {
     </form>
   );
 };
+
 
 export default FormLogin;
