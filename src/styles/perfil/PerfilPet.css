@@ -1,4 +1,3 @@
-/* src/styles/perfil/PerfilPet.css */
 .pagina-perfil-pet {
   min-height: 100vh;
   background: #F8F9FA;
@@ -49,8 +48,6 @@
   margin-bottom: 2rem;
 }
 
-/* Capa e Avatar */
-/* Capa do Pet - usando avatar como fundo */
 .secao-capa-pet {
   position: relative;
   height: 300px;
@@ -65,9 +62,9 @@
 .imagem-capa-pet {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Faz a imagem cobrir toda a área */
+  object-fit: cover; 
   object-position: center;
-  filter: brightness(0.8); /* Escurece um pouco para melhor contraste */
+  filter: brightness(0.8); 
 }
 
 .overlay-capa-pet {
@@ -101,7 +98,6 @@
   background: #f8f9fa;
 }
 
-/* Informações do Pet */
 .info-pet-perfil {
   padding: 5rem 2rem 2rem 2rem;
   border-bottom: 1px solid #F0F0F0;
@@ -133,7 +129,6 @@
   font-size: 1.2rem;
 }
 
-/* Info Tutor */
 .info-tutor {
   display: flex;
   align-items: center;
@@ -182,7 +177,6 @@
   margin-bottom: 2rem;
 }
 
-/* Estatísticas */
 .estatisticas-pet-perfil {
   display: flex;
   gap: 3rem;
@@ -210,7 +204,6 @@
   font-weight: 500;
 }
 
-/* Detalhes do Pet */
 .detalhes-pet-perfil {
   margin-bottom: 2rem;
 }
@@ -256,7 +249,6 @@
   font-weight: 600;
 }
 
-/* Saúde */
 .info-saude-pet h4 {
   margin: 0 0 1rem 0;
   color: #3E3E3E;
@@ -294,7 +286,6 @@
   border: 1px solid #2196F3;
 }
 
-/* Ações */
 .acoes-pet-perfil {
   display: flex;
   gap: 1rem;
@@ -333,7 +324,6 @@
   color: #F26B38;
 }
 
-/* Posts */
 .secao-posts-pet {
   padding: 2rem;
 }
@@ -448,7 +438,6 @@
   transform: translateY(-1px);
 }
 
-/* Estados Vazios */
 .sem-posts-pet {
   text-align: center;
   padding: 3rem 2rem;
@@ -471,7 +460,6 @@
   opacity: 0.8;
 }
 
-/* Responsivo */
 @media (max-width: 768px) {
   .conteudo-perfil-pet {
     margin: 1rem;

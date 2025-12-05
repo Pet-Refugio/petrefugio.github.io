@@ -1,7 +1,6 @@
-// src/components/login/FormularioLogin.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'; // ← IMPORTE O useAuth
+import { useAuth } from '../../context/AuthContext'; 
 import '../../styles/login/estiloForm.css';
 
 const FormLogin = () => {
@@ -12,7 +11,7 @@ const FormLogin = () => {
   
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
-  const { login } = useAuth(); // ← USE O HOOK
+  const { login } = useAuth(); 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -31,7 +30,7 @@ const FormLogin = () => {
       
       if (resultado.success) {
         console.log('Login realizado com sucesso!');
-        navigate('/principal'); // ← REDIRECIONE PARA /principal
+        navigate('/principal'); 
       }
     } catch (error) {
       setErro(error.message || 'Erro ao fazer login');
@@ -46,7 +45,6 @@ const FormLogin = () => {
     if (erro) setErro('');
   };
 
-  // Preencher automaticamente para teste
   const preencherTeste = (email, senha) => {
     setDados({ email, senha });
   };
@@ -54,17 +52,6 @@ const FormLogin = () => {
   return (
     <form className="formulario-login" onSubmit={handleSubmit}>
       <h1>Entre na sua conta</h1>
-      
-      {/* Botões de teste rápido */}
-      <div className="teste-rapido">
-        <p>Teste rápido:</p>
-        <div className="botoes-teste">
-          <button type="button" onClick={() => preencherTeste('danilosilva@gmail.com', '12345678')} className="botao-teste">
-            Danilo
-          </button>
-        </div>
-      </div>
-
       {erro && <div className="erro-mensagem">{erro}</div>}
 
       <div className="grupo-form">

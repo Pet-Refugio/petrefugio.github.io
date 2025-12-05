@@ -73,7 +73,6 @@ const EditarPerfilInline = ({ usuario, onCancelar, onSalvo }) => {
     try {
       let dadosParaAtualizar = { ...formData };
 
-      // Processa nova foto de perfil
       if (avatarFile) {
         try {
           const base64 = await imageToBase64(avatarFile);
@@ -87,7 +86,6 @@ const EditarPerfilInline = ({ usuario, onCancelar, onSalvo }) => {
         }
       }
 
-      // Processa nova foto de capa
       if (capaFile) {
         try {
           const base64 = await imageToBase64(capaFile);

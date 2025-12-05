@@ -10,17 +10,13 @@ export default function HeaderCadastro() {
           const currentScrollY = window.scrollY;
           
           if (currentScrollY > lastScrollY && currentScrollY > 100) {
-            // Scroll para baixo - esconde header
             setIsVisible(false);
           } else if (currentScrollY < lastScrollY) {
-            // Scroll para cima - mostra header
             setIsVisible(true);
           }
           
           setLastScrollY(currentScrollY);
         };
-
-      // Debounce para melhor performance
       let ticking = false;
       const debouncedScroll = () => {
         if (!ticking) {

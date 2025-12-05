@@ -1,17 +1,16 @@
 // src/components/amigos/ListaAmigos.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'; // 🔧 IMPORTAR useAuth
+import { useAuth } from '../../context/AuthContext'; 
 import '../../styles/amigos/ListaAmigos.css';
 import HeaderPrincipal from '../principal/Header';
 
 const ListaAmigos = () => {
-  const { usuarios, usuario: usuarioLogado } = useAuth(); // 🔧 USAR DADOS REAIS
+  const { usuarios, usuario: usuarioLogado } = useAuth(); 
   const navigate = useNavigate();
   const [amigoParaRemover, setAmigoParaRemover] = useState(null);
   const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
 
-  // 🔧 CORREÇÃO: Usar usuários reais do sistema como "amigos"
   const amigos = Object.values(usuarios || {})
     .filter(user => user.email !== usuarioLogado?.email)
     .filter(user => user.tipo !== 'admin');
@@ -42,12 +41,10 @@ const ListaAmigos = () => {
   };
 
   const handleAbrirChat = (amigoUsername) => {
-    // 🔧 CORREÇÃO: Usar username para navegação
     navigate(`/chat/${amigoUsername}`);
   };
 
   const handleVerPerfil = (amigoUsername) => {
-    // 🔧 CORREÇÃO: Usar username para perfil público
     navigate(`/perfil/publico/${amigoUsername}`);
   };
 
@@ -58,8 +55,6 @@ const ListaAmigos = () => {
 
   const confirmarRemocao = () => {
     if (amigoParaRemover) {
-      // 🔧 CORREÇÃO: Em um sistema real, aqui faria uma chamada API
-      // Para demo, apenas remove do estado local
       setMostrarConfirmacao(false);
       setAmigoParaRemover(null);
       alert(`${amigoParaRemover.nome} removido dos amigos (em um sistema real)`);

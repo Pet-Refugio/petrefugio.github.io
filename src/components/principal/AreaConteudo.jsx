@@ -18,14 +18,12 @@ const AreaConteudo = ({ usuario }) => {
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
 
-  // FUNÇÃO CORRIGIDA: Buscar posts de todos os usuários
   const getTodosPosts = () => {
     if (!usuarios || !usuario) return [];
     
     try {
       const postsMap = new Map();
       
-      // Coletar posts de TODOS os usuários
       Object.entries(usuarios).forEach(([email, user]) => {
         if (user.posts && Array.isArray(user.posts)) {
           user.posts.forEach(post => {
@@ -38,7 +36,6 @@ const AreaConteudo = ({ usuario }) => {
                 usuarioEmail: email,
                 usuarioFoto: user.fotoPerfil,
                 usuarioTipo: user.tipo,
-                // Garantir que temos o username para navegação
                 username: user.username
               });
             }
@@ -46,7 +43,6 @@ const AreaConteudo = ({ usuario }) => {
         }
       });
 
-      // Converter Map para array e ordenar por data
       const postsArray = Array.from(postsMap.values());
       return postsArray.sort((a, b) => {
         try {
@@ -63,18 +59,14 @@ const AreaConteudo = ({ usuario }) => {
 
   const todosPosts = getTodosPosts();
 
-  // FUNÇÃO CORRIGIDA: Navegar para perfil correto
   const irParaPerfil = (postUsername, postEmail) => {
     console.log('Navegando para perfil:', { postUsername, postEmail, usuarioEmail: usuario.email });
     
     if (postEmail === usuario.email) {
-      // É o próprio usuário
       navigate('/perfil');
     } else if (postUsername) {
-      // Usar o username para navegação (forma correta)
       navigate(`/perfil/publico/${postUsername}`);
     } else {
-      // Fallback: usar email se não tiver username
       const user = Object.values(usuarios || {}).find(u => u.email === postEmail);
       if (user && user.username) {
         navigate(`/perfil/publico/${user.username}`);
@@ -92,7 +84,6 @@ const AreaConteudo = ({ usuario }) => {
         setNovoPost('');
         setImagemPost(null);
         setMostrarOpcoesFoto(false);
-        // Recarregar a página para atualizar o feed
         setTimeout(() => window.location.reload(), 500);
       } else {
         alert('Erro ao criar post. Tente novamente.');
@@ -100,16 +91,14 @@ const AreaConteudo = ({ usuario }) => {
     }
   };
 
-  // ===== FUNÇÕES DA CÂMERA =====
   const iniciarCamera = async () => {
     try {
       setMostrarCamera(true);
       setMostrarOpcoesFoto(false);
       
-      // Pedir permissão para usar a câmera
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { 
-          facingMode: 'environment', // Usar câmera traseira se disponível
+          facingMode: 'environment', 
           width: { ideal: 1280 },
           height: { ideal: 720 }
         } 
@@ -131,17 +120,14 @@ const AreaConteudo = ({ usuario }) => {
     if (videoRef.current && canvasRef.current) {
       const context = canvasRef.current.getContext('2d');
       
-      // Configurar canvas com as dimensões do vídeo
       canvasRef.current.width = videoRef.current.videoWidth;
       canvasRef.current.height = videoRef.current.videoHeight;
       
-      // Desenhar o frame atual do vídeo no canvas
       context.drawImage(videoRef.current, 0, 0);
       
-      // Converter para base64
       const imageDataURL = canvasRef.current.toDataURL('image/jpeg', 0.8);
       setImagemCapturada(imageDataURL);
-      setImagemPost(imageDataURL); // Definir como imagem do post
+      setImagemPost(imageDataURL); 
       pararCamera();
     }
   };

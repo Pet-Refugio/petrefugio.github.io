@@ -1,4 +1,3 @@
-/* Header Base */
 .header-cadastro {
   position: fixed;
   top: 0;
@@ -10,7 +9,6 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Estados de Visibilidade */
 .header-cadastro.visible {
   transform: translateY(0);
   opacity: 1;
@@ -21,7 +19,6 @@
   opacity: 0;
 }
 
-/* Navegação */
 .nav-cadastro {
   padding: 1rem 0;
   background: #FFFFFF;
@@ -36,7 +33,6 @@
   align-items: center;
 }
 
-/* Logo */
 .logo-cadastro {
   display: flex;
   align-items: center;
@@ -59,14 +55,12 @@
   color: #F26B38;
 }
 
-/* Ações de Navegação */
 .nav-acoes-cadastro {
   display: flex;
   gap: 1rem;
   align-items: center;
 }
 
-/* Botões */
 .btn-outline-cadastro {
   padding: 0.6rem 1.2rem;
   border: 2px solid #F26B38;
@@ -102,7 +96,6 @@
   box-shadow: 0 4px 12px rgba(242, 107, 56, 0.3);
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .nav-container-cadastro {
     padding: 0 1rem;
@@ -151,7 +144,6 @@
   }
 }
 
-/* Animações Suaves */
 @keyframes slideDown {
   from {
     transform: translateY(-100%);
@@ -174,7 +166,6 @@
   }
 }
 
-/* Adicionando as animações aos estados */
 .header-cadastro.visible {
   animation: slideDown 0.4s ease-out;
 }

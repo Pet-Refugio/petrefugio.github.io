@@ -8,10 +8,8 @@ const GerenciarPublicacoes = () => {
   const [publicacaoParaExcluir, setPublicacaoParaExcluir] = useState(null);
   const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
 
-  // ID do usuário atual (no futuro virá do contexto/autenticação)
-  const usuarioAtualId = 1; // Ana Silva
+  const usuarioAtualId = 1; 
 
-  // Carregar publicações do localStorage
   useEffect(() => {
     carregarPublicacoes();
   }, []);
@@ -20,15 +18,11 @@ const GerenciarPublicacoes = () => {
     try {
       setCarregando(true);
       
-      // Carregar TODAS as publicações do localStorage
       const todasPublicacoes = JSON.parse(localStorage.getItem('postsPetRefugio') || '[]');
       
-      // Carregar posts iniciais do JSON se não houver nada no localStorage
       let postsParaUsar = todasPublicacoes;
       if (todasPublicacoes.length === 0) {
-        // Importar os posts iniciais (você precisará ajustar este import)
         const postsIniciais = [
-          // Posts de exemplo - mantenha os posts de outros usuários aqui
           {
             id: 1,
             usuarioId: 101,

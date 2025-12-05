@@ -29,7 +29,6 @@ export default function HeaderPerfil() {
     };
   }, [ultimoScrollY]);
 
-  // Determinar qual página está ativa
   const paginaAtiva = location.pathname;
 
   return (
@@ -46,7 +45,6 @@ export default function HeaderPerfil() {
           </div>
           </Link>
 
-          {/* Menu Central Dinâmico */}
           <div className="menu-central">
             <Link to="/principal">
               <button className={`menu-item ${paginaAtiva === '/principal' ? 'active' : ''}`}>
@@ -63,7 +61,6 @@ export default function HeaderPerfil() {
             </Link>
           </div>
 
-          {/* Ações */}
           <div className="acoes-perfil">
             <SinoNotificacoes />
           </div>

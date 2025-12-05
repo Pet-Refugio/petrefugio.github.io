@@ -1,6 +1,5 @@
 const API_BASE_URL = 'http://localhost:5000/api';
 
-// Função genérica para fazer requisições
 const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
   

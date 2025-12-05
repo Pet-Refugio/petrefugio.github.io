@@ -1,10 +1,8 @@
-/* src/styles/notificacoes/SinoNotificacoes.css */
 .container-sino-notificacoes {
   position: relative;
   display: inline-block;
 }
 
-/* Botão do Sino */
 .botao-sino {
   position: relative;
   background: none;
@@ -65,13 +63,12 @@
   }
 }
 
-/* Modal Overlay - CORRIGIDO */
 .modal-notificacoes-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw; /* Garante largura total da viewport */
-  height: 100vh; /* Garante altura total da viewport */
+  width: 100vw; 
+  height: 100vh; 
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -80,7 +77,6 @@
   padding-top: 80px;
 }
 
-/* Garantir que o overlay cubra toda a tela */
 .modal-notificacoes-overlay::before {
   content: '';
   position: fixed;
@@ -103,8 +99,8 @@
   flex-direction: column;
   animation: modalSlideDown 0.3s ease;
   overflow: hidden;
-  position: relative; /* Garante que fique acima do overlay */
-  z-index: 10000; /* Z-index mais alto que o overlay */
+  position: relative; 
+  z-index: 10000; 
 }
 
 @keyframes modalSlideDown {
@@ -118,7 +114,6 @@
   }
 }
 
-/* Cabeçalho */
 .cabecalho-notificacoes {
   padding: 1.5rem;
   border-bottom: 1px solid #F0F0F0;
@@ -172,7 +167,6 @@
   background: #E53935;
 }
 
-/* Lista de Notificações */
 .lista-notificacoes {
   flex: 1;
   overflow-y: auto;
@@ -251,7 +245,6 @@
   flex-shrink: 0;
 }
 
-/* Estado sem notificações */
 .sem-notificacoes {
   text-align: center;
   padding: 3rem 2rem;
@@ -273,7 +266,6 @@
   font-size: 0.9rem;
 }
 
-/* Rodapé */
 .rodape-notificacoes {
   padding: 1rem 1.5rem;
   border-top: 1px solid #F0F0F0;
@@ -298,7 +290,6 @@
   transform: translateY(-1px);
 }
 
-/* Scrollbar personalizada */
 .lista-notificacoes::-webkit-scrollbar {
   width: 6px;
 }
@@ -317,7 +308,6 @@
   background: #A0AEC0;
 }
 
-/* Responsivo */
 @media (max-width: 768px) {
   .modal-notificacoes-overlay {
     padding-top: 60px;
@@ -350,7 +340,6 @@
   }
 }
 
-/* Garantir que o modal fique acima de tudo */
 .modal-notificacoes-overlay {
   z-index: 9999;
 }

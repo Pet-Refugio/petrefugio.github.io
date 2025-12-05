@@ -11,7 +11,6 @@ const InfoUsuario = () => {
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
 
-  // Estado do formulário
   const [formData, setFormData] = useState({
     nome: '',
     username: '',
@@ -20,7 +19,6 @@ const InfoUsuario = () => {
     idade: ''
   });
 
-  // Inicializar formData quando usuario estiver disponível
   React.useEffect(() => {
     if (usuario) {
       setFormData({
@@ -33,7 +31,6 @@ const InfoUsuario = () => {
     }
   }, [usuario]);
 
-  // Funções auxiliares
   const calcularIdade = (dataNascimento) => {
     try {
       if (!dataNascimento) return '--';
@@ -96,7 +93,6 @@ const InfoUsuario = () => {
     setEditando(false);
     setErro('');
     setSucesso('');
-    // Restaurar dados originais
     if (usuario) {
       setFormData({
         nome: usuario.nome || '',

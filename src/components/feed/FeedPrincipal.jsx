@@ -1,5 +1,3 @@
-// src/components/feed/FeedPrincipal.jsx - VERSÃO SIMPLIFICADA E FUNCIONAL
-import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/feed/feed.css';
 
@@ -10,7 +8,6 @@ const FeedPrincipal = () => {
   const [textoComentario, setTextoComentario] = useState('');
   const [postsFeed, setPostsFeed] = useState([]);
 
-  // 🔧 CORREÇÃO: Carregar posts quando o componente montar
   useEffect(() => {
     if (usuario) {
       console.log('🔄 Atualizando feed para:', usuario.nome);
@@ -24,7 +21,6 @@ const FeedPrincipal = () => {
     if (novoPost.trim()) {
       criarPost(novoPost);
       setNovoPost('');
-      // Atualizar feed após criar post
       setTimeout(() => {
         const posts = obterPostsFeed();
         setPostsFeed(posts);
@@ -37,7 +33,6 @@ const FeedPrincipal = () => {
       adicionarComentario(postId, textoComentario);
       setTextoComentario('');
       setComentarioAtivo(null);
-      // Atualizar feed após comentar
       setTimeout(() => {
         const posts = obterPostsFeed();
         setPostsFeed(posts);
@@ -47,7 +42,6 @@ const FeedPrincipal = () => {
 
   const handleCurtir = (postId) => {
     curtirPost(postId);
-    // Atualizar feed após curtir
     setTimeout(() => {
       const posts = obterPostsFeed();
       setPostsFeed(posts);
@@ -64,7 +58,6 @@ const FeedPrincipal = () => {
 
   return (
     <div className="feed-container">
-      {/* Cabeçalho */}
       <header className="feed-header">
         <div className="logo">
           <span className="logo-icone">🐾</span>
@@ -111,7 +104,7 @@ const FeedPrincipal = () => {
           </div>
         ) : (
           postsFeed.map(post => (
-            <div key={post.id} className="post"> {/* 🔧 AGORA COM ID ÚNICO */}
+            <div key={post.id} className="post"> 
               <div className="post-header">
                 <div className="post-usuario">
                   <span className="usuario-foto">👤</span>

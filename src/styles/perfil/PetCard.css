@@ -129,7 +129,6 @@
     border-color: #F26B38;
   }
   
-  /* Responsivo */
   @media (max-width: 768px) {
     .detalhes-pet {
       grid-template-columns: 1fr;

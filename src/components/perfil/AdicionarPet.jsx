@@ -52,7 +52,6 @@ const AdicionarPet = () => {
     }));
   };
 
-  // FUNÇÃO ATUALIZADA: Agora recebe o tipo de imagem ('foto' ou 'capa')
   const handleImagemChange = (e, tipo) => {
     const file = e.target.files[0];
     if (file) {
@@ -79,8 +78,7 @@ const AdicionarPet = () => {
       idade: dadosPet.idade,
       descricao: dadosPet.bio,
       foto: imagemPreview || getEmojiPorTipo(dadosPet.tipo), // Foto de Perfil
-      capa: capaPreview, // <-- INCLUINDO A FOTO DE CAPA
-      // Adicionar campos extras que podem ser úteis
+      capa: capaPreview, 
       apelido: dadosPet.apelido,
       peso: dadosPet.peso,
       sexo: dadosPet.sexo,
@@ -88,7 +86,6 @@ const AdicionarPet = () => {
       castrado: dadosPet.castrado
     };
 
-    // Adicionar pet usando o AuthContext
     const sucesso = adicionarPet(novoPet);
     
     if (sucesso) {
@@ -99,7 +96,6 @@ const AdicionarPet = () => {
     }
   };
 
-  // Função auxiliar para obter emoji baseado no tipo
   const getEmojiPorTipo = (tipo) => {
     const emojis = {
       cachorro: '🐕',
@@ -238,7 +234,6 @@ const AdicionarPet = () => {
               </div>
             </div>
 
-            {/* Idade e Peso */}
             <div className="grupo-campos">
               <div className="grupo-form">
                 <label htmlFor="idade">Idade (anos) *</label>
@@ -281,7 +276,6 @@ const AdicionarPet = () => {
               </div>
             </div>
 
-            {/* Sexo - Estilo Melhorado */}
             <div className="grupo-form">
               <label>Sexo *</label>
               <div className="opcoes-sexo">
@@ -309,8 +303,6 @@ const AdicionarPet = () => {
                 </label>
               </div>
             </div>
-
-            {/* Saúde - Estilo Melhorado */}
             <div className="grupo-form">
               <label>Saúde</label>
               <div className="opcoes-saude">
@@ -342,8 +334,6 @@ const AdicionarPet = () => {
                 </label>
               </div>
             </div>
-
-            {/* Bio */}
             <div className="grupo-form">
               <label htmlFor="bio">Sobre o Pet</label>
               <textarea
@@ -355,8 +345,6 @@ const AdicionarPet = () => {
                 rows="4"
               />
             </div>
-
-            {/* Ações */}
             <div className="acoes-formulario">
               <button 
                 type="button" 

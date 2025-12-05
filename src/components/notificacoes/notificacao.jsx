@@ -1,4 +1,3 @@
-// src/components/notificacoes/notificacao.jsx
 import { useState, useRef, useEffect } from 'react';
 import '../../styles/notificacoes/Sinonotificacoes.css';
 
@@ -49,10 +48,8 @@ export default function SinoNotificacoes() {
     setNotificacoes([]);
   };
 
-  // Fechar modal ao clicar fora - CORRIGIDO
   useEffect(() => {
     const handleClickFora = (event) => {
-      // Verifica se o clique foi fora do modal E fora do botão do sino
       if (
         modalRef.current && 
         !modalRef.current.contains(event.target) &&

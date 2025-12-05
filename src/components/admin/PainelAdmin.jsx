@@ -1,4 +1,3 @@
-// src/components/admin/PainelAdmin.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/admin/admin.css';
@@ -31,7 +30,6 @@ const PainelAdmin = () => {
     <div className="painel-admin">
       <h1>Painel Administrativo</h1>
       
-      {/* Adicionar usuário */}
       <div className="secao-admin">
         <h2>Adicionar Novo Usuário</h2>
         <form onSubmit={handleAdicionarUsuario} className="form-admin">
@@ -103,7 +101,6 @@ const PainelAdmin = () => {
         </div>
       </div>
 
-      {/* Estatísticas */}
       <div className="secao-admin">
         <h2>Estatísticas</h2>
         <div className="estatisticas-admin">
